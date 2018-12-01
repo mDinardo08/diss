@@ -5,9 +5,10 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve --extract-css",
-    "build": "ng build --extract-css",
+    "build": "ng build --extract-css --prod && node fix-sw",
     "build:ssr": "npm run build -- --app=ssr --output-hashing=media",
-    "test": "ng test",
+    "test": "ng test --browsers ChromeHeadless --single-run true",
+    "testDebug": "ng test --browsers Chrome",
     "lint": "ng lint",
     "e2e": "ng e2e"
   },
