@@ -15,7 +15,7 @@ To kill the process press ctrl+c while in the command prompt.
 To run the front end by itself first install the angular command line tool.
 This can be done by first downloading npm at -> https://nodejs.org/en/download/
 and running the command npm install -g @angular/cli this will install the angular cli globally on your machine.
-The navigate to the ./UltimateTicTacToe/ClientApp directory and run the "ng start" command. This will spin up an
+Navigate to the ./UltimateTicTacToe/ClientApp directory and run the "ng start" command. This will spin up an
 instance of the angular app without the server backend. 
 
 # Testing the project
@@ -23,8 +23,7 @@ instance of the angular app without the server backend.
 To run the test project navigate to the ./UltimateTicTacToeTests directory and run the "dotnet test" command
 this will run the tests in the command prompt and print out the results
 
-
-To run the tests in the ./UltimateTicTacToe/ClientApp run the "ng test" command. 
+To run the tests for the front end navigate to the ./UltimateTicTacToe/ClientApp run the "ng test" command. 
 This will run the tests in your command prompt once.
 To run the tests in debug mode run the "ng testDebug" command mode.
 This will run the tests in a chrome browser, and will monitor changes to the front end
