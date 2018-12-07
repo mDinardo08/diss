@@ -5,7 +5,9 @@ using System.Threading.Tasks;
 
 namespace UltimateTicTacToe.Models
 {
-    public interface IGame
+    public abstract class Game
     {
+        public List<Game> game;
+        public List<Player> players;
     }
 }
