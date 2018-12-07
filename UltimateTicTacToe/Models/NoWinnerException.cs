@@ -5,10 +5,7 @@ using System.Threading.Tasks;
 
 namespace UltimateTicTacToe.Models
 {
-    public interface Game
+    public class NoWinnerException: Exception
     {
-
-        Player getWinner();
-
     }
 }

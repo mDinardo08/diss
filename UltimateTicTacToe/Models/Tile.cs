@@ -5,10 +5,11 @@ using System.Threading.Tasks;
 
 namespace UltimateTicTacToe.Models
 {
-    public interface Game
+    public class Tile : Game
     {
-
-        Player getWinner();
-
+        public Player getWinner()
+        {
+            throw new NotImplementedException();
+        }
     }
 }
