@@ -7,8 +7,8 @@ namespace UltimateTicTacToe.Models.GameClasses
 {
     public interface Game
     {
-
         Player getWinner();
-
+        void makeMove(Move move);
+        List<List<Game>> getGame();
     }
 }

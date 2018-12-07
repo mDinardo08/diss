@@ -7,9 +7,21 @@ namespace UltimateTicTacToe.Models.GameClasses
 {
     public class Tile : Game
     {
-        public Player getWinner()
+        private Player owner;
+
+        public List<List<Game>> getGame()
         {
             throw new NotImplementedException();
+        }
+
+        public Player getWinner()
+        {
+            return owner;
+        }
+
+        public void makeMove(Move move)
+        {
+            owner = move.owner;
         }
     }
 }

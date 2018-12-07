@@ -10,6 +10,16 @@ namespace UltimateTicTacToe.Models.GameClasses
         public List<List<Game>> game;
         public List<Player> players;
 
+        public void makeMove(Move move)
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<List<Game>> getGame()
+        {
+            throw new NotImplementedException();
+        }
+
         public Player getWinner()
         {
             Player result = checkForWinner();
