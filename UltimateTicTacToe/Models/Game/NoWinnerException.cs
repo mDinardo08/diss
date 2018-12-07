@@ -3,12 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace UltimateTicTacToe.Models
+namespace UltimateTicTacToe.Models.GameClasses
 {
-    public interface Game
+    public class NoWinnerException: Exception
     {
-
-        Player getWinner();
-
     }
 }
