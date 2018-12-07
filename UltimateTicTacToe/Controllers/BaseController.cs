@@ -4,7 +4,7 @@ using System.Net.Http;
 using Microsoft.AspNetCore.Mvc;
 using Models;
 
-namespace Controllers
+namespace UltimateTicTacToe.Controllers
 {
     [ResponseCache(Location = ResponseCacheLocation.None, NoStore = true)]
     public class BaseController : Controller
