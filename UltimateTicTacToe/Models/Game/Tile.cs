@@ -15,11 +15,6 @@ namespace UltimateTicTacToe.Models.Game
             return owner;
         }
 
-        public bool isLeaf()
-        {
-            throw new NotImplementedException();
-        }
-
         public void makeMove(Move move)
         {
             owner = move.owner;

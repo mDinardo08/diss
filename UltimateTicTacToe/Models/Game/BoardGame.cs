@@ -10,6 +10,5 @@ namespace UltimateTicTacToe.Models.Game
     {
         Player getWinner();
         void makeMove(Move move);
-        bool isLeaf();
     }
 }

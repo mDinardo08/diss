@@ -48,10 +48,5 @@ namespace UltimateTicTacToe.Models.Game
         {
             this.board = board;
         }
-
-        public bool isLeaf()
-        {
-            throw new NotImplementedException();
-        }
     }
 }
