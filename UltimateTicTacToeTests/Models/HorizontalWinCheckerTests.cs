@@ -14,13 +14,14 @@ namespace UltimateTicTacToeTests.Models
     {
 
         HorizontalWinChecker h;
-        Mock<BoardGame> MockException;
-
+        Mock<CompositeGame> MockException;
+        Mock<CompositeGame> MockGame;
         [TestInitialize()]
         public void Startup()
         {
             h = new HorizontalWinChecker();
-            MockException = new Mock<BoardGame>(MockBehavior.Strict);
+            MockException = new Mock<CompositeGame>(MockBehavior.Strict);
+            MockGame = new Mock<CompositeGame>(MockBehavior.Strict);
             MockException.Setup(x => x.getWinner()).Throws(new NoWinnerException());
         }
 
@@ -35,7 +36,6 @@ namespace UltimateTicTacToeTests.Models
         public void WillReturnAPointWhichLiesOnTheWinningLine()
         {
             var player = new Player();
-            var MockGame = new Mock<BoardGame>(MockBehavior.Strict);
             MockGame.Setup(x => x.getBoard()).Returns(new List<List<BoardGame>>
                 {
                     new List<BoardGame>{MockGame.Object, MockGame.Object, MockGame.Object}
@@ -50,7 +50,6 @@ namespace UltimateTicTacToeTests.Models
             var player = new Player();
             var MockException = new Mock<BoardGame>(MockBehavior.Strict);
             MockException.Setup(x => x.getWinner()).Throws(new NoWinnerException());
-            var MockGame = new Mock<BoardGame>(MockBehavior.Strict);
             MockGame.Setup(x => x.getBoard()).Returns(new List<List<BoardGame>>
                 {
                     new List<BoardGame>{MockException.Object, MockException.Object , MockException.Object},
@@ -66,7 +65,6 @@ namespace UltimateTicTacToeTests.Models
             var player = new Player();
             var MockException = new Mock<BoardGame>(MockBehavior.Strict);
             MockException.Setup(x => x.getWinner()).Throws(new NoWinnerException());
-            var MockGame = new Mock<BoardGame>(MockBehavior.Strict);
             MockGame.Setup(x => x.getBoard()).Returns(new List<List<BoardGame>>
                 {
                     new List<BoardGame>{MockException.Object, MockException.Object , MockException.Object},
@@ -81,7 +79,6 @@ namespace UltimateTicTacToeTests.Models
         public void WillReturnNullIfThereAreNoWinnersHorizontally()
         {
             var player = new Player();
-            var MockGame = new Mock<BoardGame>(MockBehavior.Strict);
             MockGame.Setup(x => x.getWinner()).Returns(player);
             MockGame.Setup(x => x.getBoard()).Returns(new List<List<BoardGame>>
                 {

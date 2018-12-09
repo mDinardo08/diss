@@ -18,7 +18,7 @@ namespace UltimateTicTacToeTests.Models
         {
 
             Mock<IWinChecker> mockChecker = new Mock<IWinChecker>(MockBehavior.Strict);
-            BoardGame game = new TicTacToe(mockChecker.Object);
+            CompositeGame game = new TicTacToe(mockChecker.Object);
             game.setBoard(new List<List<BoardGame>>());
             mockChecker.Setup(x => x.checkForWin(game)).Returns((Player)null);
             game.getWinner();
@@ -28,7 +28,7 @@ namespace UltimateTicTacToeTests.Models
         public void WillCallWinCheckerToCheckForWin()
         {
             Mock<IWinChecker> mockChecker = new Mock<IWinChecker>(MockBehavior.Strict);
-            BoardGame game = new TicTacToe(mockChecker.Object);
+            CompositeGame game = new TicTacToe(mockChecker.Object);
             game.setBoard(new List<List<BoardGame>>());
             mockChecker.Setup(x => x.checkForWin(game)).Returns((Player)null);
             try
@@ -45,7 +45,7 @@ namespace UltimateTicTacToeTests.Models
         [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void WillThrowIndexOutOfRangeIfGettingInvalidPoint()
         {
-            BoardGame game = new TicTacToe(null);
+            CompositeGame game = new TicTacToe(null);
             game.setBoard( new List<List<BoardGame>>());
             game.getSector(new Point
             {
@@ -57,7 +57,7 @@ namespace UltimateTicTacToeTests.Models
         [TestMethod]
         public void WillReturnTheSectorRequested()
         {
-            BoardGame game = new TicTacToe(null);
+            CompositeGame game = new TicTacToe(null);
             BoardGame temp = new TicTacToe(null);
             game.setBoard( new List<List<BoardGame>>
                 {

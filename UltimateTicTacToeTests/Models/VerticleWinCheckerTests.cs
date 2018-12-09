@@ -13,13 +13,15 @@ namespace UltimateTicTacToeTests.Models
     public class VerticleWinCheckerTests
     {
         VerticleWinChecker v;
-        Mock<BoardGame> MockException;
+        Mock<CompositeGame> MockException;
+        Mock<CompositeGame> MockGame;
         [TestInitialize()]
         public void Setup()
         {
             v = new VerticleWinChecker();
-            MockException = new Mock<BoardGame>(MockBehavior.Strict);
+            MockException = new Mock<CompositeGame>(MockBehavior.Strict);
             MockException.Setup(x => x.getWinner()).Throws(new NoWinnerException());
+            MockGame = new Mock<CompositeGame>(MockBehavior.Strict);
         }
 
 
@@ -34,7 +36,7 @@ namespace UltimateTicTacToeTests.Models
         public void WillDetectWinnerInFirstColumn()
         {
             var player = new Player();
-            var MockGame = new Mock<BoardGame>(MockBehavior.Strict);
+            
             MockGame.Setup(x => x.getWinner()).Returns(player);
             MockGame.Setup(x => x.getBoard()).Returns(new List<List<BoardGame>>
                 {
@@ -51,7 +53,7 @@ namespace UltimateTicTacToeTests.Models
         public void WillDetectWinnerInSecondColumn()
         {
             var player = new Player();
-            var MockGame = new Mock<BoardGame>(MockBehavior.Strict);
+            
             MockGame.Setup(x => x.getWinner()).Returns(player);
             MockGame.Setup(x => x.getBoard()).Returns(new List<List<BoardGame>>
                 {
@@ -68,7 +70,7 @@ namespace UltimateTicTacToeTests.Models
         public void WillDetectWinnerInThirdColumn()
         {
             var player = new Player();
-            var MockGame = new Mock<BoardGame>(MockBehavior.Strict);
+            
             MockGame.Setup(x => x.getWinner()).Returns(player);
             MockGame.Setup(x => x.getBoard()).Returns(new List<List<BoardGame>>
                 {
@@ -85,7 +87,7 @@ namespace UltimateTicTacToeTests.Models
         public void WillReturnInvalidPointIfNoWinDetected()
         {
             var player = new Player();
-            var MockGame = new Mock<BoardGame>(MockBehavior.Strict);
+            
             MockGame.Setup(x => x.getWinner()).Returns(player);
             MockGame.Setup(x => x.getBoard()).Returns(new List<List<BoardGame>>
                 {

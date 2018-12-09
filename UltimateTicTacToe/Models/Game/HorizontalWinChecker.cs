@@ -14,7 +14,7 @@ namespace UltimateTicTacToe.Models.Game
             successor = new VerticleWinChecker();
         }
 
-        private Point checkHorizontalWinner(BoardGame game)
+        private Point checkHorizontalWinner(CompositeGame game)
         {
             Point result = new Point { X = -1, Y = -1 };
             List<List<BoardGame>> board = game.getBoard();

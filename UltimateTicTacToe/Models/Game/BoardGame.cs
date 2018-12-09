@@ -11,8 +11,5 @@ namespace UltimateTicTacToe.Models.Game
         Player getWinner();
         void makeMove(Move move);
         bool isLeaf();
-        List<List<BoardGame>> getBoard();
-        BoardGame getSector(Point point);
-        void setBoard(List<List<BoardGame>> board);
     }
 }

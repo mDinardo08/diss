@@ -7,6 +7,6 @@ namespace UltimateTicTacToe.Models.Game
 {
     public interface IWinChecker
     {
-        Player checkForWin(BoardGame game);
+        Player checkForWin(CompositeGame game);
     }
 }

@@ -13,7 +13,7 @@ namespace UltimateTicTacToe.Models.Game
             check = checkDiagonalWinner;
         }
 
-        private Point checkDiagonalWinner(BoardGame game)
+        private Point checkDiagonalWinner(CompositeGame game)
         {
             List<List<BoardGame>> board = game.getBoard();
             Point result = checkTopLeftDiagonal(board);
