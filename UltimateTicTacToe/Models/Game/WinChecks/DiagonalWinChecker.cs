@@ -4,7 +4,7 @@ using System.Drawing;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace UltimateTicTacToe.Models.Game
+namespace UltimateTicTacToe.Models.Game.WinCheck
 {
     public class DiagonalWinChecker: WinCheckHandler
     { 
