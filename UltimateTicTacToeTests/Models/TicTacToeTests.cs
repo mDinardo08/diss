@@ -18,7 +18,7 @@ namespace UltimateTicTacToeTests.Models
         {
             Game game = new TicTacToe
             {
-                game = new List<List<Game>>()
+                board = new List<List<Game>>()
             };
             game.getWinner();
         }
@@ -31,7 +31,7 @@ namespace UltimateTicTacToeTests.Models
             MockGame.Setup(x => x.getWinner()).Returns(player);
             Game game = new TicTacToe
             {
-                game = new List<List<Game>>
+                board = new List<List<Game>>
                 {
                     new List<Game>{MockGame.Object, MockGame.Object, MockGame.Object}
                 }
@@ -49,7 +49,7 @@ namespace UltimateTicTacToeTests.Models
             MockException.Setup(x => x.getWinner()).Throws(new NoWinnerException());
             Game game = new TicTacToe
             {
-                game = new List<List<Game>>
+                board = new List<List<Game>>
                 {
                     new List<Game>{MockException.Object, MockException.Object , MockException.Object},
                     new List<Game>{MockGame.Object, MockGame.Object, MockGame.Object}
@@ -68,7 +68,7 @@ namespace UltimateTicTacToeTests.Models
             MockException.Setup(x => x.getWinner()).Throws(new NoWinnerException());
             Game game = new TicTacToe
             {
-                game = new List<List<Game>>
+                board = new List<List<Game>>
                 {
                     new List<Game>{MockException.Object, MockException.Object , MockException.Object},
                     new List<Game>{MockException.Object, MockException.Object , MockException.Object},
@@ -89,7 +89,7 @@ namespace UltimateTicTacToeTests.Models
             MockException.Setup(x => x.getWinner()).Throws(new NoWinnerException());
             Game game = new TicTacToe
             {
-                game = new List<List<Game>>
+                board = new List<List<Game>>
                 {
                     new List<Game>{MockGame.Object, MockException.Object , MockException.Object},
                     new List<Game>{MockException.Object, MockException.Object , MockGame.Object},
@@ -109,7 +109,7 @@ namespace UltimateTicTacToeTests.Models
             MockException.Setup(x => x.getWinner()).Throws(new NoWinnerException());
             Game game = new TicTacToe
             {
-                game = new List<List<Game>>
+                board = new List<List<Game>>
                 {
                     new List<Game>{MockGame.Object, MockException.Object, MockException.Object},
                     new List<Game>{MockGame.Object, MockException.Object, MockException.Object},
@@ -129,7 +129,7 @@ namespace UltimateTicTacToeTests.Models
             MockException.Setup(x => x.getWinner()).Throws(new NoWinnerException());
             Game game = new TicTacToe
             {
-                game = new List<List<Game>>
+                board = new List<List<Game>>
                 {
                     new List<Game>{MockException.Object, MockGame.Object, MockException.Object},
                     new List<Game>{MockException.Object, MockGame.Object, MockException.Object},
@@ -149,7 +149,7 @@ namespace UltimateTicTacToeTests.Models
             MockException.Setup(x => x.getWinner()).Throws(new NoWinnerException());
             Game game = new TicTacToe
             {
-                game = new List<List<Game>>
+                board = new List<List<Game>>
                 {
                     new List<Game>{MockException.Object, MockException.Object, MockGame.Object},
                     new List<Game>{MockException.Object, MockException.Object, MockGame.Object},
@@ -170,7 +170,7 @@ namespace UltimateTicTacToeTests.Models
             MockException.Setup(x => x.getWinner()).Throws(new NoWinnerException());
             Game game = new TicTacToe
             {
-                game = new List<List<Game>>
+                board = new List<List<Game>>
                 {
                     new List<Game>{MockException.Object, MockException.Object, MockGame.Object},
                     new List<Game>{MockGame.Object, MockException.Object, MockException.Object},
@@ -190,7 +190,7 @@ namespace UltimateTicTacToeTests.Models
             MockException.Setup(x => x.getWinner()).Throws(new NoWinnerException());
             Game game = new TicTacToe
             {
-                game = new List<List<Game>>
+                board = new List<List<Game>>
                 {
                     new List<Game>{MockGame.Object, MockException.Object, MockException.Object},
                     new List<Game>{MockException.Object, MockGame.Object, MockException.Object},
@@ -210,7 +210,7 @@ namespace UltimateTicTacToeTests.Models
             MockException.Setup(x => x.getWinner()).Throws(new NoWinnerException());
             Game game = new TicTacToe
             {
-                game = new List<List<Game>>
+                board = new List<List<Game>>
                 {
                     new List<Game>{MockException.Object, MockException.Object, MockGame.Object},
                     new List<Game>{MockException.Object, MockGame.Object, MockException.Object},
@@ -226,7 +226,7 @@ namespace UltimateTicTacToeTests.Models
         {
             Game game = new TicTacToe
             {
-                game = new List<List<Game>>()
+                board = new List<List<Game>>()
             };
             game.getSector(new Point
             {
@@ -241,7 +241,7 @@ namespace UltimateTicTacToeTests.Models
             Game temp = new TicTacToe();
             Game game = new TicTacToe
             {
-                game = new List<List<Game>>
+                board = new List<List<Game>>
                 {
                     new List<Game>{null, null, null},
                     new List<Game>{null, temp, null},
@@ -249,6 +249,12 @@ namespace UltimateTicTacToeTests.Models
                 }
             };
             Assert.AreEqual(temp, game.getSector(new Point{X = 1,Y = 1}));
+        }
+
+        [TestMethod]
+        public void WillReturnTheBoardItIsGiven()
+        {
+
         }
     }
 }

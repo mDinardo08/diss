@@ -29,5 +29,10 @@ namespace UltimateTicTacToe.Models.GameClasses
         {
             owner = move.owner;
         }
+
+        public void setBoard(List<List<Game>> board)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

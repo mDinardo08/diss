@@ -12,5 +12,6 @@ namespace UltimateTicTacToe.Models.GameClasses
         void makeMove(Move move);
         List<List<Game>> getGame();
         Game getSector(Point point);
+        void setBoard(List<List<Game>> board);
     }
 }

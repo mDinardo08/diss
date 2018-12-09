@@ -6,15 +6,15 @@ using System.Threading.Tasks;
 
 namespace UltimateTicTacToe.Models.GameClasses
 {
-    public class WinChecker
+    public abstract class WinCheckHandler
     {
-        private Func<Game, Point> check;
-        private WinChecker successor;
+        public Func<Game, Point> check;
+        public WinCheckHandler successor;
         public Player checkForWin(Game game)
         {
             Point p = check(game);
             Player result = null;
-            if (check(game) != null)
+            if (p.X != -1)
             {
                 result = game.getGame()[p.X][p.Y].getWinner();
             } else if (successor != null)
