@@ -14,10 +14,10 @@ namespace UltimateTicTacToe.Models.GameClasses
             successor = new VerticleWinChecker();
         }
 
-        private Point checkHorizontalWinner(Game game)
+        private Point checkHorizontalWinner(BoardGame game)
         {
             Point result = new Point { X = -1, Y = -1 };
-            List<List<Game>> board = game.getBoard();
+            List<List<BoardGame>> board = game.getBoard();
             for (int i  = 0; i < board.Count; i++)
             {
                 bool winningRow = true;

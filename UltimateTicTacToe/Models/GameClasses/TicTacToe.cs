@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace UltimateTicTacToe.Models.GameClasses
 {
-    public class TicTacToe : Game
+    public class TicTacToe : BoardGame
     {
-        public List<List<Game>> board;
+        public List<List<BoardGame>> board;
         public List<Player> players;
         private IWinChecker winChecker;
 
@@ -22,13 +22,13 @@ namespace UltimateTicTacToe.Models.GameClasses
             throw new NotImplementedException();
         }
 
-        public List<List<Game>> getBoard()
+        public List<List<BoardGame>> getBoard()
         {
             return board;
         }
 
 
-        public Game getSector(Point point)
+        public BoardGame getSector(Point point)
         {
             return board[point.X][point.Y];
         }
@@ -43,9 +43,14 @@ namespace UltimateTicTacToe.Models.GameClasses
             return result;
         }
 
-        public void setBoard(List<List<Game>> board)
+        public void setBoard(List<List<BoardGame>> board)
         {
             this.board = board;
+        }
+
+        public bool isLeaf()
+        {
+            throw new NotImplementedException();
         }
     }
 }

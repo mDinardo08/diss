@@ -14,7 +14,7 @@ namespace UltimateTicTacToe.Controllers
     {
 
         [HttpPost("makeMove")]
-        public IActionResult makeMove([FromBody]Game game)
+        public IActionResult makeMove([FromBody]BoardGame game)
         {
             return null;
         }

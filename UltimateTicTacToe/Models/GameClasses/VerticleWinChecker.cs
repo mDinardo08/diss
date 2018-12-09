@@ -14,9 +14,9 @@ namespace UltimateTicTacToe.Models.GameClasses
             successor = new DiagonalWinChecker();
         }
 
-        private Point checkVerticalWinner(Game game)
+        private Point checkVerticalWinner(BoardGame game)
         {
-            List<List<Game>> board = game.getBoard();
+            List<List<BoardGame>> board = game.getBoard();
             Point result = new Point { X = -1, Y = -1 };
             for (int col = 0; col < board.Count; col++)
             {

@@ -18,8 +18,8 @@ namespace UltimateTicTacToeTests.Models
         {
 
             Mock<IWinChecker> mockChecker = new Mock<IWinChecker>(MockBehavior.Strict);
-            Game game = new TicTacToe(mockChecker.Object);
-            game.setBoard(new List<List<Game>>());
+            BoardGame game = new TicTacToe(mockChecker.Object);
+            game.setBoard(new List<List<BoardGame>>());
             mockChecker.Setup(x => x.checkForWin(game)).Returns((Player)null);
             game.getWinner();
         }
@@ -28,8 +28,8 @@ namespace UltimateTicTacToeTests.Models
         public void WillCallWinCheckerToCheckForWin()
         {
             Mock<IWinChecker> mockChecker = new Mock<IWinChecker>(MockBehavior.Strict);
-            Game game = new TicTacToe(mockChecker.Object);
-            game.setBoard(new List<List<Game>>());
+            BoardGame game = new TicTacToe(mockChecker.Object);
+            game.setBoard(new List<List<BoardGame>>());
             mockChecker.Setup(x => x.checkForWin(game)).Returns((Player)null);
             try
             {
@@ -45,8 +45,8 @@ namespace UltimateTicTacToeTests.Models
         [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void WillThrowIndexOutOfRangeIfGettingInvalidPoint()
         {
-            Game game = new TicTacToe(null);
-            game.setBoard( new List<List<Game>>());
+            BoardGame game = new TicTacToe(null);
+            game.setBoard( new List<List<BoardGame>>());
             game.getSector(new Point
             {
                 X = -1,
@@ -57,13 +57,13 @@ namespace UltimateTicTacToeTests.Models
         [TestMethod]
         public void WillReturnTheSectorRequested()
         {
-            Game game = new TicTacToe(null);
-            Game temp = new TicTacToe(null);
-            game.setBoard( new List<List<Game>>
+            BoardGame game = new TicTacToe(null);
+            BoardGame temp = new TicTacToe(null);
+            game.setBoard( new List<List<BoardGame>>
                 {
-                    new List<Game>{null, null, null},
-                    new List<Game>{null, temp, null},
-                    new List<Game>{null, null, null}
+                    new List<BoardGame>{null, null, null},
+                    new List<BoardGame>{null, temp, null},
+                    new List<BoardGame>{null, null, null}
                 }
             );
             Assert.AreEqual(temp, game.getSector(new Point{X = 1,Y = 1}));

@@ -6,12 +6,13 @@ using System.Threading.Tasks;
 
 namespace UltimateTicTacToe.Models.GameClasses
 {
-    public interface Game
+    public interface BoardGame
     {
         Player getWinner();
         void makeMove(Move move);
-        List<List<Game>> getBoard();
-        Game getSector(Point point);
-        void setBoard(List<List<Game>> board);
+        bool isLeaf();
+        List<List<BoardGame>> getBoard();
+        BoardGame getSector(Point point);
+        void setBoard(List<List<BoardGame>> board);
     }
 }

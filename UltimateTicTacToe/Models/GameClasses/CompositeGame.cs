@@ -5,8 +5,7 @@ using System.Threading.Tasks;
 
 namespace UltimateTicTacToe.Models.GameClasses
 {
-    public interface IWinChecker
+    interface CompositeGame: BoardGame
     {
-        Player checkForWin(BoardGame game);
     }
 }

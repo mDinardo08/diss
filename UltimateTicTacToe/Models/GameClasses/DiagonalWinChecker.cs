@@ -13,9 +13,9 @@ namespace UltimateTicTacToe.Models.GameClasses
             check = checkDiagonalWinner;
         }
 
-        private Point checkDiagonalWinner(Game game)
+        private Point checkDiagonalWinner(BoardGame game)
         {
-            List<List<Game>> board = game.getBoard();
+            List<List<BoardGame>> board = game.getBoard();
             Point result = checkTopLeftDiagonal(board);
             if (result.X == -1)
             {
@@ -24,7 +24,7 @@ namespace UltimateTicTacToe.Models.GameClasses
             return result;
         }
 
-        private Point checkBottomLeftDiagonal(List<List<Game>> board)
+        private Point checkBottomLeftDiagonal(List<List<BoardGame>> board)
         {
             bool diagWinner = true;
             Point result = new Point { X = -1, Y = -1 };
@@ -48,7 +48,7 @@ namespace UltimateTicTacToe.Models.GameClasses
             return result;
         }
 
-        private Point checkTopLeftDiagonal(List<List<Game>> board)
+        private Point checkTopLeftDiagonal(List<List<BoardGame>> board)
         {
             bool diagWinner = true;
             Point result = new Point { X = -1, Y = -1 };

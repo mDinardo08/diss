@@ -13,12 +13,12 @@ namespace UltimateTicTacToeTests.Models
     public class DiagonalWinCheckerTests
     {
         DiagonalWinChecker d;
-        Mock<Game> MockException;
+        Mock<BoardGame> MockException;
         [TestInitialize()]
         public void Setup()
         {
             d = new DiagonalWinChecker();
-            MockException = new Mock<Game>(MockBehavior.Strict);
+            MockException = new Mock<BoardGame>(MockBehavior.Strict);
             MockException.Setup(x => x.getWinner()).Throws(new NoWinnerException());
         }
 
@@ -26,13 +26,13 @@ namespace UltimateTicTacToeTests.Models
         public void WillDetectDiagonalWinsFromTopLeft()
         {
             var player = new Player();
-            var MockGame = new Mock<Game>(MockBehavior.Strict);
+            var MockGame = new Mock<BoardGame>(MockBehavior.Strict);
             MockGame.Setup(x => x.getWinner()).Returns(player);
-            MockGame.Setup(x => x.getBoard()).Returns(new List<List<Game>>
+            MockGame.Setup(x => x.getBoard()).Returns(new List<List<BoardGame>>
                 {
-                    new List<Game>{MockGame.Object, MockException.Object, MockException.Object},
-                    new List<Game>{MockException.Object, MockGame.Object, MockException.Object},
-                    new List<Game>{MockException.Object, MockException.Object, MockGame.Object}
+                    new List<BoardGame>{MockGame.Object, MockException.Object, MockException.Object},
+                    new List<BoardGame>{MockException.Object, MockGame.Object, MockException.Object},
+                    new List<BoardGame>{MockException.Object, MockException.Object, MockGame.Object}
                 }
             );
             Assert.AreEqual(player, d.checkForWin(MockGame.Object));
@@ -42,13 +42,13 @@ namespace UltimateTicTacToeTests.Models
         public void WillDetectDiagonalWinsFromBottomLeft()
         {
             var player = new Player();
-            var MockGame = new Mock<Game>(MockBehavior.Strict);
+            var MockGame = new Mock<BoardGame>(MockBehavior.Strict);
             MockGame.Setup(x => x.getWinner()).Returns(player);
-            MockGame.Setup(x => x.getBoard()).Returns(new List<List<Game>>
+            MockGame.Setup(x => x.getBoard()).Returns(new List<List<BoardGame>>
                 {
-                    new List<Game>{MockException.Object, MockException.Object, MockGame.Object},
-                    new List<Game>{MockException.Object, MockGame.Object, MockException.Object},
-                    new List<Game>{MockGame.Object, MockException.Object, MockException.Object}
+                    new List<BoardGame>{MockException.Object, MockException.Object, MockGame.Object},
+                    new List<BoardGame>{MockException.Object, MockGame.Object, MockException.Object},
+                    new List<BoardGame>{MockGame.Object, MockException.Object, MockException.Object}
                 }
             );
             Assert.AreEqual(player, d.checkForWin(MockGame.Object));

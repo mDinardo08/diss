@@ -6,16 +6,16 @@ using System.Threading.Tasks;
 
 namespace UltimateTicTacToe.Models.GameClasses
 {
-    public class Tile : Game
+    public class Tile : BoardGame
     {
         private Player owner;
 
-        public List<List<Game>> getBoard()
+        public List<List<BoardGame>> getBoard()
         {
             throw new NotImplementedException();
         }
 
-        public Game getSector(Point point)
+        public BoardGame getSector(Point point)
         {
             throw new NotImplementedException();
         }
@@ -25,12 +25,17 @@ namespace UltimateTicTacToe.Models.GameClasses
             return owner;
         }
 
+        public bool isLeaf()
+        {
+            throw new NotImplementedException();
+        }
+
         public void makeMove(Move move)
         {
             owner = move.owner;
         }
 
-        public void setBoard(List<List<Game>> board)
+        public void setBoard(List<List<BoardGame>> board)
         {
             throw new NotImplementedException();
         }
