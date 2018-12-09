@@ -7,5 +7,9 @@ namespace UltimateTicTacToe.Models.Game
 {
     interface CompositeGame: BoardGame
     {
+
+        List<List<BoardGame>> getBoard();
+        BoardGame getSector(Point point);
+        void setBoard(List<List<BoardGame>> board);
     }
 }

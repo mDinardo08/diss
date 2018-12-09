@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace UltimateTicTacToe.Models.Game
 {
-    public class TicTacToe : BoardGame
+    public class TicTacToe : CompositeGame
     {
         public List<List<BoardGame>> board;
         public List<Player> players;

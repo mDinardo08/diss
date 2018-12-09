@@ -9,17 +9,7 @@ namespace UltimateTicTacToe.Models.Game
     public class Tile : BoardGame
     {
         private Player owner;
-
-        public List<List<BoardGame>> getBoard()
-        {
-            throw new NotImplementedException();
-        }
-
-        public BoardGame getSector(Point point)
-        {
-            throw new NotImplementedException();
-        }
-
+       
         public Player getWinner()
         {
             return owner;
@@ -33,11 +23,6 @@ namespace UltimateTicTacToe.Models.Game
         public void makeMove(Move move)
         {
             owner = move.owner;
-        }
-
-        public void setBoard(List<List<BoardGame>> board)
-        {
-            throw new NotImplementedException();
         }
     }
 }
