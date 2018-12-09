@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Text;
 using UltimateTicTacToe.Models;
 using UltimateTicTacToe.Models.Game;
+using UltimateTicTacToe.Models.Game.WinCheck;
 
 namespace UltimateTicTacToeTests.Models
 {
