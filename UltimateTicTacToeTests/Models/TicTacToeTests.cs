@@ -82,5 +82,38 @@ namespace UltimateTicTacToeTests.Models
             game.setBoard(board);
             Assert.AreEqual(board, game.getBoard());
         }
+
+        [TestMethod]
+        [ExpectedException (typeof(ArgumentOutOfRangeException))]
+        public void WillThrowIndexOutOfRangeWhenMakingMoveThatDoesNotExistOnBoard()
+        {
+            CompositeGame game = new TicTacToe(null);
+            game.setBoard(new List<List<BoardGame>>());
+            game.makeMove(new Move
+            {
+                move = new Point { X = 1, Y = 2 }
+            });
+        }
+
+        [TestMethod]
+        public void WillPassTheNextMoveToTheSectorDefinedInMove()
+        {
+            CompositeGame game = new TicTacToe(null);
+            Move n = new Move();
+            Move m = new Move
+            {
+                move = new Point { X = 1, Y = 1 },
+                next = n
+            };
+            Mock<BoardGame> mock = new Mock<BoardGame>(MockBehavior.Strict);
+            mock.Setup(x => x.makeMove(n));
+            game.setBoard(new List<List<BoardGame>>
+            {
+                new List<BoardGame>{ },
+                new List<BoardGame>{null, mock.Object}
+            });
+            game.makeMove(m);
+            Assert.AreEqual(n, mock.Invocations[0].Arguments[0]);
+        }
     }
 }

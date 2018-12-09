@@ -20,7 +20,7 @@ namespace UltimateTicTacToe.Models.Game
 
         public void makeMove(Move move)
         {
-            throw new NotImplementedException();
+            board[move.move.X][move.move.Y].makeMove(move.next);
         }
 
         public List<List<BoardGame>> getBoard()
