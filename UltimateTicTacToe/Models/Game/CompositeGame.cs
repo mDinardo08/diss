@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace UltimateTicTacToe.Models.Game
 {
-    interface CompositeGame: BoardGame
+    public interface CompositeGame: BoardGame
     {
 
         List<List<BoardGame>> getBoard();
