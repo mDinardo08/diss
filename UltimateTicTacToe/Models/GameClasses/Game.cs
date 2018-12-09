@@ -10,7 +10,7 @@ namespace UltimateTicTacToe.Models.GameClasses
     {
         Player getWinner();
         void makeMove(Move move);
-        List<List<Game>> getGame();
+        List<List<Game>> getBoard();
         Game getSector(Point point);
         void setBoard(List<List<Game>> board);
     }

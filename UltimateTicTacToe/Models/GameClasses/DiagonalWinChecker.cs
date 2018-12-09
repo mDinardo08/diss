@@ -15,7 +15,7 @@ namespace UltimateTicTacToe.Models.GameClasses
 
         private Point checkDiagonalWinner(Game game)
         {
-            List<List<Game>> board = game.getGame();
+            List<List<Game>> board = game.getBoard();
             Point result = checkTopLeftDiagonal(board);
             if (result.X == -1)
             {

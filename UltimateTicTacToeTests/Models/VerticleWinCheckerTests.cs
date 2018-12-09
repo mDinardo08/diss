@@ -36,7 +36,7 @@ namespace UltimateTicTacToeTests.Models
             var player = new Player();
             var MockGame = new Mock<Game>(MockBehavior.Strict);
             MockGame.Setup(x => x.getWinner()).Returns(player);
-            MockGame.Setup(x => x.getGame()).Returns(new List<List<Game>>
+            MockGame.Setup(x => x.getBoard()).Returns(new List<List<Game>>
                 {
                     new List<Game>{MockGame.Object, MockException.Object, MockException.Object},
                     new List<Game>{MockGame.Object, MockException.Object, MockException.Object},
@@ -53,7 +53,7 @@ namespace UltimateTicTacToeTests.Models
             var player = new Player();
             var MockGame = new Mock<Game>(MockBehavior.Strict);
             MockGame.Setup(x => x.getWinner()).Returns(player);
-            MockGame.Setup(x => x.getGame()).Returns(new List<List<Game>>
+            MockGame.Setup(x => x.getBoard()).Returns(new List<List<Game>>
                 {
                     new List<Game>{MockException.Object, MockGame.Object, MockException.Object},
                     new List<Game>{MockException.Object, MockGame.Object, MockException.Object},
@@ -70,7 +70,7 @@ namespace UltimateTicTacToeTests.Models
             var player = new Player();
             var MockGame = new Mock<Game>(MockBehavior.Strict);
             MockGame.Setup(x => x.getWinner()).Returns(player);
-            MockGame.Setup(x => x.getGame()).Returns(new List<List<Game>>
+            MockGame.Setup(x => x.getBoard()).Returns(new List<List<Game>>
                 {
                     new List<Game>{MockException.Object, MockException.Object, MockGame.Object},
                     new List<Game>{MockException.Object, MockException.Object, MockGame.Object},
@@ -87,7 +87,7 @@ namespace UltimateTicTacToeTests.Models
             var player = new Player();
             var MockGame = new Mock<Game>(MockBehavior.Strict);
             MockGame.Setup(x => x.getWinner()).Returns(player);
-            MockGame.Setup(x => x.getGame()).Returns(new List<List<Game>>
+            MockGame.Setup(x => x.getBoard()).Returns(new List<List<Game>>
                 {
                     new List<Game>{MockException.Object, MockException.Object, MockGame.Object},
                     new List<Game>{MockGame.Object, MockException.Object, MockException.Object},

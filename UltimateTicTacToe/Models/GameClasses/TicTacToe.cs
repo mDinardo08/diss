@@ -22,7 +22,7 @@ namespace UltimateTicTacToe.Models.GameClasses
             throw new NotImplementedException();
         }
 
-        public List<List<Game>> getGame()
+        public List<List<Game>> getBoard()
         {
             return board;
         }

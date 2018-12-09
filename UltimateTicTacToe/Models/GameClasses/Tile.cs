@@ -10,7 +10,7 @@ namespace UltimateTicTacToe.Models.GameClasses
     {
         private Player owner;
 
-        public List<List<Game>> getGame()
+        public List<List<Game>> getBoard()
         {
             throw new NotImplementedException();
         }

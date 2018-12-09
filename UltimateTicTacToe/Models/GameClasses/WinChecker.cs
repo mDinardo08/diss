@@ -16,7 +16,7 @@ namespace UltimateTicTacToe.Models.GameClasses
             Player result = null;
             if (p.X != -1)
             {
-                result = game.getGame()[p.X][p.Y].getWinner();
+                result = game.getBoard()[p.X][p.Y].getWinner();
             } else if (successor != null)
             {
                 result = successor.checkForWin(game);

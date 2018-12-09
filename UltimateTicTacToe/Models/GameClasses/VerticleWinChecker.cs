@@ -16,7 +16,7 @@ namespace UltimateTicTacToe.Models.GameClasses
 
         private Point checkVerticalWinner(Game game)
         {
-            List<List<Game>> board = game.getGame();
+            List<List<Game>> board = game.getBoard();
             Point result = new Point { X = -1, Y = -1 };
             for (int col = 0; col < board.Count; col++)
             {
