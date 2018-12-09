@@ -10,6 +10,12 @@ namespace UltimateTicTacToe.Models.GameClasses
     {
         public List<List<Game>> board;
         public List<Player> players;
+        private IWinChecker winChecker;
+
+        public TicTacToe(IWinChecker winChecker)
+        {
+            this.winChecker = winChecker;
+        }
 
         public void makeMove(Move move)
         {
@@ -29,8 +35,7 @@ namespace UltimateTicTacToe.Models.GameClasses
 
         public Player getWinner()
         {
-            WinCheckHandler handler = new HorizontalWinChecker();
-            Player result = handler.checkForWin(this);
+            Player result = winChecker.checkForWin(this);
             if (result == null)
             {
                 throw new NoWinnerException();

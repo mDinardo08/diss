@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace UltimateTicTacToe.Models.GameClasses
 {
-    public abstract class WinCheckHandler
+    public abstract class WinCheckHandler: IWinChecker
     {
         public Func<Game, Point> check;
         public WinCheckHandler successor;
