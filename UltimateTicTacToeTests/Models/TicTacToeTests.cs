@@ -73,7 +73,14 @@ namespace UltimateTicTacToeTests.Models
         [TestMethod]
         public void WillReturnTheBoardItIsGiven()
         {
-
+            CompositeGame game = new TicTacToe(null);
+            BoardGame temp = new TicTacToe(null);
+            List<List<BoardGame>> board = new List<List<BoardGame>>
+            {
+                new List<BoardGame>{temp, temp, temp}
+            };
+            game.setBoard(board);
+            Assert.AreEqual(board, game.getBoard());
         }
     }
 }
