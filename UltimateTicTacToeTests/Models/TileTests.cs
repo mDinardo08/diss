@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using UltimateTicTacToe.Models;
-using UltimateTicTacToe.Models.GameClasses;
+using UltimateTicTacToe.Models.Game;
 
 namespace UltimateTicTacToeTests.Models
 {

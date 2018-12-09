@@ -4,7 +4,7 @@ using System.Drawing;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace UltimateTicTacToe.Models.GameClasses
+namespace UltimateTicTacToe.Models.Game
 {
     public class Tile : BoardGame
     {

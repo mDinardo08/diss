@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Text;
 using UltimateTicTacToe.Models;
-using UltimateTicTacToe.Models.GameClasses;
+using UltimateTicTacToe.Models.Game;
 
 namespace UltimateTicTacToeTests.Models
 {
