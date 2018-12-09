@@ -2,7 +2,7 @@
 using Moq;
 using System;
 using System.Collections.Generic;
-using System.Text;
+using System.Drawing;
 using UltimateTicTacToe.Models;
 using UltimateTicTacToe.Models.GameClasses;
 
@@ -218,6 +218,37 @@ namespace UltimateTicTacToeTests.Models
                 }
             };
             Assert.AreEqual(player, game.getWinner());
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentOutOfRangeException))]
+        public void WillThrowIndexOutOfRangeIfGettingInvalidPoint()
+        {
+            Game game = new TicTacToe
+            {
+                game = new List<List<Game>>()
+            };
+            game.getSector(new Point
+            {
+                X = -1,
+                Y = -1
+            });
+        }
+
+        [TestMethod]
+        public void WillReturnTheSectorRequested()
+        {
+            Game temp = new TicTacToe();
+            Game game = new TicTacToe
+            {
+                game = new List<List<Game>>
+                {
+                    new List<Game>{null, null, null},
+                    new List<Game>{null, temp, null},
+                    new List<Game>{null, null, null}
+                }
+            };
+            Assert.AreEqual(temp, game.getSector(new Point{X = 1,Y = 1}));
         }
     }
 }

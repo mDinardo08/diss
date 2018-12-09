@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -18,6 +19,12 @@ namespace UltimateTicTacToe.Models.GameClasses
         public List<List<Game>> getGame()
         {
             throw new NotImplementedException();
+        }
+
+
+        public Game getSector(Point point)
+        {
+            return game[point.X][point.Y];
         }
 
         public Player getWinner()
