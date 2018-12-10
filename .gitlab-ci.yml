@@ -5,5 +5,5 @@ buildServer:
 
 testServre:
  script:
-  -cd .\UltimateTicTacToeTests\
-  -dotnet test
+  - cd .\UltimateTicTacToeTests\
+  - dotnet test
