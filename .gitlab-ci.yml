@@ -3,7 +3,7 @@ buildServer:
   - cd .\UltimateTicTacToe\
   - dotnet build
 
-testServre:
+testServer:
  script:
   - cd .\UltimateTicTacToeTests\
   - dotnet test
