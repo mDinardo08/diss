@@ -1,0 +1,10 @@
+buildServer:
+ script:
+  - dir
+  - cd UltimateTicTacToe
+  - dotnet build
+
+testServer:
+ script:
+  - cd UltimateTicTacToeTests
+  - dotnet test
