@@ -1,0 +1,9 @@
+buildServer:
+ script:
+  - cd .\UltimateTicTacToe\
+  - dotnet build
+
+testServre:
+ script:
+  -cd .\UltimateTicTacToeTests\
+  -dotnet test
