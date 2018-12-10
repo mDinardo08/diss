@@ -1,7 +1,7 @@
 buildServer:
  script:
   - dir
-  - cd .\builds\ybp14146\dissertation\UltimateTicTacToe\
+  - cd .\UltimateTicTacToe\
   - dotnet build
 
 testServer:
