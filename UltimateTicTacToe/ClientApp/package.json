@@ -5,7 +5,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve --extract-css",
-    "build": "ng build --extract-css --prod && node fix-sw",
+    "build": "ng build --extract-css --prod",
     "build:ssr": "npm run build -- --app=ssr --output-hashing=media",
     "test": "ng test --browsers ChromeHeadless --single-run true",
     "testDebug": "ng test --browsers Chrome",

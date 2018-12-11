@@ -1,12 +1,32 @@
-image: 2.2-sdk
-
 buildServer:
+ stage: build
  script:
-  - dir
   - cd UltimateTicTacToe
   - dotnet build
+  
+buildAngular:
+ stage: build
+ script:
+  - cd UltimateTicTacToe/ClientApp
+  - npm run build
 
 testServer:
+ stage: test
  script:
   - cd UltimateTicTacToeTests
   - dotnet test
+
+testAngular:
+ stage: test
+ script:
+  - cd UltimateTicTacToe/ClientApp
+  - npm run test
+
+produceArtifact:
+ stage: deploy
+ script:
+  - cd UltimateTicTacToe
+  - dotnet publish -c Release -r ubuntu.18.04-x64
+ only:
+  - master
+  
