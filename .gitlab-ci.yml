@@ -21,6 +21,7 @@ testAngular:
  stage: test
  script:
   - cd UltimateTicTacToe/ClientApp
+  - npm install
   - npm run test
 
 produceArtifact:
