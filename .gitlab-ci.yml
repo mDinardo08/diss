@@ -8,6 +8,7 @@ buildAngular:
  stage: build
  script:
   - cd UltimateTicTacToe/ClientApp
+  - npm install
   - npm run build
 
 testServer:
