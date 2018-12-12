@@ -4,7 +4,7 @@ buildServer:
   - cd UltimateTicTacToe
   - dotnet build
  only:
-  - triggers
+  - merge-requests
   
 buildAngular:
  stage: build
