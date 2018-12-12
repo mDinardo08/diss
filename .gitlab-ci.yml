@@ -28,6 +28,7 @@ produceArtifact:
  stage: deploy
  script:
   - cd UltimateTicTacToe
+  - dotnet build
   - dotnet publish -c Release -r ubuntu.18.04-x64
  only:
   - master
