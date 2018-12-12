@@ -4,7 +4,7 @@ buildServer:
   - cd UltimateTicTacToe
   - dotnet build
  only:
-  - merge-requests
+  - master
   
 buildAngular:
  stage: build
@@ -13,7 +13,7 @@ buildAngular:
   - npm install
   - npm run build
  only:
-  - merge-requests
+  - master
 
 testServer:
  stage: test
@@ -21,7 +21,7 @@ testServer:
   - cd UltimateTicTacToeTests
   - dotnet test
  only:
-  - merge-requests
+  - master
 
 testAngular:
  stage: test
@@ -30,13 +30,13 @@ testAngular:
   - npm install
   - npm run test
  only:
-  - merge-requests
+  - master
 
 produceArtifact:
  stage: deploy
  script:
   - cd UltimateTicTacToe
-  - dotnet build
+  - dotnet restore
   - dotnet publish -c Release -r ubuntu.18.04-x64
  only:
-  - merge-requests
+  - master
