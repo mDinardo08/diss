@@ -13,7 +13,7 @@ buildAngular:
   - npm install
   - npm run build
  only:
-  - triggers
+  - merge-requests
 
 testServer:
  stage: test
@@ -21,7 +21,7 @@ testServer:
   - cd UltimateTicTacToeTests
   - dotnet test
  only:
-  - triggers
+  - merge-requests
 
 testAngular:
  stage: test
@@ -30,7 +30,7 @@ testAngular:
   - npm install
   - npm run test
  only:
-  - triggers
+  - merge-requests
 
 produceArtifact:
  stage: deploy
@@ -39,6 +39,6 @@ produceArtifact:
   - dotnet build
   - dotnet publish -c Release -r ubuntu.18.04-x64
  only:
-  - triggers
+  - merge-requests
  
   
