@@ -3,6 +3,8 @@ buildServer:
  script:
   - cd UltimateTicTacToe
   - dotnet build
+ only:
+  - triggers
   
 buildAngular:
  stage: build
@@ -10,12 +12,16 @@ buildAngular:
   - cd UltimateTicTacToe/ClientApp
   - npm install
   - npm run build
+ only:
+  - triggers
 
 testServer:
  stage: test
  script:
   - cd UltimateTicTacToeTests
   - dotnet test
+ only:
+  - triggers
 
 testAngular:
  stage: test
@@ -23,6 +29,8 @@ testAngular:
   - cd UltimateTicTacToe/ClientApp
   - npm install
   - npm run test
+ only:
+  - triggers
 
 produceArtifact:
  stage: deploy
@@ -31,5 +39,6 @@ produceArtifact:
   - dotnet build
   - dotnet publish -c Release -r ubuntu.18.04-x64
  only:
+  - triggers
   - master
   
