@@ -38,5 +38,7 @@ produceArtifact:
   - cd UltimateTicTacToe
   - dotnet restore
   - dotnet publish -c Release -r ubuntu.18.04-x64
+  - bash
+  - sshpass -e ypb14146@cafe.cis.strath.ac.uk
  only:
   - master
