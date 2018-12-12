@@ -31,10 +31,4 @@ testAngular:
   - npm run test
  only:
   - master
-
-produceArtifact:
- stage: deploy
- script:
-  - git push azure master
- only:
-  - master
+  
