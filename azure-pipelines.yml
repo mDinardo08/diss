@@ -33,6 +33,6 @@ steps:
 
 - task: AzureRmWebAppDeployment@3
   inputs:
-    azureSubscription: Azure for Students
+    azureSubscription: 'f80e04fb-3ead-4dae-94c1-060cd37ee2cb'
     WebAppName: 'UltimateTicTacToeDissertation'
     Package: $(System.ArtifactsDirectory)/**/*.zip
