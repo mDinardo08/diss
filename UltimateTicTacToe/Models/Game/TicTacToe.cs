@@ -10,7 +10,6 @@ namespace UltimateTicTacToe.Models.Game
     public class TicTacToe : CompositeGame
     {
         public List<List<BoardGame>> board;
-        public List<Player> players;
         private IWinChecker winChecker;
 
         public TicTacToe(IWinChecker winChecker)

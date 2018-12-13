@@ -8,7 +8,7 @@ namespace UltimateTicTacToe.Models.Game.WinCheck
 {
     public abstract class WinCheckHandler: IWinChecker
     {
-        public Func<CompositeGame, Point> check;
+        protected Func<CompositeGame, Point> check;
         public WinCheckHandler successor;
         public Player checkForWin(CompositeGame game)
         {
