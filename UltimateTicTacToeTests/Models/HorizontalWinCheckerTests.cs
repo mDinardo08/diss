@@ -49,8 +49,6 @@ namespace UltimateTicTacToeTests.Models
         public void WillReturnAPointOnWinningLineInTheSecondRow()
         { 
             var player = new Player();
-            var MockException = new Mock<BoardGame>(MockBehavior.Strict);
-            MockException.Setup(x => x.getWinner()).Throws(new NoWinnerException());
             MockGame.Setup(x => x.getBoard()).Returns(new List<List<BoardGame>>
                 {
                     new List<BoardGame>{MockException.Object, MockException.Object , MockException.Object},
