@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Models;
+using UltimateTicTacToe.Models.DTOs;
 using UltimateTicTacToe.Models.Game;
 using UltimateTicTacToe.Services;
 
@@ -22,9 +23,10 @@ namespace UltimateTicTacToe.Controllers
         }
 
         [HttpPost("makeMove")]
-        public IActionResult makeMove([FromBody]BoardGame game, Move move)
+        public IActionResult makeMove([FromBody]MoveDTO moveDto)
         {
-            return ExecuteApiAction(() => new ApiResult<BoardGame> { Model = service.makeMove(game, move) });
+            moveDto.game.getWinner();
+            return ExecuteApiAction(() => new ApiResult<BoardGame> { Model = service.makeMove(moveDto.game, moveDto.move) });
         }
     }
 }

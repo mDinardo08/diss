@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Net.Http;
 using System.Text;
 using UltimateTicTacToe.Controllers;
+using UltimateTicTacToe.Models.DTOs;
 using UltimateTicTacToe.Models.Game;
 using UltimateTicTacToe.Services;
 
@@ -24,7 +25,12 @@ namespace UltimateTicTacToeTests.Controllers
             mockService = new Mock<IGameService>(MockBehavior.Strict);
             mockService.Setup(x => x.makeMove(game, move)).Returns((BoardGame)null);
             cont = new GameController(mockService.Object);
-            cont.makeMove(game, move);
+            MoveDTO moveDto = new MoveDTO
+            {
+                game = game,
+                move = move
+            };
+            cont.makeMove(moveDto);
             Assert.IsTrue(mockService.Invocations.Count == 1);
         }
     }
