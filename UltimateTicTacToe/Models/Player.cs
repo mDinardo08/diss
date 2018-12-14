@@ -7,5 +7,6 @@ namespace UltimateTicTacToe.Models
 {
     public class Player
     {
+        public String name;
     }
 }
