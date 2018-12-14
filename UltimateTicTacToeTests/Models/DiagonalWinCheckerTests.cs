@@ -2,7 +2,9 @@
 using Moq;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
+using System.Reflection;
 using System.Text;
 using UltimateTicTacToe.Models;
 using UltimateTicTacToe.Models.Game;
@@ -23,6 +25,34 @@ namespace UltimateTicTacToeTests.Models
             MockException = new Mock<CompositeGame>(MockBehavior.Strict);
             MockException.Setup(x => x.getWinner()).Throws(new NoWinnerException());
             MockGame = new Mock<CompositeGame>(MockBehavior.Strict);
+        }
+
+        [TestMethod]
+        public void WillSetSuccessorToNull()
+        {
+            d.setSuccessor();
+            Assert.IsNull(d.successor);
+        }
+
+        [TestMethod]
+        public void WillSetCheckMethodToCheckDiagonalWins()
+        {
+            d.setCheckFunction();
+            Assert.AreEqual(d.check, d.checkDiagonalWinner);
+        }
+
+        [TestMethod]
+        public void WillReturnPointWithXisneg1IfNoWinFound()
+        {
+            MockGame.Setup(x => x.getBoard()).Returns(new List<List<BoardGame>>
+                {
+                    new List<BoardGame>{MockException.Object, MockException.Object, MockException.Object},
+                    new List<BoardGame>{MockException.Object, MockException.Object, MockException.Object},
+                    new List<BoardGame>{MockException.Object, MockException.Object, MockException.Object}
+                }
+            );
+            Point result = d.checkDiagonalWinner(MockGame.Object);
+            Assert.IsTrue(result.X == -1);
         }
 
         [TestMethod]

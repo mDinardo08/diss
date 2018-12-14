@@ -7,13 +7,18 @@ using System.Threading.Tasks;
 namespace UltimateTicTacToe.Models.Game.WinCheck
 {
     public class DiagonalWinChecker: WinCheckHandler
-    { 
-        public DiagonalWinChecker()
+    {
+
+        public override void setSuccessor()
+        {
+        }
+
+        public override void setCheckFunction()
         {
             check = checkDiagonalWinner;
         }
 
-        private Point checkDiagonalWinner(CompositeGame game)
+        public Point checkDiagonalWinner(CompositeGame game)
         {
             List<List<BoardGame>> board = game.getBoard();
             Point result = checkTopLeftDiagonal(board);

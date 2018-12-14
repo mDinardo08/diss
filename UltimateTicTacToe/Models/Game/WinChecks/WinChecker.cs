@@ -8,8 +8,14 @@ namespace UltimateTicTacToe.Models.Game.WinCheck
 {
     public abstract class WinCheckHandler: IWinChecker
     {
-        protected Func<CompositeGame, Point> check;
-        public WinCheckHandler successor;
+        public Func<CompositeGame, Point> check;
+        public IWinChecker successor;
+
+        public WinCheckHandler()
+        {
+            init();
+        }
+
         public Player checkForWin(CompositeGame game)
         {
             Point p = check(game);
@@ -24,5 +30,14 @@ namespace UltimateTicTacToe.Models.Game.WinCheck
             return result;
         }
 
+        private void init()
+        {
+            setSuccessor();
+            setCheckFunction();
+        }
+
+        public abstract void setSuccessor();
+
+        public abstract void setCheckFunction();
     }
 }

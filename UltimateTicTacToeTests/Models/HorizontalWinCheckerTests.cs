@@ -27,10 +27,34 @@ namespace UltimateTicTacToeTests.Models
         }
 
         [TestMethod]
-        public void WillSetVerticalWinCheckerAsSuccessorWhenConstructed()
+        public void WillSetSuccessorToVerticalWinChecker()
         {
-            h = new HorizontalWinChecker();
+            h.setSuccessor();
             Assert.IsTrue(h.successor is VerticleWinChecker);
+        }
+
+        [TestMethod]
+        public void WillSetCheckMethodToCheckHorizontalWin()
+        {
+            h.setCheckFunction();
+            Assert.AreEqual(h.check, h.checkHorizontalWinner);
+        }
+
+        [TestMethod]
+        public void WillCallSuccessorIfNoWinDetected()
+        {
+            MockGame.Setup(x => x.getBoard()).Returns(new List<List<BoardGame>>
+                {
+                    new List<BoardGame>{MockException.Object, MockException.Object, MockException.Object},
+                    new List<BoardGame>{MockException.Object, MockException.Object, MockException.Object},
+                    new List<BoardGame>{MockException.Object, MockException.Object, MockException.Object }
+                });
+            Mock<IWinChecker> mock = new Mock<IWinChecker>(MockBehavior.Strict);
+            mock.Setup(x => x.checkForWin(MockGame.Object)).Returns((Player)null);
+            h.successor = mock.Object;
+            h.check = (CompositeGame => new Point { X = -1, Y = -1 });
+            h.checkForWin(MockGame.Object);
+            Assert.IsTrue(mock.Invocations.Count == 1);
         }
 
         [TestMethod]
