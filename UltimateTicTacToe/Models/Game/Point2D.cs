@@ -5,10 +5,9 @@ using System.Threading.Tasks;
 
 namespace UltimateTicTacToe.Models.Game
 {
-    public class Move
+    public class Point2D
     {
-        public Move next;
-        public Point2D possition;
-        public Player owner;
+        public int X { get; set; }
+        public int Y { get; set; }
     }
 }

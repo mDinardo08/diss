@@ -10,7 +10,7 @@ namespace UltimateTicTacToe.Models.Game
     {
 
         List<List<BoardGame>> getBoard();
-        BoardGame getSector(Point point);
+        BoardGame getSector(Point2D point);
         void setBoard(List<List<BoardGame>> board);
     }
 }

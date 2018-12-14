@@ -2,7 +2,6 @@
 using Moq;
 using System;
 using System.Collections.Generic;
-using System.Drawing;
 using UltimateTicTacToe.Models;
 using UltimateTicTacToe.Models.Game;
 using UltimateTicTacToe.Models.Game.WinCheck;
@@ -48,7 +47,7 @@ namespace UltimateTicTacToeTests.Models
         {
             CompositeGame game = new TicTacToe(null);
             game.setBoard( new List<List<BoardGame>>());
-            game.getSector(new Point
+            game.getSector(new Point2D
             {
                 X = -1,
                 Y = -1
@@ -67,7 +66,7 @@ namespace UltimateTicTacToeTests.Models
                     new List<BoardGame>{null, null, null}
                 }
             );
-            Assert.AreEqual(temp, game.getSector(new Point{X = 1,Y = 1}));
+            Assert.AreEqual(temp, game.getSector(new Point2D{X = 1,Y = 1}));
         }
 
         [TestMethod]
@@ -91,7 +90,7 @@ namespace UltimateTicTacToeTests.Models
             game.setBoard(new List<List<BoardGame>>());
             game.makeMove(new Move
             {
-                move = new Point { X = 1, Y = 2 }
+                possition = new Point2D { X = 1, Y = 2 }
             });
         }
 
@@ -102,7 +101,7 @@ namespace UltimateTicTacToeTests.Models
             Move n = new Move();
             Move m = new Move
             {
-                move = new Point { X = 1, Y = 1 },
+                possition = new Point2D { X = 1, Y = 1 },
                 next = n
             };
             Mock<BoardGame> mock = new Mock<BoardGame>(MockBehavior.Strict);

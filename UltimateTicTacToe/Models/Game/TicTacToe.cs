@@ -19,7 +19,7 @@ namespace UltimateTicTacToe.Models.Game
 
         public void makeMove(Move move)
         {
-            board[move.move.X][move.move.Y].makeMove(move.next);
+            board[move.possition.X][move.possition.Y].makeMove(move.next);
         }
 
         public List<List<BoardGame>> getBoard()
@@ -28,7 +28,7 @@ namespace UltimateTicTacToe.Models.Game
         }
 
 
-        public BoardGame getSector(Point point)
+        public BoardGame getSector(Point2D point)
         {
             return board[point.X][point.Y];
         }
