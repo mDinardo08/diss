@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using UltimateTicTacToe.Models.Game.WinCheck;
 
 namespace UltimateTicTacToe.JsonConverters.WinCheck
 {
@@ -10,7 +11,7 @@ namespace UltimateTicTacToe.JsonConverters.WinCheck
     {
         public override bool CanConvert(Type objectType)
         {
-            throw new NotImplementedException();
+            return typeof(IWinChecker).IsAssignableFrom(objectType);
         }
 
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
