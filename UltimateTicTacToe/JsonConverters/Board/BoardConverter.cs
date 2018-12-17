@@ -9,7 +9,10 @@ using UltimateTicTacToe.Models.Game.WinCheck;
 
 namespace UltimateTicTacToe.JsonConverters.Board
 {
-    public class BoardConverter : AbstractJsonConverter<BoardGame> { 
+    public class BoardConverter : AbstractJsonConverter<BoardGame> {
+
+        public override bool CanWrite => false;
+        public override bool CanRead => true;
 
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {

@@ -51,7 +51,7 @@ namespace UltimateTicTacToeTests.JsonConverters
         [TestMethod]
         public void WillCorrectlyConvertTicTacToeFromBoardGame()
         {
-            var json = "{\"board\": [[]]}";
+            var json = "{\"board\": [[]], \"winChecker\": {}}";
             var result = JsonConvert.DeserializeObject<BoardGame>(json);
             Assert.IsTrue(result is TicTacToe);
         }

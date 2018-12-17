@@ -34,17 +34,18 @@ namespace UltimateTicTacToeTests.JsonConverters
         }
 
         [TestMethod]
-        [ExpectedException(typeof(InvalidOperationException))]
-        public void WillThrowInvalidOpertationExceptionIfWritingJSON()
+        public void WillCreateAJsonObjectThatOmitsTheSuccessorAttribute()
         {
-            conv.WriteJson(null, null, null);
+            IWinChecker hWinChecker = new HorizontalWinChecker();
+
+            var json = JsonConvert.SerializeObject(hWinChecker);
+            Assert.IsTrue(String.Equals("{}", json));
         }
 
         [TestMethod]
         public void WillReturnAHorizontalWinChecker()
         {
-            HorizontalWinChecker game = new HorizontalWinChecker();
-            var json = JsonConvert.SerializeObject(game);
+            var json = "{}";
             var result = JsonConvert.DeserializeObject<IWinChecker>(json);
             Assert.IsTrue(result is HorizontalWinChecker);
         }
