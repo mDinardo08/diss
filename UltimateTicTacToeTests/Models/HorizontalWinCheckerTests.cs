@@ -30,7 +30,7 @@ namespace UltimateTicTacToeTests.Models
         public void WillSetSuccessorToVerticalWinChecker()
         {
             h.setSuccessor();
-            Assert.IsTrue(h.successor is VerticleWinChecker);
+            Assert.IsTrue(h.getSuccessor() is VerticleWinChecker);
         }
 
         [TestMethod]

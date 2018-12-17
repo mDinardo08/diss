@@ -1,4 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -30,6 +31,22 @@ namespace UltimateTicTacToeTests.JsonConverters
         {
             bool result = conv.CanConvert(typeof(HorizontalWinChecker));
             Assert.IsTrue(result);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(InvalidOperationException))]
+        public void WillThrowInvalidOpertationExceptionIfWritingJSON()
+        {
+            conv.WriteJson(null, null, null);
+        }
+
+        [TestMethod]
+        public void WillReturnAHorizontalWinChecker()
+        {
+            HorizontalWinChecker game = new HorizontalWinChecker();
+            var json = JsonConvert.SerializeObject(game);
+            var result = JsonConvert.DeserializeObject<IWinChecker>(json);
+            Assert.IsTrue(result is HorizontalWinChecker);
         }
     }
 }

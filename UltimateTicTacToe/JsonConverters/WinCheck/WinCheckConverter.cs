@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,21 +8,17 @@ using UltimateTicTacToe.Models.Game.WinCheck;
 
 namespace UltimateTicTacToe.JsonConverters.WinCheck
 {
-    public class WinCheckConverter : JsonConverter
+    public class WinCheckConverter : AbstractJsonConverter<IWinChecker>
     {
-        public override bool CanConvert(Type objectType)
-        {
-            return typeof(IWinChecker).IsAssignableFrom(objectType);
-        }
-
-        public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
-        {
-            throw new NotImplementedException();
-        }
-
+        
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {
-            throw new NotImplementedException();
+            throw new InvalidOperationException("Use default serialisation");
+        }
+
+        protected override IWinChecker Create(Type objectType, JObject jObject)
+        {
+            return new HorizontalWinChecker();
         }
     }
 }

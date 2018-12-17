@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,39 +9,25 @@ using UltimateTicTacToe.Models.Game.WinCheck;
 
 namespace UltimateTicTacToe.JsonConverters.Board
 {
-    public class BoardConverter : JsonConverter
-    {
-
-        public override bool CanWrite => false;
-        public override bool CanRead => true;
-    
-        public BoardConverter()
-        {
-
-        }
-        public override bool CanConvert(Type objectType)
-        {
-            return typeof(BoardGame).IsAssignableFrom(objectType);
-        }
-
-        public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
-        {
-            var jObject = Newtonsoft.Json.Linq.JObject.Load(reader);
-            BoardGame type;
-            if(jObject["board"] == null)
-            {
-                type = new Tile();
-            } else
-            {
-                type = new TicTacToe(null);
-            }
-            serializer.Populate(jObject.CreateReader(), type);
-            return type;
-        }
+    public class BoardConverter : AbstractJsonConverter<BoardGame> { 
 
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {
             throw new InvalidOperationException("Use default serialisation");
+        }
+
+        protected override BoardGame Create(Type objectType, JObject jObject)
+        {
+            BoardGame type;
+            if (jObject["board"] == null)
+            {
+                type = new Tile();
+            }
+            else
+            {
+                type = new TicTacToe(null);
+            }
+            return type;
         }
     }
 }
