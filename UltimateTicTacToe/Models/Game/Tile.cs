@@ -8,7 +8,7 @@ namespace UltimateTicTacToe.Models.Game
 {
     public class Tile : BoardGame
     {
-        private Player owner;
+        public Player owner;
        
         public Player getWinner()
         {

@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Text;
 using UltimateTicTacToe.JsonConverters;
 using UltimateTicTacToe.JsonConverters.Board;
+using UltimateTicTacToe.Models;
 using UltimateTicTacToe.Models.Game;
 using UltimateTicTacToe.Models.Game.WinCheck;
 
@@ -63,6 +64,16 @@ namespace UltimateTicTacToeTests.JsonConverters
             var json = JsonConvert.SerializeObject(game);
             var result = JsonConvert.DeserializeObject<BoardGame>(json);
             Assert.IsTrue(result is Tile);
+        }
+
+        [TestMethod]
+        public void WillCorrectlyPopulatePropertiesOfTile()
+        {
+            Tile tile = new Tile();
+            tile.makeMove(new Move { owner = new Player{ name = "test" } });
+            var json = JsonConvert.SerializeObject(tile);
+            Tile result = JsonConvert.DeserializeObject<BoardGame>(json) as Tile;
+            Assert.AreEqual(tile.owner.name, result.owner.name);
         }
     }
 }
