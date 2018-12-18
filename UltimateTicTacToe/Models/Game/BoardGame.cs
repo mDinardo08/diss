@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using System.Collections.Generic;
 using UltimateTicTacToe.JsonConverters.Board;
 
 namespace UltimateTicTacToe.Models.Game
@@ -8,5 +9,6 @@ namespace UltimateTicTacToe.Models.Game
     { 
         Player getWinner();
         void makeMove(Move move);
+        List<Move> getAvailableMoves();
     }
 }

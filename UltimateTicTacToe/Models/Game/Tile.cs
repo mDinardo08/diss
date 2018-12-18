@@ -9,7 +9,12 @@ namespace UltimateTicTacToe.Models.Game
     public class Tile : BoardGame
     {
         public Player owner;
-       
+
+        public List<Move> getAvailableMoves()
+        {
+            throw new NotImplementedException();
+        }
+
         public Player getWinner()
         {
             return owner;

@@ -8,5 +8,6 @@ namespace UltimateTicTacToe.Models.DTOs
     {
         public BoardGame game;
         public Move move;
+        public bool gameOver;
     }
 }
