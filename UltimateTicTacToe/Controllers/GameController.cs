@@ -25,7 +25,7 @@ namespace UltimateTicTacToe.Controllers
         [HttpPost("makeMove")]
         public IActionResult makeMove([FromBody]MoveDTO moveDto)
         {
-            return ExecuteApiAction(() => new ApiResult<BoardGame> { Model = service.makeMove(moveDto.game, moveDto.move) });
+            return ExecuteApiAction(() => new ApiResult<BoardGame> { Model = service.processMove(moveDto.game, moveDto.move) });
         }
     }
 }

@@ -8,7 +8,7 @@ namespace UltimateTicTacToe.Services
 {
     public class GameService : IGameService
     {
-        public BoardGame makeMove(BoardGame game, Move move)
+        public BoardGame processMove(BoardGame game, Move move)
         {
             throw new NotImplementedException();
         }

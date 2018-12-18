@@ -8,6 +8,6 @@ namespace UltimateTicTacToe.Services
 {
     public interface IGameService
     {
-        BoardGame makeMove(BoardGame game, Move move);
+        BoardGame processMove(BoardGame game, Move move);
     }
 }

@@ -23,7 +23,7 @@ namespace UltimateTicTacToeTests.Controllers
             BoardGame game = new TicTacToe(null);
             Move move = new Move();
             mockService = new Mock<IGameService>(MockBehavior.Strict);
-            mockService.Setup(x => x.makeMove(game, move)).Returns((BoardGame)null);
+            mockService.Setup(x => x.processMove(game, move)).Returns((BoardGame)null);
             cont = new GameController(mockService.Object);
             MoveDTO moveDto = new MoveDTO
             {
