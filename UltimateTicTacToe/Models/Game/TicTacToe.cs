@@ -1,8 +1,10 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Threading.Tasks;
+using UltimateTicTacToe.JsonConverters.WinCheck;
 using UltimateTicTacToe.Models.Game.WinCheck;
 
 namespace UltimateTicTacToe.Models.Game
@@ -10,8 +12,7 @@ namespace UltimateTicTacToe.Models.Game
     public class TicTacToe : CompositeGame
     {
         public List<List<BoardGame>> board;
-        public List<Player> players;
-        private IWinChecker winChecker;
+        public IWinChecker winChecker;
 
         public TicTacToe(IWinChecker winChecker)
         {
@@ -20,7 +21,7 @@ namespace UltimateTicTacToe.Models.Game
 
         public void makeMove(Move move)
         {
-            board[move.move.X][move.move.Y].makeMove(move.next);
+            board[move.possition.X][move.possition.Y].makeMove(move.next);
         }
 
         public List<List<BoardGame>> getBoard()
@@ -29,7 +30,7 @@ namespace UltimateTicTacToe.Models.Game
         }
 
 
-        public BoardGame getSector(Point point)
+        public BoardGame getSector(Point2D point)
         {
             return board[point.X][point.Y];
         }
@@ -47,6 +48,23 @@ namespace UltimateTicTacToe.Models.Game
         public void setBoard(List<List<BoardGame>> board)
         {
             this.board = board;
+        }
+  
+        public List<Move> getAvailableMoves()
+        {
+            List<Move> availableMoves = new List<Move>();
+            for (int y = 0; y < board.Count; y++)
+            {
+                for (int x = 0; x < board[y].Count; x++)
+                {
+                    List<Move> subMoves = board[y][x].getAvailableMoves();
+                    subMoves.ForEach((Move m) => availableMoves.Add(new Move {
+                        next = m,
+                        possition = new Point2D {X = x, Y = y } }));
+                }
+            }
+            return availableMoves;
+            
         }
     }
 }

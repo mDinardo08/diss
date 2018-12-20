@@ -4,7 +4,10 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Models;
+using UltimateTicTacToe.Models.DTOs;
 using UltimateTicTacToe.Models.Game;
+using UltimateTicTacToe.Services;
 
 namespace UltimateTicTacToe.Controllers
 {
@@ -12,11 +15,17 @@ namespace UltimateTicTacToe.Controllers
     [ApiController]
     public class GameController : BaseController
     {
+        private IGameService service;
+
+        public GameController(IGameService service)
+        {
+            this.service = service;
+        }
 
         [HttpPost("makeMove")]
-        public IActionResult makeMove([FromBody]BoardGame game)
+        public IActionResult makeMove([FromBody]MoveDTO moveDto)
         {
-            return null;
+            return ExecuteApiAction(() => new ApiResult<BoardGame> { Model = service.processMove(moveDto.game, moveDto.move) });
         }
     }
 }

@@ -25,12 +25,18 @@ namespace UltimateTicTacToeTests.Models
             MockGame = new Mock<CompositeGame>(MockBehavior.Strict);
         }
 
+        [TestMethod]
+        public void WillSetSuccessorToDiagonalWinChecker()
+        {
+            v.setSuccessor();
+            Assert.IsTrue(v.getSuccessor() is DiagonalWinChecker);
+        }
 
         [TestMethod]
-        public void WillSetVerticalWinCheckerAsSuccessorWhenConstructed()
+        public void WillSetCheckFunctionToCheckVerticalWinner()
         {
-            v = new VerticleWinChecker();
-            Assert.IsTrue(v.successor is DiagonalWinChecker);
+            v.setCheckFunction();
+            Assert.AreEqual(v.checkVerticalWinner, v.check);
         }
 
         [TestMethod]
@@ -97,6 +103,23 @@ namespace UltimateTicTacToeTests.Models
                     new List<BoardGame>{MockException.Object, MockException.Object, MockGame.Object }
                 });
             Assert.AreEqual(null, v.checkForWin(MockGame.Object));
+        }
+
+        [TestMethod]
+        public void WillCallSuccessorCheckForWinIfNoVerticalWinIsDetected()
+        {
+            MockGame.Setup(x => x.getBoard()).Returns(new List<List<BoardGame>>
+                {
+                    new List<BoardGame>{MockException.Object, MockException.Object, MockException.Object},
+                    new List<BoardGame>{MockException.Object, MockException.Object, MockException.Object},
+                    new List<BoardGame>{MockException.Object, MockException.Object, MockException.Object }
+                });
+            Mock<IWinChecker> mock = new Mock<IWinChecker>(MockBehavior.Strict);
+            mock.Setup(x => x.checkForWin(MockGame.Object)).Returns((Player) null);
+            v.successor = mock.Object;
+            v.check = (CompositeGame => new Point { X=-1, Y=-1 });
+            v.checkForWin(MockGame.Object);
+            Assert.IsTrue(mock.Invocations.Count == 1);
         }
     }
 }

@@ -8,13 +8,17 @@ namespace UltimateTicTacToe.Models.Game.WinCheck
 {
     public class VerticleWinChecker: WinCheckHandler
     {
-        public VerticleWinChecker()
+        public override void setCheckFunction()
         {
             check = checkVerticalWinner;
+        }
+
+        public override void setSuccessor()
+        {
             successor = new DiagonalWinChecker();
         }
 
-        private Point checkVerticalWinner(CompositeGame game)
+        public Point checkVerticalWinner(CompositeGame game)
         {
             List<List<BoardGame>> board = game.getBoard();
             Point result = new Point { X = -1, Y = -1 };

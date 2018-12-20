@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
@@ -9,7 +10,14 @@ namespace UltimateTicTacToe.Models.Game.WinCheck
     public abstract class WinCheckHandler: IWinChecker
     {
         public Func<CompositeGame, Point> check;
-        public WinCheckHandler successor;
+        [JsonIgnore]
+        public IWinChecker successor;
+
+        public WinCheckHandler()
+        {
+            init();
+        }
+
         public Player checkForWin(CompositeGame game)
         {
             Point p = check(game);
@@ -24,5 +32,19 @@ namespace UltimateTicTacToe.Models.Game.WinCheck
             return result;
         }
 
+        private void init()
+        {
+            setSuccessor();
+            setCheckFunction();
+        }
+
+        public abstract void setSuccessor();
+
+        public abstract void setCheckFunction();
+
+        public IWinChecker getSuccessor()
+        {
+            return successor;
+        }
     }
 }

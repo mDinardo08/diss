@@ -2,7 +2,6 @@
 using Moq;
 using System;
 using System.Collections.Generic;
-using System.Drawing;
 using UltimateTicTacToe.Models;
 using UltimateTicTacToe.Models.Game;
 using UltimateTicTacToe.Models.Game.WinCheck;
@@ -48,7 +47,7 @@ namespace UltimateTicTacToeTests.Models
         {
             CompositeGame game = new TicTacToe(null);
             game.setBoard( new List<List<BoardGame>>());
-            game.getSector(new Point
+            game.getSector(new Point2D
             {
                 X = -1,
                 Y = -1
@@ -67,7 +66,7 @@ namespace UltimateTicTacToeTests.Models
                     new List<BoardGame>{null, null, null}
                 }
             );
-            Assert.AreEqual(temp, game.getSector(new Point{X = 1,Y = 1}));
+            Assert.AreEqual(temp, game.getSector(new Point2D{X = 1,Y = 1}));
         }
 
         [TestMethod]
@@ -91,7 +90,7 @@ namespace UltimateTicTacToeTests.Models
             game.setBoard(new List<List<BoardGame>>());
             game.makeMove(new Move
             {
-                move = new Point { X = 1, Y = 2 }
+                possition = new Point2D { X = 1, Y = 2 }
             });
         }
 
@@ -102,7 +101,7 @@ namespace UltimateTicTacToeTests.Models
             Move n = new Move();
             Move m = new Move
             {
-                move = new Point { X = 1, Y = 1 },
+                possition = new Point2D { X = 1, Y = 1 },
                 next = n
             };
             Mock<BoardGame> mock = new Mock<BoardGame>(MockBehavior.Strict);
@@ -114,6 +113,128 @@ namespace UltimateTicTacToeTests.Models
             });
             game.makeMove(m);
             Assert.AreEqual(n, mock.Invocations[0].Arguments[0]);
+        }
+
+        [TestMethod]
+        public void WillReturnAMoveInTheFirstCell()
+        {
+            Mock<BoardGame> mock = new Mock<BoardGame>(MockBehavior.Strict);
+            mock.Setup(x => x.getAvailableMoves()).Returns(new List<Move> {
+                new Move {
+                    owner = new Player { name = "test" }
+                }
+            });
+            TicTacToe game = new TicTacToe(null);
+            game.board = new List<List<BoardGame>>
+            {
+                new List<BoardGame>
+                {
+                    mock.Object
+                }
+            };
+            List<Move> availableMoves = game.getAvailableMoves();
+            Point2D result = availableMoves[0].possition;
+            Assert.IsTrue(result.X == 0 && result.Y == 0);
+        }
+
+        [TestMethod]
+        public void WillNestMovesFromSubgames()
+        {
+            Move m = new Move
+            {
+                owner = new Player
+                {
+                    name = "hello"
+                }
+            };
+            Mock<BoardGame> mockGame = new Mock<BoardGame>(MockBehavior.Strict);
+            mockGame.Setup(x => x.getAvailableMoves()).Returns(new List<Move>{m});
+            TicTacToe game = new TicTacToe(null);
+            game.board = new List<List<BoardGame>>
+            {
+                new List<BoardGame>
+                {
+                    mockGame.Object
+                }
+            };
+            List<Move> result = game.getAvailableMoves();
+            Assert.AreEqual(m, result[0].next);
+        }
+
+        [TestMethod]
+        public void WillNestAllMovesFromSubGame()
+        {
+            Move m = new Move
+            {
+                owner = new Player
+                {
+                    name = "hello"
+                }
+            };
+            Mock<BoardGame> mockGame = new Mock<BoardGame>(MockBehavior.Strict);
+            mockGame.Setup(x => x.getAvailableMoves()).Returns(new List<Move> { m, m, null });
+            TicTacToe game = new TicTacToe(null);
+            game.board = new List<List<BoardGame>>
+            {
+                new List<BoardGame>
+                {
+                    mockGame.Object
+                }
+            };
+            List<Move> result = game.getAvailableMoves();
+            Assert.IsTrue(!result.TrueForAll((Move x) => x.next == m));
+        }
+
+        [TestMethod]
+        public void WillAssignTheCorrectPossitionInTheXDirection()
+        {
+            Move m = new Move
+            {
+                owner = new Player
+                {
+                    name = "hello"
+                }
+            };
+            Mock<BoardGame> mockGame = new Mock<BoardGame>(MockBehavior.Strict);
+            mockGame.Setup(x => x.getAvailableMoves()).Returns(new List<Move> {m});
+            TicTacToe game = new TicTacToe(null);
+            game.board = new List<List<BoardGame>>
+            {
+                new List<BoardGame>
+                {
+                    mockGame.Object, mockGame.Object
+                }
+            };
+            Point2D result = game.getAvailableMoves()[1].possition;
+            Assert.IsTrue(result.X == 1);
+        }
+
+        [TestMethod]
+        public void WillAssignTheCorrectPossitionInTheYDirection()
+        {
+            Move m = new Move
+            {
+                owner = new Player
+                {
+                    name = "hello"
+                }
+            };
+            Mock<BoardGame> mockGame = new Mock<BoardGame>(MockBehavior.Strict);
+            mockGame.Setup(x => x.getAvailableMoves()).Returns(new List<Move> { m });
+            TicTacToe game = new TicTacToe(null);
+            game.board = new List<List<BoardGame>>
+            {
+                new List<BoardGame>
+                {
+                    mockGame.Object
+                },
+                new List<BoardGame>
+                {
+                    mockGame.Object
+                }
+            };
+            Point2D result = game.getAvailableMoves()[1].possition;
+            Assert.IsTrue(result.Y == 1);
         }
     }
 }
