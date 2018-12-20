@@ -33,12 +33,12 @@ namespace UltimateTicTacToeTests.Models
         }
 
         [TestMethod]
-        public void WillReturnNullIfTileIsAlreadyTaken()
+        public void WillReturnAnEmptyListIfTileIsAlreadyTaken()
         {
             Tile t = new Tile();
             t.owner = new Player();
             List<Move> result = t.getAvailableMoves();
-            Assert.IsNull(result);
+            Assert.IsTrue(result.Count == 0);
         }
 
     }

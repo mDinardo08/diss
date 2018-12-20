@@ -13,6 +13,7 @@ namespace UltimateTicTacToe.Models.Game
     {
         public List<List<BoardGame>> board;
         public IWinChecker winChecker;
+        private Point2D boardFilter;
 
         public TicTacToe(IWinChecker winChecker)
         {
@@ -22,6 +23,7 @@ namespace UltimateTicTacToe.Models.Game
         public void makeMove(Move move)
         {
             board[move.possition.X][move.possition.Y].makeMove(move.next);
+            boardFilter = move.next.possition;
         }
 
         public List<List<BoardGame>> getBoard()
@@ -53,18 +55,34 @@ namespace UltimateTicTacToe.Models.Game
         public List<Move> getAvailableMoves()
         {
             List<Move> availableMoves = new List<Move>();
+            if (boardFilter != null)
+            {
+                List<Move> subBoardMoves = getSector(boardFilter).getAvailableMoves();
+                availableMoves = subBoardMoves.Count > 0 ? subBoardMoves : getMovesFromAllSubBoards();
+            }
+            else if (winChecker.checkForWin(this) == null)
+            {
+                availableMoves = getMovesFromAllSubBoards();
+            }
+            return availableMoves;
+        }
+
+        private List<Move> getMovesFromAllSubBoards()
+        {
+            List<Move> result = new List<Move>();
             for (int y = 0; y < board.Count; y++)
             {
                 for (int x = 0; x < board[y].Count; x++)
                 {
                     List<Move> subMoves = board[y][x].getAvailableMoves();
-                    subMoves.ForEach((Move m) => availableMoves.Add(new Move {
+                    subMoves.ForEach((Move m) => result.Add(new Move
+                    {
                         next = m,
-                        possition = new Point2D {X = x, Y = y } }));
+                        possition = new Point2D { X = x, Y = y }
+                    }));
                 }
             }
-            return availableMoves;
-            
+            return result;
         }
     }
 }

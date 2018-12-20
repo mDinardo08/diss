@@ -124,7 +124,9 @@ namespace UltimateTicTacToeTests.Models
                     owner = new Player { name = "test" }
                 }
             });
-            TicTacToe game = new TicTacToe(null);
+            Mock<IWinChecker> mockChecker = new Mock<IWinChecker>(MockBehavior.Strict);
+            TicTacToe game = new TicTacToe(mockChecker.Object);
+            mockChecker.Setup(x => x.checkForWin(game)).Returns((Player)null);
             game.board = new List<List<BoardGame>>
             {
                 new List<BoardGame>
@@ -149,7 +151,9 @@ namespace UltimateTicTacToeTests.Models
             };
             Mock<BoardGame> mockGame = new Mock<BoardGame>(MockBehavior.Strict);
             mockGame.Setup(x => x.getAvailableMoves()).Returns(new List<Move>{m});
-            TicTacToe game = new TicTacToe(null);
+            Mock<IWinChecker> mockChecker = new Mock<IWinChecker>(MockBehavior.Strict);
+            TicTacToe game = new TicTacToe(mockChecker.Object);
+            mockChecker.Setup(x => x.checkForWin(game)).Returns((Player)null);
             game.board = new List<List<BoardGame>>
             {
                 new List<BoardGame>
@@ -173,7 +177,9 @@ namespace UltimateTicTacToeTests.Models
             };
             Mock<BoardGame> mockGame = new Mock<BoardGame>(MockBehavior.Strict);
             mockGame.Setup(x => x.getAvailableMoves()).Returns(new List<Move> { m, m, null });
-            TicTacToe game = new TicTacToe(null);
+            Mock<IWinChecker> mockChecker = new Mock<IWinChecker>(MockBehavior.Strict);
+            TicTacToe game = new TicTacToe(mockChecker.Object);
+            mockChecker.Setup(x => x.checkForWin(game)).Returns((Player)null);
             game.board = new List<List<BoardGame>>
             {
                 new List<BoardGame>
@@ -197,7 +203,10 @@ namespace UltimateTicTacToeTests.Models
             };
             Mock<BoardGame> mockGame = new Mock<BoardGame>(MockBehavior.Strict);
             mockGame.Setup(x => x.getAvailableMoves()).Returns(new List<Move> {m});
-            TicTacToe game = new TicTacToe(null);
+
+            Mock<IWinChecker> mockChecker = new Mock<IWinChecker>(MockBehavior.Strict);
+            TicTacToe game = new TicTacToe(mockChecker.Object);
+            mockChecker.Setup(x => x.checkForWin(game)).Returns((Player)null);
             game.board = new List<List<BoardGame>>
             {
                 new List<BoardGame>
@@ -221,7 +230,10 @@ namespace UltimateTicTacToeTests.Models
             };
             Mock<BoardGame> mockGame = new Mock<BoardGame>(MockBehavior.Strict);
             mockGame.Setup(x => x.getAvailableMoves()).Returns(new List<Move> { m });
-            TicTacToe game = new TicTacToe(null);
+
+            Mock<IWinChecker> mockChecker = new Mock<IWinChecker>(MockBehavior.Strict);
+            TicTacToe game = new TicTacToe(mockChecker.Object);
+            mockChecker.Setup(x => x.checkForWin(game)).Returns((Player)null);
             game.board = new List<List<BoardGame>>
             {
                 new List<BoardGame>
@@ -235,6 +247,110 @@ namespace UltimateTicTacToeTests.Models
             };
             Point2D result = game.getAvailableMoves()[1].possition;
             Assert.IsTrue(result.Y == 1);
+        }
+
+        [TestMethod]
+        public void WillReturnEmptyListIfGameIsOver()
+        {
+            Mock<IWinChecker> mockChecker = new Mock<IWinChecker>(MockBehavior.Strict);
+            TicTacToe game = new TicTacToe(mockChecker.Object);
+            mockChecker.Setup(x => x.checkForWin(game)).Returns(new Player());
+            List<Move> result = game.getAvailableMoves();
+            Assert.IsTrue(result.Count == 0);
+        }
+
+        [TestMethod]
+        public void WillReturnAllMovesIfPreviousMovePointsToAFinishedBoard()
+        {
+            Move move = new Move
+            {
+                possition = new Point2D
+                {
+                    X = 0,
+                    Y = 0
+                },
+                next = new Move
+                {
+                    possition = new Point2D
+                    {
+                        X = 0,
+                        Y = 0
+                    }
+                }
+            };
+            Mock<IWinChecker> mockChecker = new Mock<IWinChecker>(MockBehavior.Strict);
+            TicTacToe game = new TicTacToe(mockChecker.Object);
+            mockChecker.Setup(x => x.checkForWin(game)).Returns((Player) null);
+            Mock<BoardGame> mockFinishedGame = new Mock<BoardGame>(MockBehavior.Strict);
+            mockFinishedGame.Setup(x => x.getAvailableMoves()).Returns(new List<Move>());
+            mockFinishedGame.Setup(x => x.makeMove(move.next));
+            Mock<BoardGame> mockGame = new Mock<BoardGame>(MockBehavior.Strict);
+            mockGame.Setup(x => x.getAvailableMoves()).Returns(new List<Move> { new Move() });
+            game.board = new List<List<BoardGame>>
+            {
+                new List<BoardGame>
+                {
+                    mockFinishedGame.Object, mockGame.Object, mockGame.Object
+                },
+                new List<BoardGame>
+                {
+                    mockGame.Object, mockGame.Object, mockGame.Object
+                },
+                new List<BoardGame>
+                {
+                    mockGame.Object, mockGame.Object, mockGame.Object
+                }
+            };
+            game.makeMove(move);
+            List<Move> result = game.getAvailableMoves();
+            Assert.IsTrue(result.Count == 8);
+        }
+
+        [TestMethod]
+        public void WillFilterMovesToThoseInTheSubBoardThatMatchTheNextMovesPossition()
+        {
+            Move move = new Move
+            {
+                possition = new Point2D
+                {
+                    X = 0,
+                    Y = 0
+                },
+                next = new Move
+                {
+                    possition = new Point2D
+                    {
+                        X = 1,
+                        Y = 0
+                    }
+                }
+            };
+            Mock<IWinChecker> mockChecker = new Mock<IWinChecker>(MockBehavior.Strict);
+            TicTacToe game = new TicTacToe(mockChecker.Object);
+            mockChecker.Setup(x => x.checkForWin(game)).Returns((Player)null);
+            Mock<BoardGame> mockFinishedGame = new Mock<BoardGame>(MockBehavior.Strict);
+            mockFinishedGame.Setup(x => x.getAvailableMoves()).Returns(new List<Move>());
+            mockFinishedGame.Setup(x => x.makeMove(move.next));
+            Mock<BoardGame> mockGame = new Mock<BoardGame>(MockBehavior.Strict);
+            mockGame.Setup(x => x.getAvailableMoves()).Returns(new List<Move> { new Move() });
+            game.board = new List<List<BoardGame>>
+            {
+                new List<BoardGame>
+                {
+                    mockFinishedGame.Object, mockGame.Object, mockGame.Object
+                },
+                new List<BoardGame>
+                {
+                    mockGame.Object, mockGame.Object, mockGame.Object
+                },
+                new List<BoardGame>
+                {
+                    mockGame.Object, mockGame.Object, mockGame.Object
+                }
+            };
+            game.makeMove(move);
+            List<Move> result = game.getAvailableMoves();
+            Assert.AreEqual(1, result.Count);
         }
     }
 }
