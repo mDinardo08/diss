@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace UltimateTicTacToe.Models
+namespace UltimateTicTacToe.Models.Game.Players
 {
-    public class Player
+    public enum AiPlayerType
     {
-        public string name;
+        RANDOM
     }
 }

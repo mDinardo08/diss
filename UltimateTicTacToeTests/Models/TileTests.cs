@@ -1,9 +1,11 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Moq;
 using System;
 using System.Collections.Generic;
 using System.Text;
 using UltimateTicTacToe.Models;
 using UltimateTicTacToe.Models.Game;
+using UltimateTicTacToe.Models.Game.Players;
 
 namespace UltimateTicTacToeTests.Models
 {
@@ -14,14 +16,14 @@ namespace UltimateTicTacToeTests.Models
         [TestMethod]
         public void WillRecordTheOwnerOfTheMoveAsTheWinnerOfTheTile()
         {
-            Player p = new Player();
+            Mock<Player> player = new Mock<Player>();
             Move move = new Move
             {
-                owner = p
+                owner = player.Object
             };
             Tile t = new Tile();
             t.makeMove(move);
-            Assert.AreEqual(p, t.getWinner());
+            Assert.AreEqual(player.Object, t.getWinner());
         }
 
         [TestMethod]
@@ -36,7 +38,7 @@ namespace UltimateTicTacToeTests.Models
         public void WillReturnAnEmptyListIfTileIsAlreadyTaken()
         {
             Tile t = new Tile();
-            t.owner = new Player();
+            t.owner = new Mock<Player>().Object;
             List<Move> result = t.getAvailableMoves();
             Assert.IsTrue(result.Count == 0);
         }

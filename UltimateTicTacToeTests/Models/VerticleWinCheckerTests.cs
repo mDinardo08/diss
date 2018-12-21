@@ -7,6 +7,7 @@ using System.Text;
 using UltimateTicTacToe.Models;
 using UltimateTicTacToe.Models.Game;
 using UltimateTicTacToe.Models.Game.WinCheck;
+using UltimateTicTacToe.Models.Game.Players;
 
 namespace UltimateTicTacToeTests.Models
 {
@@ -42,9 +43,9 @@ namespace UltimateTicTacToeTests.Models
         [TestMethod]
         public void WillDetectWinnerInFirstColumn()
         {
-            var player = new Player();
-            
-            MockGame.Setup(x => x.getWinner()).Returns(player);
+            Mock<Player> player = new Mock<Player>();
+
+            MockGame.Setup(x => x.getWinner()).Returns(player.Object);
             MockGame.Setup(x => x.getBoard()).Returns(new List<List<BoardGame>>
                 {
                     new List<BoardGame>{MockGame.Object, MockException.Object, MockException.Object},
@@ -53,15 +54,15 @@ namespace UltimateTicTacToeTests.Models
                 });
             
             Point p = new Point { X = 0, Y = 0 };
-            Assert.AreEqual(player, v.checkForWin(MockGame.Object));
+            Assert.AreEqual(player.Object, v.checkForWin(MockGame.Object));
         }
 
         [TestMethod]
         public void WillDetectWinnerInSecondColumn()
         {
-            var player = new Player();
-            
-            MockGame.Setup(x => x.getWinner()).Returns(player);
+            Mock<Player> player = new Mock<Player>();
+
+            MockGame.Setup(x => x.getWinner()).Returns(player.Object);
             MockGame.Setup(x => x.getBoard()).Returns(new List<List<BoardGame>>
                 {
                     new List<BoardGame>{MockException.Object, MockGame.Object, MockException.Object},
@@ -70,15 +71,15 @@ namespace UltimateTicTacToeTests.Models
                 });
 
             Point p = new Point { X = 0, Y = 1 };
-            Assert.AreEqual(player, v.checkForWin(MockGame.Object));
+            Assert.AreEqual(player.Object, v.checkForWin(MockGame.Object));
         }
 
         [TestMethod]
         public void WillDetectWinnerInThirdColumn()
         {
-            var player = new Player();
-            
-            MockGame.Setup(x => x.getWinner()).Returns(player);
+            Mock<Player> player = new Mock<Player>();
+
+            MockGame.Setup(x => x.getWinner()).Returns(player.Object);
             MockGame.Setup(x => x.getBoard()).Returns(new List<List<BoardGame>>
                 {
                     new List<BoardGame>{MockException.Object, MockException.Object, MockGame.Object},
@@ -87,15 +88,16 @@ namespace UltimateTicTacToeTests.Models
                 });
 
             Point p = new Point { X = 0, Y = 2 };
-            Assert.AreEqual(player, v.checkForWin(MockGame.Object));
+            Assert.AreEqual(player.Object, v.checkForWin(MockGame.Object));
         }
 
         [TestMethod]
         public void WillReturnInvalidPointIfNoWinDetected()
         {
-            var player = new Player();
-            
-            MockGame.Setup(x => x.getWinner()).Returns(player);
+
+            Mock<Player> player = new Mock<Player>();
+
+            MockGame.Setup(x => x.getWinner()).Returns(player.Object);
             MockGame.Setup(x => x.getBoard()).Returns(new List<List<BoardGame>>
                 {
                     new List<BoardGame>{MockException.Object, MockException.Object, MockGame.Object},

@@ -23,14 +23,9 @@ namespace UltimateTicTacToeTests.Controllers
             BoardGame game = new TicTacToe(null);
             Move move = new Move();
             mockService = new Mock<IGameService>(MockBehavior.Strict);
-            mockService.Setup(x => x.processMove(game, move)).Returns((BoardGame)null);
+            mockService.Setup(x => x.processMove(game)).Returns((BoardGameDTO)null);
             cont = new GameController(mockService.Object);
-            MoveDTO moveDto = new MoveDTO
-            {
-                game = game,
-                move = move
-            };
-            cont.makeMove(moveDto);
+            cont.makeMove(game);
             Assert.IsTrue(mockService.Invocations.Count == 1);
         }
     }

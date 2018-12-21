@@ -1,13 +1,13 @@
 ﻿using Newtonsoft.Json;
 using UltimateTicTacToe.JsonConverters.Board;
 using UltimateTicTacToe.Models.Game;
+using UltimateTicTacToe.Models.Game.Players;
 
 namespace UltimateTicTacToe.Models.DTOs
 {
-    public class MoveDTO
+    public class BoardGameDTO
     {
         public BoardGame game;
-        public Move move;
-        public bool gameOver;
+        public Player Winner;
     }
 }

@@ -9,6 +9,7 @@ using UltimateTicTacToe.JsonConverters.Board;
 using UltimateTicTacToe.Models;
 using UltimateTicTacToe.Models.Game;
 using UltimateTicTacToe.Models.Game.WinCheck;
+using UltimateTicTacToe.Models.Game.Players;
 
 namespace UltimateTicTacToeTests.JsonConverters
 {
@@ -43,16 +44,10 @@ namespace UltimateTicTacToeTests.JsonConverters
         }
 
         [TestMethod]
-        [ExpectedException(typeof(InvalidOperationException))]
-        public void WillThrowInvalidOpertationExceptionIfWritingJSON()
-        {
-            conv.WriteJson(null, null, null);
-        }
-
-        [TestMethod]
         public void WillCorrectlyConvertTicTacToeFromBoardGame()
         {
-            var json = "{\"board\": [[]], \"winChecker\": {}}";
+            Mock<IWinChecker> mock = new Mock<IWinChecker>();
+            var json = JsonConvert.SerializeObject(new TicTacToe(mock.Object));
             var result = JsonConvert.DeserializeObject<BoardGame>(json);
             Assert.IsTrue(result is TicTacToe);
         }
@@ -62,18 +57,8 @@ namespace UltimateTicTacToeTests.JsonConverters
         {
             Tile game = new Tile();
             var json = JsonConvert.SerializeObject(game);
-            var result = JsonConvert.DeserializeObject<BoardGame>(json);
+            var result = JsonConvert.DeserializeObject<BoardGame>("{\"owner\": null}");
             Assert.IsTrue(result is Tile);
-        }
-
-        [TestMethod]
-        public void WillCorrectlyPopulatePropertiesOfTile()
-        {
-            Tile tile = new Tile();
-            tile.makeMove(new Move { owner = new Player{ name = "test" } });
-            var json = JsonConvert.SerializeObject(tile);
-            Tile result = JsonConvert.DeserializeObject<BoardGame>(json) as Tile;
-            Assert.AreEqual(tile.owner.name, result.owner.name);
         }
     }
 }

@@ -11,12 +11,10 @@ namespace UltimateTicTacToe.JsonConverters.Board
 {
     public class BoardConverter : AbstractJsonConverter<BoardGame> {
 
-        public override bool CanWrite => false;
-        public override bool CanRead => true;
 
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {
-            throw new InvalidOperationException("Use default serialisation");
+            throw new InvalidOperationException("Use Default Serialisation");
         }
 
         protected override BoardGame Create(Type objectType, JObject jObject)
