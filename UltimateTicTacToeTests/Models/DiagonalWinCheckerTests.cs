@@ -9,6 +9,7 @@ using System.Text;
 using UltimateTicTacToe.Models;
 using UltimateTicTacToe.Models.Game;
 using UltimateTicTacToe.Models.Game.WinCheck;
+using UltimateTicTacToe.Models.Game.Players;
 
 namespace UltimateTicTacToeTests.Models
 {
@@ -58,9 +59,8 @@ namespace UltimateTicTacToeTests.Models
         [TestMethod]
         public void WillDetectDiagonalWinsFromTopLeft()
         {
-            var player = new Player();
-            
-            MockGame.Setup(x => x.getWinner()).Returns(player);
+            Mock<Player> player = new Mock<Player>();
+            MockGame.Setup(x => x.getWinner()).Returns(player.Object);
             MockGame.Setup(x => x.getBoard()).Returns(new List<List<BoardGame>>
                 {
                     new List<BoardGame>{MockGame.Object, MockException.Object, MockException.Object},
@@ -68,15 +68,16 @@ namespace UltimateTicTacToeTests.Models
                     new List<BoardGame>{MockException.Object, MockException.Object, MockGame.Object}
                 }
             );
-            Assert.AreEqual(player, d.checkForWin(MockGame.Object));
+            Assert.AreEqual(player.Object, d.checkForWin(MockGame.Object));
         }
 
         [TestMethod]
         public void WillDetectDiagonalWinsFromBottomLeft()
         {
-            var player = new Player();
-            
-            MockGame.Setup(x => x.getWinner()).Returns(player);
+
+            Mock<Player> player = new Mock<Player>();
+
+            MockGame.Setup(x => x.getWinner()).Returns(player.Object);
             MockGame.Setup(x => x.getBoard()).Returns(new List<List<BoardGame>>
                 {
                     new List<BoardGame>{MockException.Object, MockException.Object, MockGame.Object},
@@ -84,7 +85,7 @@ namespace UltimateTicTacToeTests.Models
                     new List<BoardGame>{MockGame.Object, MockException.Object, MockException.Object}
                 }
             );
-            Assert.AreEqual(player, d.checkForWin(MockGame.Object));
+            Assert.AreEqual(player.Object, d.checkForWin(MockGame.Object));
         }
     }
 }

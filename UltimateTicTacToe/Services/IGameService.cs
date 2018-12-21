@@ -1,13 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using UltimateTicTacToe.Models.DTOs;
 using UltimateTicTacToe.Models.Game;
+using UltimateTicTacToe.Models.Game.Players;
 
 namespace UltimateTicTacToe.Services
 {
     public interface IGameService
     {
-        BoardGame processMove(BoardGame game, Move move);
+        BoardGameDTO processMove(BoardGame game, Player Ai);
     }
 }

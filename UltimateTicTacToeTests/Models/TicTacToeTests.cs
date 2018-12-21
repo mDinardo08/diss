@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using UltimateTicTacToe.Models;
 using UltimateTicTacToe.Models.Game;
 using UltimateTicTacToe.Models.Game.WinCheck;
+using UltimateTicTacToe.Models.Game.Players;
 
 namespace UltimateTicTacToeTests.Models
 {
@@ -16,7 +17,6 @@ namespace UltimateTicTacToeTests.Models
         [ExpectedException(typeof(NoWinnerException))]
         public void WillThrowExceptionIfWinCheckerReturnsNULL()
         {
-
             Mock<IWinChecker> mockChecker = new Mock<IWinChecker>(MockBehavior.Strict);
             CompositeGame game = new TicTacToe(mockChecker.Object);
             game.setBoard(new List<List<BoardGame>>());
@@ -121,7 +121,7 @@ namespace UltimateTicTacToeTests.Models
             Mock<BoardGame> mock = new Mock<BoardGame>(MockBehavior.Strict);
             mock.Setup(x => x.getAvailableMoves()).Returns(new List<Move> {
                 new Move {
-                    owner = new Player { name = "test" }
+                    owner = new Mock<Player>().Object
                 }
             });
             Mock<IWinChecker> mockChecker = new Mock<IWinChecker>(MockBehavior.Strict);
@@ -144,10 +144,7 @@ namespace UltimateTicTacToeTests.Models
         {
             Move m = new Move
             {
-                owner = new Player
-                {
-                    name = "hello"
-                }
+                owner = new Mock<Player>().Object
             };
             Mock<BoardGame> mockGame = new Mock<BoardGame>(MockBehavior.Strict);
             mockGame.Setup(x => x.getAvailableMoves()).Returns(new List<Move>{m});
@@ -170,10 +167,7 @@ namespace UltimateTicTacToeTests.Models
         {
             Move m = new Move
             {
-                owner = new Player
-                {
-                    name = "hello"
-                }
+                owner = new Mock<Player>().Object
             };
             Mock<BoardGame> mockGame = new Mock<BoardGame>(MockBehavior.Strict);
             mockGame.Setup(x => x.getAvailableMoves()).Returns(new List<Move> { m, m, null });
@@ -196,10 +190,7 @@ namespace UltimateTicTacToeTests.Models
         {
             Move m = new Move
             {
-                owner = new Player
-                {
-                    name = "hello"
-                }
+                owner = new Mock<Player>().Object
             };
             Mock<BoardGame> mockGame = new Mock<BoardGame>(MockBehavior.Strict);
             mockGame.Setup(x => x.getAvailableMoves()).Returns(new List<Move> {m});
@@ -223,10 +214,7 @@ namespace UltimateTicTacToeTests.Models
         {
             Move m = new Move
             {
-                owner = new Player
-                {
-                    name = "hello"
-                }
+                owner = new Mock<Player>().Object
             };
             Mock<BoardGame> mockGame = new Mock<BoardGame>(MockBehavior.Strict);
             mockGame.Setup(x => x.getAvailableMoves()).Returns(new List<Move> { m });
@@ -254,7 +242,7 @@ namespace UltimateTicTacToeTests.Models
         {
             Mock<IWinChecker> mockChecker = new Mock<IWinChecker>(MockBehavior.Strict);
             TicTacToe game = new TicTacToe(mockChecker.Object);
-            mockChecker.Setup(x => x.checkForWin(game)).Returns(new Player());
+            mockChecker.Setup(x => x.checkForWin(game)).Returns(new Mock<Player>().Object);
             List<Move> result = game.getAvailableMoves();
             Assert.IsTrue(result.Count == 0);
         }
