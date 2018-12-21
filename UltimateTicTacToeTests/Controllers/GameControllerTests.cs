@@ -7,6 +7,7 @@ using System.Text;
 using UltimateTicTacToe.Controllers;
 using UltimateTicTacToe.Models.DTOs;
 using UltimateTicTacToe.Models.Game;
+using UltimateTicTacToe.Models.Game.Players;
 using UltimateTicTacToe.Services;
 
 namespace UltimateTicTacToeTests.Controllers
@@ -18,14 +19,14 @@ namespace UltimateTicTacToeTests.Controllers
         Mock<IGameService> mockService;
 
         [TestMethod]
-        public void WillPassGameAndMoveToLogicLayer()
+        public void WillPassGameAndAiToLogicLayer()
         {
             BoardGame game = new TicTacToe(null);
-            Move move = new Move();
+            Mock<Player> player = new Mock<Player>() ;
             mockService = new Mock<IGameService>(MockBehavior.Strict);
-            mockService.Setup(x => x.processMove(game)).Returns((BoardGameDTO)null);
+            mockService.Setup(x => x.processMove(game, player.Object)).Returns((BoardGameDTO)null);
             cont = new GameController(mockService.Object);
-            cont.makeMove(game);
+            cont.makeMove(new BoardGameDTO { game = game, Ai = player.Object });
             Assert.IsTrue(mockService.Invocations.Count == 1);
         }
     }

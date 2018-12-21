@@ -14,7 +14,7 @@ namespace UltimateTicTacToe.Models.Game
     {
         public List<List<BoardGame>> board;
         public IWinChecker winChecker;
-        private Point2D boardFilter;
+        public Point2D boardFilter;
 
         public TicTacToe(IWinChecker winChecker)
         {

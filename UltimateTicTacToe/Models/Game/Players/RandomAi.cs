@@ -10,5 +10,10 @@ namespace UltimateTicTacToe.Models.Game.Players
         {
             throw new NotImplementedException();
         }
+
+        public BoardGame makeMove(BoardGame game)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

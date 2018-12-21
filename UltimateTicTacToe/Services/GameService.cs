@@ -1,14 +1,28 @@
-﻿using System;
-using UltimateTicTacToe.Models.DTOs;
+﻿using UltimateTicTacToe.Models.DTOs;
 using UltimateTicTacToe.Models.Game;
+using UltimateTicTacToe.Models.Game.Players;
 
 namespace UltimateTicTacToe.Services
 {
     public class GameService : IGameService
     {
-        public BoardGameDTO processMove(BoardGame game)
+        public BoardGameDTO processMove(BoardGame game, Player Ai)
         {
-            return new BoardGameDTO { Winner = game.getWinner() };
+            BoardGameDTO result = new BoardGameDTO();
+            try
+            {
+                result.Winner = game.getWinner();
+            }
+            catch (NoWinnerException)
+            {
+                result.game = Ai.makeMove(game);
+                try
+                {
+                    result.Winner = game.getWinner();
+                }
+                catch (NoWinnerException) { }
+            }
+            return result;
         }
     }
 }

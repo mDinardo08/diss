@@ -25,8 +25,30 @@ namespace UltimateTicTacToeTests.Services
             Mock<BoardGame> mockGame = new Mock<BoardGame>(MockBehavior.Strict);
             Mock<Player> p = new Mock<Player>();
             mockGame.Setup(x => x.getWinner()).Returns(p.Object);
-            BoardGameDTO result = service.processMove(mockGame.Object);
+            BoardGameDTO result = service.processMove(mockGame.Object, null);
             Assert.AreEqual(p.Object, result.Winner);
+        }
+
+        [TestMethod]
+        public void WillHaveTheAiMakeAMoveIfGameIsNotOver()
+        {
+            Mock<BoardGame> mockGame = new Mock<BoardGame>(MockBehavior.Strict);
+            Mock<Player> p = new Mock<Player>();
+            p.Setup(x => x.makeMove(mockGame.Object)).Returns(mockGame.Object);
+            mockGame.Setup(x => x.getWinner()).Throws(new NoWinnerException());
+            BoardGameDTO result = service.processMove(mockGame.Object, p.Object);
+            Assert.IsTrue(result.game == mockGame.Object);
+        }
+
+        [TestMethod]
+        public void WillReturnTheAiAsTheWinnerIfItsMoveWinsTheGame()
+        {
+            Mock<BoardGame> mockGame = new Mock<BoardGame>(MockBehavior.Strict);
+            Mock<Player> p = new Mock<Player>();
+            p.Setup(x => x.makeMove(mockGame.Object)).Returns(mockGame.Object);
+            mockGame.SetupSequence(x => x.getWinner()).Throws(new NoWinnerException()).Returns(p.Object);
+            BoardGameDTO result = service.processMove(mockGame.Object, p.Object);
+            Assert.IsTrue(result.Winner == p.Object);
         }
 
     }
