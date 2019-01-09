@@ -27,11 +27,11 @@ namespace UltimateTicTacToeTests.Models
         }
 
         [TestMethod]
-        public void WillReturnAListWithANullMove()
+        public void WillReturnAListWithAnEmptyMove()
         {
             Tile t = new Tile();
-            List<Move> result = t.getAvailableMoves();
-            Assert.IsNull(result[0]);
+            Move result = t.getAvailableMoves()[0];
+            Assert.IsTrue(result.next == null & result.possition == null && result.owner == null);
         }
 
         [TestMethod]

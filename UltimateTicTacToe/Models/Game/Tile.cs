@@ -12,7 +12,7 @@ namespace UltimateTicTacToe.Models.Game
 
         public List<Move> getAvailableMoves()
         {
-            return owner == null ? new List<Move> { null } : new List<Move>();
+            return owner == null ? new List<Move> { new Move() } : new List<Move>();
         }
 
         public Player getWinner()

@@ -10,14 +10,10 @@ namespace UltimateTicTacToe.JsonConverters.WinCheck
 {
     public class WinCheckConverter : AbstractJsonConverter<IWinChecker>
     {
-        public override bool CanWrite => true;
-        public override bool CanRead => true;
 
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {
-            var winCheck = value as WinCheckHandler;
-            writer.WriteStartObject();
-            writer.WriteEndObject();
+            throw new InvalidOperationException("Use Default Serialisation");
         }
 
         protected override IWinChecker Create(Type objectType, JObject jObject)

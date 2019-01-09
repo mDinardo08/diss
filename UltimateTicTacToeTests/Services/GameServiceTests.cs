@@ -51,5 +51,15 @@ namespace UltimateTicTacToeTests.Services
             Assert.IsTrue(result.Winner == p.Object);
         }
 
+        [TestMethod]
+        public void WillMaintainTheAIOpponentOnTheGame()
+        {
+            Mock<BoardGame> mockGame = new Mock<BoardGame>(MockBehavior.Strict);
+            Mock<Player> p = new Mock<Player>();
+            p.Setup(x => x.makeMove(mockGame.Object)).Returns(mockGame.Object);
+            mockGame.Setup(x => x.getWinner()).Throws(new NoWinnerException());
+            BoardGameDTO result = service.processMove(mockGame.Object, p.Object);
+            Assert.IsTrue(result.next == p.Object);
+        }
     }
 }
