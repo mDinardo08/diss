@@ -9,6 +9,6 @@ namespace UltimateTicTacToe.Services
     {
         int getRandomNumber();
 
-        int getRandomNummberBetween(int low, int high);
+        int getRandomNumberBetween(int low, int high);
     }
 }

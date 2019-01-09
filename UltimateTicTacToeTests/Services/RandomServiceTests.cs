@@ -45,7 +45,7 @@ namespace UltimateTicTacToeTests.Services
             Mock<Random> mock = new Mock<Random>(MockBehavior.Strict);
             mock.Setup(x => x.Next(low, high)).Returns(0);
             service.random = mock.Object;
-            service.getRandomNummberBetween(low, high);
+            service.getRandomNumberBetween(low, high);
             mock.Verify(m => m.Next(low, high), Times.Once);
         }
 
@@ -57,7 +57,7 @@ namespace UltimateTicTacToeTests.Services
             Mock<Random> mock = new Mock<Random>(MockBehavior.Strict);
             mock.Setup(x => x.Next(low, high)).Returns(1234567890);
             service.random = mock.Object;
-            var result = service.getRandomNummberBetween(low, high);
+            var result = service.getRandomNumberBetween(low, high);
             Assert.AreEqual(1234567890, result);
         }
     }

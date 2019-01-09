@@ -32,7 +32,7 @@ namespace UltimateTicTacToeTests.Models
         public void WillPassTheLengthOfThePossibleMovesListAndZeroToRandomService()
         {
             Mock<IRandomService> mock = new Mock<IRandomService>(MockBehavior.Strict);
-            mock.Setup(x => x.getRandomNummberBetween(0, 3)).Returns(0);
+            mock.Setup(x => x.getRandomNumberBetween(0, 3)).Returns(0);
             player = new RandomAi(mock.Object);
             Move move = new Move();
             Mock<BoardGame> mockGame = new Mock<BoardGame>(MockBehavior.Strict);
@@ -42,14 +42,14 @@ namespace UltimateTicTacToeTests.Models
             });
             mockGame.Setup(x => x.makeMove(move));
             player.makeMove(mockGame.Object);
-            mock.Verify(m => m.getRandomNummberBetween(0, 3), Times.Once);
+            mock.Verify(m => m.getRandomNumberBetween(0, 3), Times.Once);
         }
 
         [TestMethod]
         public void WillUseTheIndexReturnedByTheRandomServiceToPickItsMove()
         {
             Mock<IRandomService> mock = new Mock<IRandomService>(MockBehavior.Strict);
-            mock.Setup(x => x.getRandomNummberBetween(0, 3)).Returns(1);
+            mock.Setup(x => x.getRandomNumberBetween(0, 3)).Returns(1);
             player = new RandomAi(mock.Object);
             Move move = new Move();
             move.possition = new Point2D

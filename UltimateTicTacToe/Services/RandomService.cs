@@ -14,7 +14,7 @@ namespace UltimateTicTacToe.Services
             return random.Next();
         }
 
-        public int getRandomNummberBetween(int low, int high)
+        public int getRandomNumberBetween(int low, int high)
         {
             return random.Next(low, high);
         }

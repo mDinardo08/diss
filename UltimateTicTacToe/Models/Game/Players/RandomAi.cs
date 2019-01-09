@@ -1,31 +1,20 @@
 ﻿using System;
+using System.Collections.Generic;
 using UltimateTicTacToe.Services;
 
 namespace UltimateTicTacToe.Models.Game.Players
 {
-    public class RandomAi : Player
+    public class RandomAi : AbstractPlayer
     {
         public AiPlayerType type = AiPlayerType.RANDOM;
-        public string name;
-        private IRandomService randomService;
 
-        public RandomAi(IRandomService randomService)
+        public RandomAi(IRandomService random) : base(random)
         {
-            this.randomService = randomService;
         }
 
-        public string getName()
+        protected override Move decideMove(BoardGame game, List<Move> moves)
         {
-            return name;
-        }
-
-        public BoardGame makeMove(BoardGame game)
-        {
-            int index = randomService.getRandomNummberBetween(0, game.getAvailableMoves().Count);
-            Move move = game.getAvailableMoves()[index];
-            move.setOwner(this);
-            game.makeMove(move);
-            return game;
+            return moves[random.getRandomNumberBetween(0, moves.Count)];
         }
     }
 }
