@@ -2,6 +2,7 @@
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using UltimateTicTacToe.Models.Game.Players;
+using UltimateTicTacToe.Services;
 
 namespace UltimateTicTacToe.JsonConverters.AiPlayer
 {
@@ -14,7 +15,7 @@ namespace UltimateTicTacToe.JsonConverters.AiPlayer
 
         protected override Player Create(Type objectType, JObject jObject)
         {
-            return new RandomAi();
+            return new RandomAi(new RandomService());
         }
     }
 }

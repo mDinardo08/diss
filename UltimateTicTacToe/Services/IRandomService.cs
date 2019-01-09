@@ -5,8 +5,10 @@ using System.Threading.Tasks;
 
 namespace UltimateTicTacToe.Services
 {
-    interface IRandomService
+    public interface IRandomService
     {
-        
+        int getRandomNumber();
+
+        int getRandomNummberBetween(int low, int high);
     }
 }

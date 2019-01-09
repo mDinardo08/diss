@@ -1,4 +1,5 @@
 ﻿using System;
+using UltimateTicTacToe.Services;
 
 namespace UltimateTicTacToe.Models.Game.Players
 {
@@ -6,6 +7,13 @@ namespace UltimateTicTacToe.Models.Game.Players
     {
         public AiPlayerType type = AiPlayerType.RANDOM;
         public string name;
+        private IRandomService randomService;
+
+        public RandomAi(IRandomService randomService)
+        {
+            this.randomService = randomService;
+        }
+
         public string getName()
         {
             return name;
@@ -13,7 +21,9 @@ namespace UltimateTicTacToe.Models.Game.Players
 
         public BoardGame makeMove(BoardGame game)
         {
-            throw new NotImplementedException();
+            int index = randomService.getRandomNummberBetween(0, game.getAvailableMoves().Count);
+            game.makeMove(game.getAvailableMoves()[index]);
+            return game;
         }
     }
 }

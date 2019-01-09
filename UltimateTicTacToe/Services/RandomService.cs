@@ -9,7 +9,7 @@ namespace UltimateTicTacToe.Services
     {
         public Random random = new Random();
 
-        public double getRandomNumber()
+        public int getRandomNumber()
         {
             return random.Next();
         }
