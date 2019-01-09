@@ -1,4 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Moq;
 using Pose;
 using System;
 using System.Collections.Generic;
@@ -10,83 +11,54 @@ namespace UltimateTicTacToeTests.Services
     [TestClass]
     public class RandomServiceTests
     {
-        WeylMiddleSquareService service;
+        RandomService service;
 
         [TestInitialize()]
         public void Setup()
         {
-            service = new WeylMiddleSquareService();
+            service = new RandomService();
         }
 
         [TestMethod]
-        public void WillReturn10SecondsFromEpoch()
+        public void WillReturnWhatTheRandomObjectReturns()
         {
-            Shim shim = Shim.Replace(() => DateTime.UtcNow).With(() => new DateTime(1970, 1, 1, 0, 0, 10, DateTimeKind.Utc));
-            double result;
-            PoseContext.Isolate(() => {
-                result = service.GetSeed();
-                Assert.IsTrue(result == 10);
-            }, shim);
+            Mock<Random> mock = new Mock<Random>(MockBehavior.Strict);
+            mock.Setup(x => x.Next()).Returns(0);
+            service.random = mock.Object;
+            Assert.AreEqual(0, service.getRandomNumber());
         }
 
         [TestMethod]
-        public void WillReturn0IfTimeFromEpochIs0()
+        public void WillReturnTheIntegerTheRandomObjectReturns()
         {
-            Shim shim = Shim.Replace(() => DateTime.UtcNow).With(() => new DateTime(1970,1,1,0,0,0, DateTimeKind.Utc));
-            double result;
-            PoseContext.Isolate(() => {
-                result = service.GetSeed();
-                Assert.IsTrue(result == 0);
-            }, shim);
+            Mock<Random> mock = new Mock<Random>(MockBehavior.Strict);
+            mock.Setup(x => x.Next()).Returns(1234567890);
+            service.random = mock.Object;
+            Assert.AreEqual(1234567890, service.getRandomNumber());
         }
 
         [TestMethod]
-        public void WillReturn70IfNowIsAMinuteAnd10SecondsPastEpoch()
+        public void WillPassArguementsToRandomObject()
         {
-            Shim shim = Shim.Replace(() => DateTime.UtcNow).With(() => new DateTime(1970, 1, 1, 0, 1, 10, DateTimeKind.Utc));
-            double result;
-            PoseContext.Isolate(() => {
-                result = service.GetSeed();
-                Assert.IsTrue(result == 70);
-            }, shim);
+            int low = 0;
+            int high = 1;
+            Mock<Random> mock = new Mock<Random>(MockBehavior.Strict);
+            mock.Setup(x => x.Next(low, high)).Returns(0);
+            service.random = mock.Object;
+            service.getRandomNummberBetween(low, high);
+            mock.Verify(m => m.Next(low, high), Times.Once);
         }
 
         [TestMethod]
-        public void WillReturn10IfSecondsFromEpochIs10()
+        public void WillReturnWhatRandomReturns()
         {
-            Shim shim = Shim.Replace(() => DateTime.UtcNow).With(() => new DateTime(1970, 1, 1, 0, 0, 10, DateTimeKind.Utc));
-            double result;
-            PoseContext.Isolate(() => {
-                result = service.GetSeed();
-                Assert.IsTrue(result == 10);
-            }, shim);
-        }
-
-        [TestMethod]
-        public void WillTrimTheMostAndLeastSignificantNosToProduceANoOfLength12()
-        {
-            long result = service.MiddleSquare(123456789876543210);
-            Assert.AreEqual(456789876543, result);
-        }
-
-        [TestMethod]
-        public void WillOnlyRemoveMostSigValueIfNoIs1OverLimit()
-        {
-            long result = service.MiddleSquare(1234567899876);
-            Assert.AreEqual(234567899876, result);
-        }
-
-        [TestMethod]
-        public void WillGenerate754501141766IfSeedIs1234567890()
-        {
-
-            Shim shim = Shim.Replace(() => DateTime.UtcNow).With(() => new DateTime(1970, 1, 1, 0, 0, 10, DateTimeKind.Utc).AddSeconds(1234567890));
-            PoseContext.Isolate(() => {
-                double result;
-                result = service.getRandomNumber();
-                Assert.IsTrue(result == 7545011417);
-            }, shim);
-
+            int low = 0;
+            int high = 1;
+            Mock<Random> mock = new Mock<Random>(MockBehavior.Strict);
+            mock.Setup(x => x.Next(low, high)).Returns(1234567890);
+            service.random = mock.Object;
+            var result = service.getRandomNummberBetween(low, high);
+            Assert.AreEqual(1234567890, result);
         }
     }
 }

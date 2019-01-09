@@ -1,0 +1,22 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+
+namespace UltimateTicTacToe.Services
+{
+    public class RandomService : IRandomService
+    {
+        public Random random = new Random();
+
+        public double getRandomNumber()
+        {
+            return random.Next();
+        }
+
+        public int getRandomNummberBetween(int low, int high)
+        {
+            return random.Next(low, high);
+        }
+    }
+}
