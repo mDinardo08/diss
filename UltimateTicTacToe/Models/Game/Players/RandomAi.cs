@@ -22,7 +22,9 @@ namespace UltimateTicTacToe.Models.Game.Players
         public BoardGame makeMove(BoardGame game)
         {
             int index = randomService.getRandomNummberBetween(0, game.getAvailableMoves().Count);
-            game.makeMove(game.getAvailableMoves()[index]);
+            Move move = game.getAvailableMoves()[index];
+            move.setOwner(this);
+            game.makeMove(move);
             return game;
         }
     }

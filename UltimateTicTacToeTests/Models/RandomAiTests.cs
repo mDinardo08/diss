@@ -77,5 +77,18 @@ namespace UltimateTicTacToeTests.Models
             BoardGame result = player.makeMove(mockGame.Object);
             Assert.AreEqual(mockGame.Object, result);
         }
+
+        [TestMethod]
+        public void WillSetItselfAsTheOwnerOfTheMove()
+        {
+            Mock<BoardGame> mockGame = new Mock<BoardGame>(MockBehavior.Loose);
+            mockGame.Setup(x => x.getAvailableMoves()).Returns(new List<Move> { new Move { owner = new RandomAi(null)} });
+            Mock<IRandomService> mock = new Mock<IRandomService>(MockBehavior.Loose);
+            player = new RandomAi(mock.Object);
+            Move expected = new Move { owner = player };
+            mockGame.Setup(x => x.makeMove(It.Is<Move>(m => m.owner == player))).Verifiable();
+            player.makeMove(mockGame.Object);
+            mockGame.Verify();
+        }
     }
 }

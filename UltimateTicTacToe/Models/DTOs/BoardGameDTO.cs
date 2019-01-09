@@ -9,6 +9,6 @@ namespace UltimateTicTacToe.Models.DTOs
     {
         public BoardGame game;
         public Player Winner;
-        public Player Ai;
+        public Player next;
     }
 }
