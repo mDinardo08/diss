@@ -8,7 +8,7 @@ namespace UltimateTicTacToe.Models.Game.Players
         public string name;
         public string getName()
         {
-            throw new NotImplementedException();
+            return name;
         }
 
         public BoardGame makeMove(BoardGame game)
