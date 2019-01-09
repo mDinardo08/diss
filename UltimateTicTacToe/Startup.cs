@@ -26,6 +26,7 @@ namespace UltimateTicTacToe
         {
             services.AddTransient<IWinChecker, HorizontalWinChecker>();
             services.AddTransient<IGameService, GameService>();
+            services.AddSingleton<IRandomService, RandomService>();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
             // In production, the Angular files will be served from this directory
