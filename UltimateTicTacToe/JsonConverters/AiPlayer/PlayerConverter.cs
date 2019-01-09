@@ -15,7 +15,7 @@ namespace UltimateTicTacToe.JsonConverters.AiPlayer
 
         protected override Player Create(Type objectType, JObject jObject)
         {
-            return new RandomAi(null);
+            return new RandomAi(new RandomService());
         }
     }
 }
