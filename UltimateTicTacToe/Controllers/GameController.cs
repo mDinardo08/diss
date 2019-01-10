@@ -15,17 +15,17 @@ namespace UltimateTicTacToe.Controllers
     [ApiController]
     public class GameController : BaseController
     {
-        private IGameService service;
+        private IGameService gameService;
 
         public GameController(IGameService service)
         {
-            this.service = service;
+            this.gameService = service;
         }
 
         [HttpPost("makeMove")]
         public IActionResult makeMove([FromBody]BoardGameDTO game)
         {
-            return ExecuteApiAction(() => new ApiResult<BoardGameDTO> { Model = service.processMove(game.game, game.next) });
+            return ExecuteApiAction(() => new ApiResult<BoardGameDTO> { Model = gameService.processMove(game.game, game.next) });
         }
     }
 }

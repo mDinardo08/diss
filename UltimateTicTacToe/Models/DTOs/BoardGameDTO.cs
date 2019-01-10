@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using System.Collections.Generic;
 using UltimateTicTacToe.JsonConverters.Board;
 using UltimateTicTacToe.Models.Game;
 using UltimateTicTacToe.Models.Game.Players;
@@ -7,8 +8,9 @@ namespace UltimateTicTacToe.Models.DTOs
 {
     public class BoardGameDTO
     {
-        public BoardGame game;
+        public List<List<BoardGame>> game;
         public Player Winner;
-        public Player next;
+        public PlayerType next;
+        public Move lastMove;
     }
 }
