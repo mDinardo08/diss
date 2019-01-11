@@ -1,17 +1,50 @@
-﻿using System;
+﻿using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using UltimateTicTacToe.Models.DTOs;
 using UltimateTicTacToe.Models.Game;
+using UltimateTicTacToe.Models.Game.WinCheck;
 
 namespace UltimateTicTacToe.Services
 {
-    class UltimateTicTacToeCreationService : BoardCreationService
+    public class UltimateTicTacToeCreationService : BoardCreationService
     {
+        public IWinChecker winChecker;
+
+        public UltimateTicTacToeCreationService(IWinChecker winChecker)
+        {
+            this.winChecker = winChecker;
+        }
+
         public BoardGame createBoardGame(BoardGameDTO gameDto)
         {
-            throw new NotImplementedException();
+            return createTicTacToe(gameDto.game, winChecker);
+        }
+
+        private TicTacToe createTicTacToe(List<List<JObject>> JObjectBoard, IWinChecker winCheck)
+        {
+            TicTacToe result = new TicTacToe(winCheck);
+            List<List<BoardGame>> board = new List<List<BoardGame>>();
+            for (int row = 0; row < JObjectBoard.Count; row++)
+            {
+                board.Add(new List<BoardGame>());
+                for (int col = 0; col < JObjectBoard[row].Count; col++)
+                {
+                    JObject space = JObjectBoard[row][col];
+                    if (space["board"] == null)
+                    {
+                        board[row].Add(new Tile());
+                    }
+                    else
+                    {
+                        board[row].Add(createTicTacToe(space["board"].ToObject<List<List<JObject>>>(), winCheck));
+                    }
+                }
+            }
+            result.board = board;
+            return result;
         }
     }
 }

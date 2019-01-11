@@ -9,14 +9,13 @@ namespace UltimateTicTacToe.Services
         public BoardGameDTO processMove(BoardGame game, Player Ai)
         {
             BoardGameDTO result = new BoardGameDTO();
-            result.next = Ai;
+            result.next = 0;
             try
             {
                 result.Winner = game.getWinner();
             }
             catch (NoWinnerException)
             {
-                result.game = Ai.makeMove(game);
                 try
                 {
                     result.Winner = game.getWinner();
