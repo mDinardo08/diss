@@ -19,48 +19,51 @@ namespace UltimateTicTacToeTests.Services
         {
             service = new PlayerCreationService(null);
         }
-
+        
         [TestMethod]
-        public void WillReturnNullIfThereIfObjectPassedInIsNull()
+        public void WillPassPlayerTypeToClassHandler()
         {
-            Player player = service.createPlayer(null);
-            Assert.IsNull(player);
+            Mock<PlayerClassHandler> mockHandler = new Mock<PlayerClassHandler>(MockBehavior.Strict);
+            mockHandler.Setup(x => x.createPlayer((PlayerType)1000)).Returns((Player)null).Verifiable();
+            service = new PlayerCreationService(mockHandler.Object);
+            service.createPlayer((PlayerType)1000);
+            mockHandler.Verify();
         }
 
         [TestMethod]
-        public void WillReturnARandomAIIfTypeIsRandom()
+        public void WillReturnThePlayerReturnedFromTheHandler()
         {
-            JObject obj = new JObject();
-            obj.Add("type", JToken.FromObject(PlayerType.RANDOM));
-            Player player = service.createPlayer(obj);
-            Assert.IsTrue(player is RandomAi);
+            Mock<Player> mockPlayer = new Mock<Player>(); 
+            Mock<PlayerClassHandler> mockHandler = new Mock<PlayerClassHandler>(MockBehavior.Strict);
+            mockHandler.Setup(x => x.createPlayer((PlayerType)1000)).Returns(mockPlayer.Object).Verifiable();
+            service = new PlayerCreationService(mockHandler.Object);
+            Player result = service.createPlayer((PlayerType)1000);
+            Assert.AreEqual(mockPlayer.Object, result);
         }
 
         [TestMethod]
-        public void WillPassARandomServiceToTheRandomAI()
+        public void WillCallPlayerHandlerWithTheTypeFromTheJObject()
         {
-            Mock<IRandomService> mockService = new Mock<IRandomService>();
-            service = new PlayerCreationService(mockService.Object);
-            JObject obj = new JObject();
-            obj.Add("type", JToken.FromObject(PlayerType.RANDOM));
-            RandomAi player = service.createPlayer(obj) as RandomAi;
-            Assert.AreEqual(mockService.Object, player.random);
+            JObject player = new JObject();
+            player.Add("type", 1000);
+            Mock<PlayerClassHandler> mockHandler = new Mock<PlayerClassHandler>(MockBehavior.Strict);
+            mockHandler.Setup(x => x.createPlayer((PlayerType)1000)).Returns((Player)null).Verifiable();
+            service = new PlayerCreationService(mockHandler.Object);
+            service.createPlayer(player);
+            mockHandler.Verify();
         }
 
         [TestMethod]
-        public void WillCreateARandomAiFromARandomPlayerType()
+        public void WillReturnThePlayerReturnedFromTheHandlerFromAJObject()
         {
-            Player player = service.createPlayer(PlayerType.RANDOM);
-            Assert.IsTrue(player is RandomAi);
-        }
-
-        [TestMethod]
-        public void WillPassARandomServiceToTheRandomAi()
-        {
-            Mock<IRandomService> mockService = new Mock<IRandomService>();
-            service = new PlayerCreationService(mockService.Object);
-            RandomAi player = service.createPlayer(PlayerType.RANDOM) as RandomAi;
-            Assert.IsNotNull(player.random);
+            JObject player = new JObject();
+            player.Add("type", 1000);
+            Mock<Player> mockPlayer = new Mock<Player>();
+            Mock<PlayerClassHandler> mockHandler = new Mock<PlayerClassHandler>(MockBehavior.Strict);
+            mockHandler.Setup(x => x.createPlayer((PlayerType)1000)).Returns(mockPlayer.Object).Verifiable();
+            service = new PlayerCreationService(mockHandler.Object);
+            Player result = service.createPlayer(player);
+            Assert.AreEqual(mockPlayer.Object, result);
         }
     }
 }

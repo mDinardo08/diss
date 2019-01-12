@@ -9,26 +9,20 @@ namespace UltimateTicTacToe.Services
 {
     public class PlayerCreationService : IPlayerCreationService
     {
-        public IRandomService randomService;
-
-        public PlayerCreationService(IRandomService random)
+        public PlayerClassHandler classHandler;
+        public PlayerCreationService(PlayerClassHandler classHandler)
         {
-            this.randomService = random;
+            this.classHandler = classHandler;
         }
 
         public Player createPlayer(JObject jObject)
         {
-            Player result = null;
-            if(jObject?["type"].Equals(JToken.FromObject(PlayerType.RANDOM))??false)
-            {
-                result = new RandomAi(randomService);
-            }
-            return result;
+            return createPlayer(jObject.GetValue("type").ToObject<PlayerType>());
         }
 
-        public Player createPlayer(PlayerType rANDOM)
+        public Player createPlayer(PlayerType type)
         {
-            return new RandomAi(randomService);
+            return classHandler.createPlayer(type);
         }
     }
 }
