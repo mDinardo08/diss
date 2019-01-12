@@ -17,7 +17,7 @@ namespace UltimateTicTacToe.Services
 
         public Player createPlayer(JObject jObject)
         {
-            return createPlayer(jObject.GetValue("type").ToObject<PlayerType>());
+            return jObject == null ? null : createPlayer(jObject.GetValue("type").ToObject<PlayerType>());
         }
 
         public Player createPlayer(PlayerType type)

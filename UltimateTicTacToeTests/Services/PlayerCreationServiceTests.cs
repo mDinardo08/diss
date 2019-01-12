@@ -65,5 +65,12 @@ namespace UltimateTicTacToeTests.Services
             Player result = service.createPlayer(player);
             Assert.AreEqual(mockPlayer.Object, result);
         }
+
+        [TestMethod]
+        public void WillReturnNullIfNullIsPassedIn()
+        {
+            Player result = service.createPlayer(null);
+            Assert.IsNull(result);
+        }
     }
 }
