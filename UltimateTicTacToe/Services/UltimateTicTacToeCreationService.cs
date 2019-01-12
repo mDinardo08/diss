@@ -12,10 +12,11 @@ namespace UltimateTicTacToe.Services
     public class UltimateTicTacToeCreationService : BoardCreationService
     {
         public IWinChecker winChecker;
-
-        public UltimateTicTacToeCreationService(IWinChecker winChecker)
+        public IPlayerCreationService playerCreationService;
+        public UltimateTicTacToeCreationService(IWinChecker winChecker, IPlayerCreationService playerCreationService)
         {
             this.winChecker = winChecker;
+            this.playerCreationService = playerCreationService;
         }
 
         public BoardGame createBoardGame(BoardGameDTO gameDto)
@@ -35,7 +36,7 @@ namespace UltimateTicTacToe.Services
                     JObject space = JObjectBoard[row][col];
                     if (space["board"] == null)
                     {
-                        board[row].Add(new Tile());
+                        board[row].Add(createTile(space));   
                     }
                     else
                     {
@@ -45,6 +46,13 @@ namespace UltimateTicTacToe.Services
             }
             result.board = board;
             return result;
+        }
+
+        private Tile createTile(JObject jObject)
+        {
+            Tile t = new Tile();
+            t.owner = playerCreationService.createPlayer(jObject["owner"] as JObject);
+            return t;
         }
     }
 }

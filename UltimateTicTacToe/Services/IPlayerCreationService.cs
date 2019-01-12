@@ -10,5 +10,6 @@ namespace UltimateTicTacToe.Services
     public interface IPlayerCreationService
     {
         Player createPlayer(JObject jObject);
+        Player createPlayer(PlayerType rANDOM);
     }
 }
