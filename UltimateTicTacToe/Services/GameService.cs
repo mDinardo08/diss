@@ -19,8 +19,8 @@ namespace UltimateTicTacToe.Services
             }
             catch (NoWinnerException)
             {
-
-                //result.game = Ai.makeMove(game).getBoard();
+                List<List<BoardGame>> board = Ai.makeMove(game).getBoard();
+                result.game = convertToJObject(board);
                 try
                 {
                     result.Winner = game.getWinner();
@@ -28,6 +28,21 @@ namespace UltimateTicTacToe.Services
                 catch (NoWinnerException) { }
             }
             return result;
+        }
+
+        private List<List<JObject>> convertToJObject(List<List<BoardGame>> board)
+        {
+            List<List<JObject>> result = new List<List<JObject>>();
+            for(int x = 0; x< board.Count; x++)
+            {
+                result.Add(new List<JObject>());
+                for(int y = 0; y < board[x].Count; y++)
+                {
+                    result[x].Add(JObject.FromObject(board[x][y]));
+                }
+            }
+            return result;
+
         }
     }
 }
