@@ -8,6 +8,6 @@ namespace UltimateTicTacToe.Models.Game.WinCheck
     [JsonConverter(typeof(WinCheckConverter))]
     public interface IWinChecker
     {
-        Player checkForWin(CompositeGame game);
+        Player checkForWin(BoardGame game);
     }
 }

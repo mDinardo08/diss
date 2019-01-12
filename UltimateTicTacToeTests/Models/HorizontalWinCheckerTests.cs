@@ -16,14 +16,14 @@ namespace UltimateTicTacToeTests.Models
     {
 
         HorizontalWinChecker h;
-        Mock<CompositeGame> MockException;
-        Mock<CompositeGame> MockGame;
+        Mock<BoardGame> MockException;
+        Mock<BoardGame> MockGame;
         [TestInitialize()]
         public void Startup()
         {
             h = new HorizontalWinChecker();
-            MockException = new Mock<CompositeGame>(MockBehavior.Strict);
-            MockGame = new Mock<CompositeGame>(MockBehavior.Strict);
+            MockException = new Mock<BoardGame>(MockBehavior.Strict);
+            MockGame = new Mock<BoardGame>(MockBehavior.Strict);
             MockException.Setup(x => x.getWinner()).Throws(new NoWinnerException());
         }
 
