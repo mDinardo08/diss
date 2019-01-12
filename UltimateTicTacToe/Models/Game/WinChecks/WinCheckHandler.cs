@@ -11,7 +11,6 @@ namespace UltimateTicTacToe.Models.Game.WinCheck
     public abstract class WinCheckHandler: IWinChecker
     {
         public Func<BoardGame, Point> check;
-        [JsonIgnore]
         public IWinChecker successor;
 
         public WinCheckHandler()
