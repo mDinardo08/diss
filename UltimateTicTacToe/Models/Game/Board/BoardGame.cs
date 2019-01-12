@@ -11,5 +11,6 @@ namespace UltimateTicTacToe.Models.Game
         Player getWinner();
         void makeMove(Move move);
         List<Move> getAvailableMoves();
+        List<List<BoardGame>> getBoard();
     }
 }

@@ -1,4 +1,7 @@
-﻿using UltimateTicTacToe.Models.DTOs;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using System.Collections.Generic;
+using UltimateTicTacToe.Models.DTOs;
 using UltimateTicTacToe.Models.Game;
 using UltimateTicTacToe.Models.Game.Players;
 
@@ -16,6 +19,8 @@ namespace UltimateTicTacToe.Services
             }
             catch (NoWinnerException)
             {
+
+                //result.game = Ai.makeMove(game).getBoard();
                 try
                 {
                     result.Winner = game.getWinner();

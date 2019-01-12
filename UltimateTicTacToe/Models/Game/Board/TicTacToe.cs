@@ -12,7 +12,6 @@ namespace UltimateTicTacToe.Models.Game
 {
     public class TicTacToe : CompositeGame
     {
-        public List<List<BoardGame>> board;
         public IWinChecker winChecker;
         public Point2D boardFilter;
 
@@ -21,24 +20,13 @@ namespace UltimateTicTacToe.Models.Game
             this.winChecker = winChecker;
         }
 
-        public void makeMove(Move move)
+        public override void makeMove(Move move)
         {
             board[move.possition.X][move.possition.Y].makeMove(move.next);
             boardFilter = move.next.possition;
         }
 
-        public List<List<BoardGame>> getBoard()
-        {
-            return board;
-        }
-
-
-        public BoardGame getSector(Point2D point)
-        {
-            return board[point.X][point.Y];
-        }
-
-        public Player getWinner()
+        public override Player getWinner()
         {
             Player result = winChecker.checkForWin(this);
             if (result == null)
@@ -47,13 +35,8 @@ namespace UltimateTicTacToe.Models.Game
             }
             return result;
         }
-
-        public void setBoard(List<List<BoardGame>> board)
-        {
-            this.board = board;
-        }
-  
-        public List<Move> getAvailableMoves()
+        
+        public override List<Move> getAvailableMoves()
         {
             List<Move> availableMoves = new List<Move>();
             if (boardFilter != null)

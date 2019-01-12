@@ -5,22 +5,22 @@ using UltimateTicTacToe.Models.Game.Players;
 
 namespace UltimateTicTacToe.Models.Game
 {
-    public class Tile : BoardGame
+    public class Tile : AbstractBoard
     {
         [JsonConverter(typeof(PlayerConverter))]
         public Player owner;
 
-        public List<Move> getAvailableMoves()
+        public override List<Move> getAvailableMoves()
         {
             return owner == null ? new List<Move> { new Move() } : new List<Move>();
         }
 
-        public Player getWinner()
+        public override Player getWinner()
         {
             return owner;
         }
 
-        public void makeMove(Move move)
+        public override void makeMove(Move move)
         {
             owner = move.owner;
         }
