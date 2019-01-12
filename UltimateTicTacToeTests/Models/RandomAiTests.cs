@@ -13,7 +13,7 @@ namespace UltimateTicTacToeTests.Models
     [TestClass]
     public class RandomAiTests
     {
-        RandomAi player;
+        Player player;
 
         [TestInitialize()]
         public void Setup()
@@ -24,7 +24,7 @@ namespace UltimateTicTacToeTests.Models
         [TestMethod]
         public void WillRetrunWhateverNameItWasInitialisedWith()
         {
-            player.name = "I am so random XD !!";
+            (player as AbstractPlayer).name = "I am so random XD !!";
             Assert.IsTrue(String.Equals("I am so random XD !!", player.getName()));
         }
 
@@ -89,6 +89,13 @@ namespace UltimateTicTacToeTests.Models
             mockGame.Setup(x => x.makeMove(It.Is<Move>(m => m.owner == player))).Verifiable();
             player.makeMove(mockGame.Object);
             mockGame.Verify();
+        }
+
+        [TestMethod]
+        public void WillReturnTheirPlayerType()
+        {
+            (player as AbstractPlayer).type = PlayerType.RANDOM;
+            Assert.AreEqual(player.getPlayerType(), PlayerType.RANDOM);
         }
     }
 }

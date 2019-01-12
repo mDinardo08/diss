@@ -8,5 +8,6 @@ namespace UltimateTicTacToe.Models.Game.Players
     {
         string getName();
         BoardGame makeMove(BoardGame game);
+        PlayerType getPlayerType();
     }
 }
