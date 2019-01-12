@@ -34,7 +34,7 @@ namespace UltimateTicTacToe.Services
                 for (int col = 0; col < JObjectBoard[row].Count; col++)
                 {
                     JObject space = JObjectBoard[row][col];
-                    if (space["board"] == null)
+                    if (space["board"].Type == JTokenType.Null)
                     {
                         board[row].Add(createTile(space));   
                     }

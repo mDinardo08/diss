@@ -17,11 +17,21 @@ namespace UltimateTicTacToeTests.Services
     public class UltimateTicTacToeCreationServiceTests
     {
         BoardCreationService service;
-
+        List<List<JObject>> JNestedBoard;
+        JObject JBoard;
         [TestInitialize()]
         public void Setup()
         {
             service = new UltimateTicTacToeCreationService(null, null);
+            JBoard = new JObject();
+            JBoard.Add("board", JToken.FromObject(new List<List<BoardGame>>()));
+            JNestedBoard = new List<List<JObject>>
+            {
+                new List<JObject>
+                {
+                    JBoard
+                }
+            };
         }
 
         [TestMethod]
@@ -31,7 +41,7 @@ namespace UltimateTicTacToeTests.Services
             {
                 new List<JObject>
                 {
-                    new JObject()
+                    JObject.FromObject(new TicTacToe(null))
                 }
             };
 
@@ -46,13 +56,7 @@ namespace UltimateTicTacToeTests.Services
         public void WillSupplyAWinCheckerToTheGame()
         {
             Mock<IWinChecker> mockHandler = new Mock<IWinChecker>(MockBehavior.Loose);
-            List<List<JObject>> board = new List<List<JObject>>
-            {
-                new List<JObject>
-                {
-                    new JObject()
-                }
-            };
+            List<List<JObject>> board = JNestedBoard;
             Mock<IPlayerCreationService> mockService = new Mock<IPlayerCreationService>(MockBehavior.Loose);
             mockService.Setup(x => x.createPlayer(It.IsAny<JObject>()));
             service = new UltimateTicTacToeCreationService(mockHandler.Object, mockService.Object);
@@ -63,11 +67,9 @@ namespace UltimateTicTacToeTests.Services
         [TestMethod]
         public void WillPopulateAOneByOneGame()
         {
-            List<List<JObject>> board = new List<List<JObject>>
-            {
-                new List<JObject>
-                {
-                    new JObject()
+            List<List<JObject>> board = new List<List<JObject>> {
+                new List<JObject>{
+                    JObject.FromObject(new Tile())
                 }
             };
             Mock<IPlayerCreationService> mockService = new Mock<IPlayerCreationService>(MockBehavior.Loose);
@@ -80,13 +82,8 @@ namespace UltimateTicTacToeTests.Services
         [TestMethod]
         public void WillPopulateALongRows()
         {
-            List<List<JObject>> board = new List<List<JObject>>
-            {
-                new List<JObject>
-                {
-                    new JObject(), new JObject()
-                }
-            };
+            List<List<JObject>> board = JNestedBoard;
+            board[0].Add(JBoard);
             Mock<IPlayerCreationService> mockService = new Mock<IPlayerCreationService>(MockBehavior.Loose);
             mockService.Setup(x => x.createPlayer(It.IsAny<JObject>()));
             service = new UltimateTicTacToeCreationService(null, mockService.Object);
@@ -97,17 +94,11 @@ namespace UltimateTicTacToeTests.Services
         [TestMethod]
         public void WillPopulateAlongColumns()
         {
-            List<List<JObject>> board = new List<List<JObject>>
+            List<List<JObject>> board = JNestedBoard;
+            board.Add(new List<JObject>
             {
-                new List<JObject>
-                {
-                    new JObject()
-                },
-                new List<JObject>
-                {
-                    new JObject()
-                }
-            };
+                JBoard
+            });
             Mock<IPlayerCreationService> mockService = new Mock<IPlayerCreationService>(MockBehavior.Loose);
             mockService.Setup(x => x.createPlayer(It.IsAny<JObject>()));
             service = new UltimateTicTacToeCreationService(null, mockService.Object);
@@ -120,13 +111,7 @@ namespace UltimateTicTacToeTests.Services
         {
             JObject ticTacToe = new JObject();
             ticTacToe.Add("board", JToken.FromObject(new List<List<BoardGame>>()));
-            List<List<JObject>> board = new List<List<JObject>>
-            {
-                new List<JObject>
-                {
-                    ticTacToe
-                }
-            };
+            List<List<JObject>> board = JNestedBoard;
             TicTacToe game = service.createBoardGame(new BoardGameDTO { game = board }) as TicTacToe;
             Assert.IsTrue(game.getBoard()[0][0] is TicTacToe);
         }
@@ -138,13 +123,7 @@ namespace UltimateTicTacToeTests.Services
             service = new UltimateTicTacToeCreationService(mockHandler.Object, null);
             JObject ticTacToe = new JObject();
             ticTacToe.Add("board", JToken.FromObject(new List<List<BoardGame>>()));
-            List<List<JObject>> board = new List<List<JObject>>
-            {
-                new List<JObject>
-                {
-                    ticTacToe
-                }
-            };
+            List<List<JObject>> board = JNestedBoard;
             TicTacToe game = service.createBoardGame(new BoardGameDTO { game = board }) as TicTacToe;
             Assert.IsNotNull((game.getBoard()[0][0] as TicTacToe).winChecker);
         }
@@ -159,7 +138,10 @@ namespace UltimateTicTacToeTests.Services
             {
                 new List<JObject>
                 {
-                    new JObject()
+                    JObject.FromObject(new Tile
+                    {
+                        owner = new RandomAi(null)
+                    })
                 }
             };
             TicTacToe game = service.createBoardGame(new BoardGameDTO { game = board }) as TicTacToe;

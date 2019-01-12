@@ -9,7 +9,7 @@ namespace UltimateTicTacToe.Models.Game
     {
         [JsonConverter(typeof(PlayerConverter))]
         public Player owner;
-
+        public new List<List<BoardGame>> board = null;
         public override List<Move> getAvailableMoves()
         {
             return owner == null ? new List<Move> { new Move() } : new List<Move>();
