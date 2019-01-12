@@ -1,13 +1,11 @@
 ﻿using Newtonsoft.Json;
 using System.Collections.Generic;
-using UltimateTicTacToe.JsonConverters.AiPlayer;
 using UltimateTicTacToe.Models.Game.Players;
 
 namespace UltimateTicTacToe.Models.Game
 {
     public class Tile : AbstractBoard
     {
-        [JsonConverter(typeof(PlayerConverter))]
         public Player owner;
         public new List<List<BoardGame>> board = null;
         public override List<Move> getAvailableMoves()
