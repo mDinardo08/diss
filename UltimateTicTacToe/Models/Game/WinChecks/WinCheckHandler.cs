@@ -10,8 +10,7 @@ namespace UltimateTicTacToe.Models.Game.WinCheck
 {
     public abstract class WinCheckHandler: IWinChecker
     {
-        public Func<CompositeGame, Point> check;
-        [JsonIgnore]
+        public Func<BoardGame, Point> check;
         public IWinChecker successor;
 
         public WinCheckHandler()
@@ -19,7 +18,7 @@ namespace UltimateTicTacToe.Models.Game.WinCheck
             init();
         }
 
-        public Player checkForWin(CompositeGame game)
+        public Player checkForWin(BoardGame game)
         {
             Point p = check(game);
             Player result = null;

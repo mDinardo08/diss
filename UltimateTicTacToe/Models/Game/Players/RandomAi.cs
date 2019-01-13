@@ -6,7 +6,6 @@ namespace UltimateTicTacToe.Models.Game.Players
 {
     public class RandomAi : AbstractPlayer
     {
-        public AiPlayerType type = AiPlayerType.RANDOM;
 
         public RandomAi(IRandomService random) : base(random)
         {

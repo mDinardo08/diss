@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SpaServices.AngularCli;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using UltimateTicTacToe.JsonConverters.Board;
 using UltimateTicTacToe.Models.Game;
 using UltimateTicTacToe.Models.Game.WinCheck;
 using UltimateTicTacToe.Services;
@@ -27,6 +26,9 @@ namespace UltimateTicTacToe
             services.AddTransient<IWinChecker, HorizontalWinChecker>();
             services.AddTransient<IGameService, GameService>();
             services.AddSingleton<IRandomService, RandomService>();
+            services.AddTransient<BoardCreationService, UltimateTicTacToeCreationService>();
+            services.AddTransient<IPlayerCreationService, PlayerCreationService>();
+            services.AddTransient<PlayerClassHandler, RandomPlayerClassHandler>();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
             // In production, the Angular files will be served from this directory

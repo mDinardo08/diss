@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace UltimateTicTacToe.Models.Game.Players
 {
-    public enum AiPlayerType
+    public enum PlayerType
     {
         RANDOM
     }

@@ -17,15 +17,15 @@ namespace UltimateTicTacToeTests.Models
     public class DiagonalWinCheckerTests
     {
         DiagonalWinChecker d;
-        Mock<CompositeGame> MockException;
-        Mock<CompositeGame> MockGame;
+        Mock<BoardGame> MockException;
+        Mock<BoardGame> MockGame;
         [TestInitialize()]
         public void Setup()
         {
             d = new DiagonalWinChecker();
-            MockException = new Mock<CompositeGame>(MockBehavior.Strict);
+            MockException = new Mock<BoardGame>(MockBehavior.Strict);
             MockException.Setup(x => x.getWinner()).Throws(new NoWinnerException());
-            MockGame = new Mock<CompositeGame>(MockBehavior.Strict);
+            MockGame = new Mock<BoardGame>(MockBehavior.Strict);
         }
 
         [TestMethod]

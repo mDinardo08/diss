@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Models;
 using UltimateTicTacToe.Models.DTOs;
 using UltimateTicTacToe.Models.Game;
+using UltimateTicTacToe.Models.Game.Players;
 using UltimateTicTacToe.Services;
 
 namespace UltimateTicTacToe.Controllers
@@ -15,17 +16,22 @@ namespace UltimateTicTacToe.Controllers
     [ApiController]
     public class GameController : BaseController
     {
-        private IGameService service;
-
-        public GameController(IGameService service)
+        private IGameService gameService;
+        private BoardCreationService boardCreationService;
+        private IPlayerCreationService playerCreationService;
+        public GameController(IGameService gameService, BoardCreationService boardCreationService, IPlayerCreationService playerCreationService)
         {
-            this.service = service;
+            this.gameService = gameService;
+            this.boardCreationService = boardCreationService;
+            this.playerCreationService = playerCreationService;
         }
 
         [HttpPost("makeMove")]
-        public IActionResult makeMove([FromBody]BoardGameDTO game)
+        public IActionResult makeMove([FromBody]BoardGameDTO gameDto)
         {
-            return ExecuteApiAction(() => new ApiResult<BoardGameDTO> { Model = service.processMove(game.game, game.next) });
+            BoardGame game = boardCreationService.createBoardGame(gameDto);
+            Player player = playerCreationService.createPlayer(gameDto.next);
+            return ExecuteApiAction(() => new ApiResult<BoardGameDTO> { Model = gameService.processMove(game, player) });
         }
     }
 }

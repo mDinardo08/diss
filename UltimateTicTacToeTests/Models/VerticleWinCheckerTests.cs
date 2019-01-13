@@ -15,15 +15,15 @@ namespace UltimateTicTacToeTests.Models
     public class VerticleWinCheckerTests
     {
         VerticleWinChecker v;
-        Mock<CompositeGame> MockException;
-        Mock<CompositeGame> MockGame;
+        Mock<BoardGame> MockException;
+        Mock<BoardGame> MockGame;
         [TestInitialize()]
         public void Setup()
         {
             v = new VerticleWinChecker();
-            MockException = new Mock<CompositeGame>(MockBehavior.Strict);
+            MockException = new Mock<BoardGame>(MockBehavior.Strict);
             MockException.Setup(x => x.getWinner()).Throws(new NoWinnerException());
-            MockGame = new Mock<CompositeGame>(MockBehavior.Strict);
+            MockGame = new Mock<BoardGame>(MockBehavior.Strict);
         }
 
         [TestMethod]

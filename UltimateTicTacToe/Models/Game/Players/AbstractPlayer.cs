@@ -10,6 +10,7 @@ namespace UltimateTicTacToe.Models.Game.Players
     {
         public string name;
         public IRandomService random;
+        public PlayerType type;
         public AbstractPlayer(IRandomService random)
         {
             this.random = random;
@@ -18,6 +19,11 @@ namespace UltimateTicTacToe.Models.Game.Players
         public string getName()
         {
             return name;
+        }
+
+        public PlayerType getPlayerType()
+        {
+            return type;
         }
 
         public BoardGame makeMove(BoardGame game)
