@@ -1,7 +1,7 @@
 import { GameService } from "./game.service";
 import { Boardgame } from "../../models/boardGame/boardgame.model";
 import { Observable } from "rxjs/Observable";
-import { BoardGameDTO } from "../../models/DTOs/tictactoeDTO";
+import { BoardGameDTO } from "../../models/DTOs/BoardGameDTO";
 
 describe("Game Service tests", () => {
 
@@ -41,5 +41,28 @@ describe("Game Service tests", () => {
         const game = new Array<Array<Boardgame>>();
         const result = service.makeMove(game);
         expect(result).toBe(obsv);
+    });
+
+    it("Will call the api to get a new board", () => {
+        const mockApi = jasmine.createSpyObj("ApiService", ["get"]);
+        service = new GameService(mockApi);
+        service.createGame(null);
+        expect(mockApi.get).toHaveBeenCalled();
+    });
+
+    it("Will call the api with the correct end point", () => {
+        const mockApi = jasmine.createSpyObj("ApiService", ["get"]);
+        service = new GameService(mockApi);
+        service.createGame(2);
+        expect(mockApi.get).toHaveBeenCalledWith("createBoard/2");
+    });
+
+    it("Will return the observable given by the api", () => {
+        const mockApi = jasmine.createSpyObj("ApiService", ["get"]);
+        const obvs = new Observable<Boardgame>();
+        mockApi.get.and.returnValue(obvs);
+        service = new GameService(mockApi);
+        const result = service.createGame(null);
+        expect(result).toBe(obvs);
     });
 });

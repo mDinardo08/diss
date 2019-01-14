@@ -67,5 +67,12 @@ namespace UltimateTicTacToeTests.Controllers
             cont.makeMove(new BoardGameDTO { next = 0 });
             mockGameService.Verify();
         }
+
+        [TestMethod]
+        public void WillCallTheGameServiceToCreateAGame()
+        {
+            Mock<IGameService> mockService = new Mock<IGameService>(MockBehavior.Strict);
+            mockService.Setup(x => x.createBoard(3)).Returns((TicTacToe)null);
+        }
     }
 }

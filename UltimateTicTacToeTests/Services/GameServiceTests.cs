@@ -159,47 +159,54 @@ namespace UltimateTicTacToeTests.Services
         }
 
         [TestMethod]
+        public void WillReturnATicTacToeGame()
+        {
+            BoardGame result = service.createBoard(3);
+            Assert.IsTrue(result is TicTacToe);
+        }
+
+        [TestMethod]
         public void WillReturnAOuterListOfDesiredHeight()
         {
-            List<List<BoardGame>> result = service.createBoard(3);
-            Assert.IsTrue(result.Count == 3);
+            TicTacToe result = service.createBoard(3) as TicTacToe;
+            Assert.IsTrue(result.board.Count == 3);
         }
 
         [TestMethod]
         public void WillReturnAInnerListWhichCountIsSize()
         {
-            List<List<BoardGame>> result = service.createBoard(3);
-            Assert.IsTrue(result[0].Count == 3);
+            TicTacToe result = service.createBoard(3) as TicTacToe;
+            Assert.IsTrue(result.board[0].Count == 3);
         }
 
         [TestMethod]
         public void WillSpawnTicTacToeBoardsAsInternalBoards()
         {
-            List<List<BoardGame>> result = service.createBoard(3);
-            Assert.IsTrue(result[0][0] is TicTacToe);
+            TicTacToe result = service.createBoard(3) as TicTacToe;
+            Assert.IsTrue(result.board[0][0] is TicTacToe);
         }
 
         [TestMethod]
         public void WillPlaceABoardOfTheCorrectHeightInTheInternalGames()
         {
-            List<List<BoardGame>> result = service.createBoard(3);
-            TicTacToe internalGame = result[0][0] as TicTacToe;
+            TicTacToe result = service.createBoard(3) as TicTacToe;
+            TicTacToe internalGame = result.board[0][0] as TicTacToe;
             Assert.IsTrue(internalGame.board.Count == 3);
         }
 
         [TestMethod]
         public void WillPlaceABoardOfTheCorrectWidth()
         {
-            List<List<BoardGame>> result = service.createBoard(3);
-            TicTacToe internalGame = result[0][0] as TicTacToe;
+            TicTacToe result = service.createBoard(3) as TicTacToe;
+            TicTacToe internalGame = result.board[0][0] as TicTacToe;
             Assert.IsTrue(internalGame.board[0].Count == 3);
         }
 
         [TestMethod]
         public void WillPlaceNewTilesInTheBoard()
         {
-            List<List<BoardGame>> result = service.createBoard(3);
-            TicTacToe internalGame = result[0][0] as TicTacToe;
+            TicTacToe result = service.createBoard(3) as TicTacToe;
+            TicTacToe internalGame = result.board[0][0] as TicTacToe;
             Assert.IsTrue(internalGame.board[0][0] is Tile);
         }
 
@@ -208,8 +215,8 @@ namespace UltimateTicTacToeTests.Services
         {
             Mock<IWinChecker> mockHandler = new Mock<IWinChecker>();
             service = new GameService(mockHandler.Object);
-            List<List<BoardGame>> result = service.createBoard(3);
-            TicTacToe internalGame = result[0][0] as TicTacToe;
+            TicTacToe result = service.createBoard(3) as TicTacToe;
+            TicTacToe internalGame = result.board[0][0] as TicTacToe;
             Assert.IsNotNull(internalGame.winChecker);
         }
     }

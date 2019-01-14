@@ -4,11 +4,19 @@ using System.Collections.Generic;
 using UltimateTicTacToe.Models.DTOs;
 using UltimateTicTacToe.Models.Game;
 using UltimateTicTacToe.Models.Game.Players;
+using UltimateTicTacToe.Models.Game.WinCheck;
 
 namespace UltimateTicTacToe.Services
 {
     public class GameService : IGameService
     {
+        private IWinChecker winChecker;
+
+        public GameService(IWinChecker winChecker)
+        {
+            this.winChecker = winChecker;
+        }
+
         public BoardGameDTO processMove(BoardGame game, Player Ai)
         {
             BoardGameDTO result = new BoardGameDTO();
@@ -27,6 +35,38 @@ namespace UltimateTicTacToe.Services
                 }
                 catch (NoWinnerException) { }
             }
+            return result;
+        }
+
+        public BoardGame createBoard(int size)
+        {
+            TicTacToe result = new TicTacToe(winChecker);
+            List<List<BoardGame>> board = new List<List<BoardGame>>();
+            for(int y = 0; y < size; y++)
+            {
+                board.Add(new List<BoardGame>());
+                for(int x = 0; x < size; x++)
+                {
+                    board[y].Add(createNewTicTacToe(size));
+                }
+            }
+            result.board = board;
+            return result;
+        }
+
+        private TicTacToe createNewTicTacToe(int size)
+        {
+            TicTacToe result = new TicTacToe(winChecker);
+            List<List<BoardGame>> board = new List<List<BoardGame>>();
+            for(int y = 0; y < size; y++)
+            {
+                board.Add(new List<BoardGame>());
+                for(int x = 0; x<size; x++)
+                {
+                    board[y].Add(new Tile());
+                }
+            }
+            result.board = board;
             return result;
         }
 
