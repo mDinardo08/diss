@@ -33,5 +33,11 @@ namespace UltimateTicTacToe.Controllers
             Player player = playerCreationService.createPlayer(gameDto.next);
             return ExecuteApiAction(() => new ApiResult<BoardGameDTO> { Model = gameService.processMove(game, player) });
         }
+
+        [HttpGet("getBoard/{size}")]
+        public IActionResult getBoard(int size)
+        {
+            return null;
+        }
     }
 }
