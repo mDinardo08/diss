@@ -8,6 +8,5 @@ namespace UltimateTicTacToe.Services
     public interface IGameService
     {
         BoardGameDTO processMove(BoardGame game, Player Ai);
-        BoardGame createBoard(int v);
     }
 }

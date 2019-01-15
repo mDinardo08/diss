@@ -24,6 +24,38 @@ namespace UltimateTicTacToe.Services
             return createTicTacToe(gameDto.game, winChecker);
         }
 
+        public BoardGame createBoardGame(int size)
+        {
+            TicTacToe result = new TicTacToe(winChecker);
+            List<List<BoardGame>> board = new List<List<BoardGame>>();
+            for (int y = 0; y < size; y++)
+            {
+                board.Add(new List<BoardGame>());
+                for (int x = 0; x < size; x++)
+                {
+                    board[y].Add(createNewTicTacToe(size));
+                }
+            }
+            result.board = board;
+            return result;
+        }
+
+        private TicTacToe createNewTicTacToe(int size)
+        {
+            TicTacToe result = new TicTacToe(winChecker);
+            List<List<BoardGame>> board = new List<List<BoardGame>>();
+            for (int y = 0; y < size; y++)
+            {
+                board.Add(new List<BoardGame>());
+                for (int x = 0; x < size; x++)
+                {
+                    board[y].Add(new Tile());
+                }
+            }
+            result.board = board;
+            return result;
+        }
+
         private TicTacToe createTicTacToe(List<List<JObject>> JObjectBoard, IWinChecker winCheck)
         {
             TicTacToe result = new TicTacToe(winCheck);
