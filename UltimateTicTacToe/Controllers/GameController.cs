@@ -5,6 +5,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Models;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using UltimateTicTacToe.Models.DTOs;
 using UltimateTicTacToe.Models.Game;
 using UltimateTicTacToe.Models.Game.Players;
@@ -37,7 +39,7 @@ namespace UltimateTicTacToe.Controllers
         [HttpGet("createBoard/{size}")]
         public IActionResult createBoard(int size)
         {
-            return ExecuteApiAction(() => new ApiResult<BoardGame> { Model = boardCreationService.createBoardGame(size) });
+            return ExecuteApiAction(() => new ApiResult<string> { Model = JsonConvert.SerializeObject(boardCreationService.createBoardGame(size)) });
         }
     }
 }

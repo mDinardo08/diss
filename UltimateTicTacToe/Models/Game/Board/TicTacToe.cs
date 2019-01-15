@@ -11,7 +11,7 @@ namespace UltimateTicTacToe.Models.Game
 {
     public class TicTacToe : CompositeGame
     {
-        public IWinChecker winChecker;
+        private IWinChecker winChecker;
         public Point2D boardFilter;
 
         public TicTacToe(IWinChecker winChecker)

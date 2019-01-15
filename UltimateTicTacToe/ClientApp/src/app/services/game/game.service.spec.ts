@@ -22,7 +22,7 @@ describe("Game Service tests", () => {
         const mockApi = jasmine.createSpyObj("ApiService", ["post"]);
         service = new GameService(mockApi);
         service.makeMove(null);
-        expect(mockApi.post).toHaveBeenCalledWith("makeMove", null);
+        expect(mockApi.post).toHaveBeenCalledWith("Game/makeMove", null);
     });
 
     it("Will call the api with a BoardgameDto with the game being the game passed in", () => {
@@ -30,7 +30,7 @@ describe("Game Service tests", () => {
         service = new GameService(mockApi);
         const game = new Array<Array<Boardgame>>();
         service.makeMove(game);
-        expect(mockApi.post).toHaveBeenCalledWith("makeMove", game);
+        expect(mockApi.post).toHaveBeenCalledWith("Game/makeMove", game);
     });
 
     it("Will return the object returned from the api", () => {
@@ -54,7 +54,7 @@ describe("Game Service tests", () => {
         const mockApi = jasmine.createSpyObj("ApiService", ["get"]);
         service = new GameService(mockApi);
         service.createGame(2);
-        expect(mockApi.get).toHaveBeenCalledWith("createBoard/2");
+        expect(mockApi.get).toHaveBeenCalledWith("Game/createBoard/2");
     });
 
     it("Will return the observable given by the api", () => {

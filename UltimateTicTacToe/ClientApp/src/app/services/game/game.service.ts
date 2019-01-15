@@ -7,13 +7,14 @@ import { Observable } from "rxjs/Observable";
 @Injectable()
 export class GameService {
 
+
     constructor(private api: ApiService) {}
 
     makeMove(game: Array<Array<Boardgame>>): Observable<BoardGameDTO> {
-        return this.api.post<BoardGameDTO>("makeMove", game);
+        return this.api.post<BoardGameDTO>("Game/makeMove", game);
     }
 
     createGame(size: number): Observable<Boardgame> {
-        return this.api.get<Boardgame>("createBoard/" + size);
+        return this.api.get<Boardgame>("Game/createBoard/" + size);
     }
 }
