@@ -35,9 +35,9 @@ namespace UltimateTicTacToe.Controllers
         }
 
         [HttpGet("createBoard/{size}")]
-        public IActionResult getBoard(int size)
+        public IActionResult createBoard(int size)
         {
-            return null;
+            return ExecuteApiAction(() => new ApiResult<BoardGame> { Model = boardCreationService.createBoardGame(size) });
         }
     }
 }
