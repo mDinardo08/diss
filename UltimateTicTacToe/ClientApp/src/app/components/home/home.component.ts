@@ -1,6 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { GameService } from "../../services/game/game.service";
-
+import BoardGame from "../../models/boardGame/boardgame/boardgame.interface";
 @Component({
   selector: "app-home",
   templateUrl: "./home.component.html",
