@@ -67,15 +67,5 @@ namespace UltimateTicTacToeTests.Controllers
             cont.makeMove(new BoardGameDTO { next = 0 });
             mockGameService.Verify();
         }
-
-        [TestMethod]
-        public void WillCallTheGameServiceToCreateAGame()
-        {
-            Mock<BoardCreationService> mockService = new Mock<BoardCreationService>(MockBehavior.Strict);
-            mockService.Setup(x => x.createBoardGame(3)).Returns((TicTacToe)null).Verifiable();
-            cont = new GameController(null, mockService.Object, null);
-            cont.createBoard(3);
-            mockService.Verify();
-        }
     }
 }

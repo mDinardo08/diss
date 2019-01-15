@@ -39,7 +39,8 @@ namespace UltimateTicTacToe.Controllers
         [HttpGet("createBoard/{size}")]
         public IActionResult createBoard(int size)
         {
-            return ExecuteApiAction(() => new ApiResult<string> { Model = JsonConvert.SerializeObject(boardCreationService.createBoardGame(size)) });
+            BoardGame result = boardCreationService.createBoardGame(size);
+            return ExecuteApiAction(() => new ApiResult<string> { Model = JsonConvert.SerializeObject(result) });
         }
     }
 }

@@ -8,6 +8,8 @@ namespace UltimateTicTacToe.Models.Game
 {
     public abstract class AbstractBoard : BoardGame
     {
+        public Player owner;
+
         public List<List<BoardGame>> board;
 
         public List<List<BoardGame>> getBoard()

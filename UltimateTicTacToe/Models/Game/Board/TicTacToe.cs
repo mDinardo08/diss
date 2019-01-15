@@ -12,7 +12,7 @@ namespace UltimateTicTacToe.Models.Game
     public class TicTacToe : CompositeGame
     {
         private IWinChecker winChecker;
-        public Point2D boardFilter;
+        private Point2D boardFilter;
 
         public TicTacToe(IWinChecker winChecker)
         {
@@ -27,12 +27,12 @@ namespace UltimateTicTacToe.Models.Game
 
         public override Player getWinner()
         {
-            Player result = winChecker.checkForWin(this);
-            if (result == null)
+            owner = owner == null ? winChecker.checkForWin(this) : owner;
+            if (owner == null)
             {
                 throw new NoWinnerException();
             }
-            return result;
+            return owner;
         }
         
         public override List<Move> getAvailableMoves()

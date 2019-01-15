@@ -53,6 +53,7 @@ namespace UltimateTicTacToeTests.Services
         }
 
         [TestMethod]
+        [ExpectedException(typeof(NoWinnerException))]
         public void WillSupplyAWinCheckerToTheGame()
         {
             Mock<IWinChecker> mockHandler = new Mock<IWinChecker>(MockBehavior.Loose);
@@ -61,7 +62,7 @@ namespace UltimateTicTacToeTests.Services
             mockService.Setup(x => x.createPlayer(It.IsAny<JObject>()));
             service = new UltimateTicTacToeCreationService(mockHandler.Object, mockService.Object);
             TicTacToe game = service.createBoardGame(new BoardGameDTO { game = board }) as TicTacToe;
-            Assert.IsNotNull(game.winChecker);
+            game.getWinner();
         }
 
         [TestMethod]
@@ -120,12 +121,20 @@ namespace UltimateTicTacToeTests.Services
         public void NestedGamesWillHaveAWinChecker()
         {
             Mock<IWinChecker> mockHandler = new Mock<IWinChecker>(MockBehavior.Loose);
+            mockHandler.Setup(x => x.checkForWin(It.IsAny<BoardGame>())).Returns(new Mock<Player>().Object);
             service = new UltimateTicTacToeCreationService(mockHandler.Object, null);
             JObject ticTacToe = new JObject();
             ticTacToe.Add("board", JToken.FromObject(new List<List<BoardGame>>()));
             List<List<JObject>> board = JNestedBoard;
             TicTacToe game = service.createBoardGame(new BoardGameDTO { game = board }) as TicTacToe;
-            Assert.IsNotNull((game.getBoard()[0][0] as TicTacToe).winChecker);
+            try
+            {
+                (game.getBoard()[0][0] as TicTacToe).getWinner();
+            }
+            catch (Exception e)
+            {
+                Assert.Fail("Expected no exception but got: " + e);
+            }
         }
 
         [TestMethod]
@@ -221,13 +230,14 @@ namespace UltimateTicTacToeTests.Services
         }
 
         [TestMethod]
+        [ExpectedException(typeof(NoWinnerException))]
         public void WillPassAWinCheckerToTheTicTacToeGameOuter()
         {
             Mock<IWinChecker> mockHandler = new Mock<IWinChecker>();
             service = new UltimateTicTacToeCreationService(mockHandler.Object, null);
             TicTacToe result = service.createBoardGame(3) as TicTacToe;
             TicTacToe internalGame = result.board[0][0] as TicTacToe;
-            Assert.IsNotNull(internalGame.winChecker);
+            internalGame.getWinner();
         }
     }
 }
