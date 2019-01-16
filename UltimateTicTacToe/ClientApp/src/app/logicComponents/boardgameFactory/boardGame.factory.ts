@@ -7,10 +7,26 @@ import { TictactoeComponent } from "../../components/ultimateTictactoe/ultimateT
 @Injectable()
 export class BoardGameFactory {
 
-    constructor(private componentFactoryResolver: ComponentFactoryResolver) {}
+    constructor(private componentFactoryResolver: ComponentFactoryResolver, private injector: Injector) {}
 
-    public createBoardgame(boardGame: BoardGame): ComponentFactory<BoardGameComponent> {
+    public createBoardgame(boardGame: BoardGame): BoardGameComponent {
         const type = boardGame.board == null ? TileComponent : TictactoeComponent;
-        return this.componentFactoryResolver.resolveComponentFactory<BoardGameComponent>(type);
+        const factory = this.componentFactoryResolver.resolveComponentFactory<BoardGameComponent>(type);
+        const compRef = factory.create(this.injector);
+        if (type === TictactoeComponent) {
+            compRef.instance.setBoard(this.createBoardStructure(boardGame.board));
+        }
+        return null;
+    }
+
+    public createBoardStructure(board: Array<Array<BoardGame>>): Array<Array<BoardGameComponent>> {
+        const result = new Array<Array<BoardGameComponent>>();
+        for (let x = 0; x < board.length; x++) {
+            result.push(new Array<BoardGameComponent>());
+            for (let y = 0; y < board[x].length; y++) {
+                result[x].push(this.createBoardgame(board[x][y]));
+            }
+        }
+        return result;
     }
 }

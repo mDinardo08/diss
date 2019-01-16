@@ -10,16 +10,7 @@ import { BoardGameFactory } from "../../logicComponents/boardgameFactory/boardGa
 
 export class TictactoeComponent implements BoardGameComponent {
 
-    boardRefs = new Array<Array<ComponentRef<BoardGameComponent>>>();
-    @ViewChild("boardView", {read: ViewContainerRef}) boardView;
-
-    constructor(private boardFactory: BoardGameFactory) {}
-
-    setBoard(board: BoardGame): void {
-        this.boardView.clear();
-        const factory = this.boardFactory.createBoardgame(board);
-        const boardRef = this.boardView.createComponent(factory);
-        this.boardRefs.push(new Array<ComponentRef<BoardGameComponent>>(boardRef));
+    setBoard(board: Array<Array<BoardGameComponent>>): void {
     }
 
 }

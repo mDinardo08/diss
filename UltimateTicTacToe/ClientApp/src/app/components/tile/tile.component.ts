@@ -14,7 +14,7 @@ export class TileComponent implements BoardGameComponent {
         this.moveEvent.emit();
     }
 
-    setBoard(board: BoardGame): void {
+    setBoard(board: Array<Array<BoardGameComponent>>): void {
         throw new Error("Method not implemented.");
     }
 }

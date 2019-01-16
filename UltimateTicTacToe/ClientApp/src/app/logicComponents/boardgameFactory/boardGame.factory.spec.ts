@@ -2,42 +2,94 @@ import { BoardGameFactory } from "./boardGame.factory";
 import { TileComponent } from "../../components/tile/tile.component";
 import { BoardGame } from "../../models/boardGame/boardgame/boardgame.model";
 import { TictactoeComponent } from "../../components/ultimateTictactoe/ultimateTictactoe.component";
+import { BoardGameComponent } from "../../components/boardGame/boardGame.interface";
 
 describe("Board game factory", () => {
 
     let factory: BoardGameFactory;
-
+    let mockResolver;
+    let mockInjector;
+    let mockCompFactory;
+    let mockComp;
     beforeEach(() => {
-        factory = new BoardGameFactory(null);
+        mockResolver = jasmine.createSpyObj("componentFactoryResolver", ["resolveComponentFactory"]);
+        mockInjector = jasmine.createSpyObj("Injector", ["get"]);
+        mockCompFactory = jasmine.createSpyObj("componentFactoryResolver", ["create"]);
+        const mockCompRef = jasmine.createSpyObj("ComponentRef", ["instance"]);
+        mockComp = jasmine.createSpyObj("BoardGameCompenent", ["setBoard"]);
+        mockCompRef.instance = mockComp;
+        mockCompFactory.create.and.returnValue(mockCompRef);
+        factory = new BoardGameFactory(mockResolver, mockInjector);
     });
 
     it("Will pass type of TileComponent to component factory resolver", () => {
-        const mockResolver = jasmine.createSpyObj("componentFactoryResolver", ["resolveComponentFactory"]);
-        mockResolver.resolveComponentFactory.and.returnValue(jasmine.createSpyObj("componentFactoryResolver", ["create"]));
+        mockResolver.resolveComponentFactory.and.returnValue(mockCompFactory);
         const boardGame = new BoardGame();
-        factory = new BoardGameFactory(mockResolver);
         factory.createBoardgame(boardGame);
         expect(mockResolver.resolveComponentFactory).toHaveBeenCalledWith(TileComponent);
     });
 
-    it("Will return the component factory returned bu the component resolver", () => {
-        const mockCompFactory = jasmine.createSpyObj("ComponentFactory", ["create"]);
-        const mockResolver = jasmine.createSpyObj("componentFactoryResolver", ["resolveComponentFactory"]);
-        mockResolver.resolveComponentFactory.and.returnValue(mockCompFactory);
-        const mockInjector = jasmine.createSpyObj("Injector", ["get"]);
-        const boardGame = new BoardGame();
-        factory = new BoardGameFactory(mockResolver);
-        const result = factory.createBoardgame(boardGame);
-        expect(result).toBe(mockCompFactory);
-    });
-
     it("Will pass type of tic tac toe component type to the component factory resolver if it has a board", () => {
-        const mockResolver = jasmine.createSpyObj("componentFactoryResolver", ["resolveComponentFactory"]);
-        mockResolver.resolveComponentFactory.and.returnValue(jasmine.createSpyObj("componentFactoryResolver", ["create"]));
+        mockResolver.resolveComponentFactory.and.returnValue(mockCompFactory);
         const boardGame = new BoardGame();
         boardGame.board = new Array<Array<BoardGame>>();
-        factory = new BoardGameFactory(mockResolver);
         factory.createBoardgame(boardGame);
         expect(mockResolver.resolveComponentFactory).toHaveBeenCalledWith(TictactoeComponent);
+    });
+
+    it("Will call to create the component with the passed injector", () => {
+        mockResolver.resolveComponentFactory.and.returnValue(mockCompFactory);
+        const boardGame = new BoardGame();
+        boardGame.board = new Array<Array<BoardGame>>();
+        factory.createBoardgame(boardGame);
+        expect(mockCompFactory.create).toHaveBeenCalledWith(mockInjector);
+    });
+
+    it("Will call to create a new board if type has a board", () => {
+        spyOn(factory, "createBoardgame").and.callThrough();
+        mockResolver.resolveComponentFactory.and.returnValue(mockCompFactory);
+        const boardGame = new BoardGame();
+        boardGame.board = [[new BoardGame()]];
+        factory.createBoardgame(boardGame);
+        expect(mockCompFactory.create).toHaveBeenCalledTimes(2);
+    });
+
+    it("Will recursively call to create new boards", () => {
+        spyOn(factory, "createBoardgame").and.callThrough();
+        mockResolver.resolveComponentFactory.and.returnValue(mockCompFactory);
+        const boardGame = new BoardGame();
+        const innerGame = new BoardGame();
+        innerGame.board = [[new BoardGame()]];
+        boardGame.board = [[innerGame]];
+        factory.createBoardgame(boardGame);
+        expect(mockCompFactory.create).toHaveBeenCalledTimes(3);
+    });
+
+    it("Will call to create new boardgames across rows", () => {
+        spyOn(factory, "createBoardgame").and.callThrough();
+        mockResolver.resolveComponentFactory.and.returnValue(mockCompFactory);
+        const boardGame = new BoardGame();
+        boardGame.board = [[new BoardGame()], [new BoardGame()]];
+        factory.createBoardgame(boardGame);
+        expect(mockCompFactory.create).toHaveBeenCalledTimes(3);
+    });
+
+    it("Will call to create new boardgames across columns", () => {
+        spyOn(factory, "createBoardgame").and.callThrough();
+        mockResolver.resolveComponentFactory.and.returnValue(mockCompFactory);
+        const boardGame = new BoardGame();
+        boardGame.board = [[new BoardGame(), new BoardGame()]];
+        factory.createBoardgame(boardGame);
+        expect(mockCompFactory.create).toHaveBeenCalledTimes(3);
+    });
+
+    it("Will call set board on the Boardgame component with the board it has built", () => {
+        const boardStructure = new Array<Array<BoardGameComponent>>();
+        spyOn(factory, "createBoardStructure").and.returnValue(boardStructure);
+        mockResolver.resolveComponentFactory.and.returnValue(mockCompFactory);
+        const boardGame = new BoardGame();
+        boardGame.board = [[new BoardGame(), new BoardGame()]];
+        factory.createBoardgame(boardGame);
+        expect(mockComp.setBoard).toHaveBeenCalledWith(boardStructure);
     });
 });
