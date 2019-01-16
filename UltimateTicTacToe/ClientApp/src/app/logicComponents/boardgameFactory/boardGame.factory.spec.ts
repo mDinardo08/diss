@@ -3,6 +3,7 @@ import { TileComponent } from "../../components/tile/tile.component";
 import { BoardGame } from "../../models/boardGame/boardgame/boardgame.model";
 import { TictactoeComponent } from "../../components/ultimateTictactoe/ultimateTictactoe.component";
 import { BoardGameComponent } from "../../components/boardGame/boardGame.interface";
+import { Player } from "../../models/player/player.model";
 
 describe("Board game factory", () => {
 
@@ -16,7 +17,7 @@ describe("Board game factory", () => {
         mockInjector = jasmine.createSpyObj("Injector", ["get"]);
         mockCompFactory = jasmine.createSpyObj("componentFactoryResolver", ["create"]);
         const mockCompRef = jasmine.createSpyObj("ComponentRef", ["instance"]);
-        mockComp = jasmine.createSpyObj("BoardGameCompenent", ["setBoard"]);
+        mockComp = jasmine.createSpyObj("BoardGameCompenent", ["setBoard", "setOwner"]);
         mockCompRef.instance = mockComp;
         mockCompFactory.create.and.returnValue(mockCompRef);
         factory = new BoardGameFactory(mockResolver, mockInjector);
@@ -91,5 +92,16 @@ describe("Board game factory", () => {
         boardGame.board = [[new BoardGame(), new BoardGame()]];
         factory.createBoardgame(boardGame);
         expect(mockComp.setBoard).toHaveBeenCalledWith(boardStructure);
+    });
+
+    it("Will call to set the owner of the board game", () => {
+        const boardStructure = new Array<Array<BoardGameComponent>>();
+        spyOn(factory, "createBoardStructure").and.returnValue(boardStructure);
+        mockResolver.resolveComponentFactory.and.returnValue(mockCompFactory);
+        const boardGame = new BoardGame();
+        const player = new Player();
+        boardGame.owner = player;
+        factory.createBoardgame(boardGame);
+        expect(mockComp.setOwner).toHaveBeenCalledWith(player);
     });
 });

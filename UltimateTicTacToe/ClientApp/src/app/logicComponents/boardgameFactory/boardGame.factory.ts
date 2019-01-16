@@ -13,10 +13,11 @@ export class BoardGameFactory {
         const type = boardGame.board == null ? TileComponent : TictactoeComponent;
         const factory = this.componentFactoryResolver.resolveComponentFactory<BoardGameComponent>(type);
         const compRef = factory.create(this.injector);
+        compRef.instance.setOwner(boardGame.owner);
         if (type === TictactoeComponent) {
             compRef.instance.setBoard(this.createBoardStructure(boardGame.board));
         }
-        return null;
+        return compRef.instance;
     }
 
     public createBoardStructure(board: Array<Array<BoardGame>>): Array<Array<BoardGameComponent>> {

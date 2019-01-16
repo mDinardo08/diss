@@ -1,5 +1,6 @@
 import { TileComponent } from "./tile.component";
 import { componentFactoryName } from "@angular/compiler";
+import { BoardGame } from "../../models/boardGame/boardgame/boardgame.model";
 
 describe("Tile Component", () => {
 
@@ -18,4 +19,5 @@ describe("Tile Component", () => {
         comp.makeMove();
         expect(comp.moveEvent.emit).toHaveBeenCalled();
     });
+
 });
