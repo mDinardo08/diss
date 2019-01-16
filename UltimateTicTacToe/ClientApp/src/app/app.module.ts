@@ -11,14 +11,14 @@ import * as Services from "./services";
   declarations: [
     AppComponent,
     Components.NavMenuComponent,
-    Components.HomeComponent
+    Components.GameComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: "ng-cli-universal" }),
     HttpClientModule,
     FormsModule,
     RouterModule.forRoot([
-      { path: "", component: Components.HomeComponent, pathMatch: "full" }
+      { path: "", component: Components.GameComponent, pathMatch: "full" }
     ])
   ],
   providers: [Services.ApiService, Services.GameService],
