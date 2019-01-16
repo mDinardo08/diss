@@ -1,18 +1,13 @@
-import { Component, OnInit, ViewChild, ViewContainerRef, ComponentRef } from "@angular/core";
+import { Component } from "@angular/core";
 import { BoardGameComponent } from "../boardGame/boardGame.interface";
-import { BoardGame } from "../../models/boardGame/boardgame/boardgame.model";
-import { BoardGameFactory } from "../../logicComponents/boardgameFactory/boardGame.factory";
-import { Player } from "../../models/player/player.model";
+import { AbstractBoardGameComponent } from "../abstractBoardGame/abstractBoardGame.component";
 
 @Component({
     selector: "ultimateTictactoe",
     templateUrl: "./ultimateTictactoe.component.html"
 })
 
-export class TictactoeComponent implements BoardGameComponent {
-
-    setOwner(owner: Player): void {
-    }
+export class TictactoeComponent extends AbstractBoardGameComponent {
 
     setBoard(board: Array<Array<BoardGameComponent>>): void {
     }
