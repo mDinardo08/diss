@@ -3,10 +3,10 @@
         <div *ngFor="let row of board" class="row">
             <div *ngFor="let space of row" class="col">
                 <div *ngIf="space.board != null && space.board != undefined" style="position: relative">
-                    <ultimateTictactoe [board] = space.board [owner] = space.owner></ultimateTictactoe>
+                    <ultimateTictactoe (moveEvent)="moveMade($event)" [board]=space.board [owner]=space.owner></ultimateTictactoe>
                 </div>
                 <div *ngIf="space.board == null || space.board == undefined">
-                    <tile [owner] = space.owner></tile>
+                    <tile (moveEvent)="moveMade($event)" [owner]=space.owner></tile>
                 </div>
             </div>
         </div>
