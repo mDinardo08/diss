@@ -4,13 +4,14 @@ import { Player } from "../../models/player/player.model";
 
 @Component({
     selector: "tile",
-    templateUrl: "./tile.component.html"
+    templateUrl: "./tile.component.html",
+    styleUrls: ["./tile.component.styles.css"]
 })
 
 export class TileComponent extends AbstractBoardGameComponent {
     @Output() moveEvent =  new EventEmitter();
 
-    makeMove(): any {
+    makeMove($event: any): any {
         this.moveEvent.emit();
     }
 

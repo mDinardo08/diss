@@ -1,9 +1,8 @@
-<div class="container" class="col-md-12">
-    <span>I am a board</span>
-    <div >
-        <div *ngFor="let row of board" class="col-md-12">
-            <div *ngFor="let space of row" class="col-md-4">
-                <div *ngIf="space.board != null && space.board != undefined">
+<div class="container-fluid card">
+    <div class="boarder">
+        <div *ngFor="let row of board" class="row">
+            <div *ngFor="let space of row" class="col">
+                <div *ngIf="space.board != null && space.board != undefined" style="position: relative">
                     <ultimateTictactoe [board] = space.board [owner] = space.owner></ultimateTictactoe>
                 </div>
                 <div *ngIf="space.board == null || space.board == undefined">
