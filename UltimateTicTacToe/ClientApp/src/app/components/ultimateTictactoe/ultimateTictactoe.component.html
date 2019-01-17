@@ -3,16 +3,13 @@
     <div >
         <div *ngFor="let row of board" class="col-md-12">
             <div *ngFor="let space of row" class="col-md-4">
-                <div *ngIf="space.board != null && space.board != undefined; else tile">
-                    <ultimateTictactoe [board] = space.board></ultimateTictactoe>
+                <div *ngIf="space.board != null && space.board != undefined">
+                    <ultimateTictactoe [board] = space.board [owner] = space.owner></ultimateTictactoe>
+                </div>
+                <div *ngIf="space.board == null || space.board == undefined">
+                    <tile [owner] = space.owner></tile>
                 </div>
             </div>
         </div>
     </div>
 </div>
-
-<ng-template #tile>
-    <td>
-        <tile></tile>
-    </td>
-</ng-template>

@@ -1,8 +1,6 @@
-import { Component, Output, EventEmitter } from "@angular/core";
-import { BoardGameComponent } from "../boardGame/boardGame.interface";
-import { BoardGame } from "../../models/boardGame/boardgame/boardgame.model";
-import { Player } from "../../models/player/player.model";
+import { Component, Output, EventEmitter, Input, OnInit } from "@angular/core";
 import { AbstractBoardGameComponent } from "../abstractBoardGame/abstractBoardGame.component";
+import { Player } from "../../models/player/player.model";
 
 @Component({
     selector: "tile",
@@ -16,7 +14,4 @@ export class TileComponent extends AbstractBoardGameComponent {
         this.moveEvent.emit();
     }
 
-    setBoard(board: Array<Array<BoardGameComponent>>): void {
-        throw new Error("Method not implemented.");
-    }
 }
