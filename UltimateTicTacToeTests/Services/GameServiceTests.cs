@@ -27,8 +27,9 @@ namespace UltimateTicTacToeTests.Services
         {
             Mock<BoardGame> mockGame = new Mock<BoardGame>(MockBehavior.Strict);
             Mock<Player> p = new Mock<Player>();
+            p.Setup(x => x.getPlayerType()).Returns((PlayerType) 0);
             mockGame.Setup(x => x.getWinner()).Returns(p.Object);
-            BoardGameDTO result = service.processMove(mockGame.Object, null);
+            BoardGameDTO result = service.processMove(mockGame.Object, p.Object);
             Assert.AreEqual(p.Object, result.Winner);
         }
 
@@ -68,7 +69,7 @@ namespace UltimateTicTacToeTests.Services
             mockGame.SetupSequence(x => x.getWinner()).Throws(new NoWinnerException()).Returns(p.Object);
             mockGame.Setup(x => x.getBoard()).Returns(new List<List<BoardGame>>());
             BoardGameDTO result = service.processMove(mockGame.Object, p.Object);
-            Assert.IsTrue(result.next == PlayerType.RANDOM);
+            Assert.IsTrue(result.cur["type"].ToObject<PlayerType>() == PlayerType.RANDOM);
         }
 
         [TestMethod]

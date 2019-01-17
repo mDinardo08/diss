@@ -20,7 +20,8 @@ namespace UltimateTicTacToe.Services
         public BoardGameDTO processMove(BoardGame game, Player Ai)
         {
             BoardGameDTO result = new BoardGameDTO();
-            result.next = 0;
+            result.cur = new JObject();
+            result.cur.Add("type", JToken.FromObject(Ai.getPlayerType()));
             try
             {
                 result.Winner = game.getWinner();

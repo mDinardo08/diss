@@ -32,7 +32,7 @@ namespace UltimateTicTacToe.Controllers
         public IActionResult makeMove([FromBody]BoardGameDTO gameDto)
         {
             BoardGame game = boardCreationService.createBoardGame(gameDto);
-            Player player = playerCreationService.createPlayer(gameDto.next);
+            Player player = playerCreationService.createPlayer(gameDto.cur);
             return ExecuteApiAction(() => new ApiResult<BoardGameDTO> { Model = gameService.processMove(game, player) });
         }
 

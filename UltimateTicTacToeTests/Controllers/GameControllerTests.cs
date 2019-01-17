@@ -60,11 +60,11 @@ namespace UltimateTicTacToeTests.Controllers
             Mock<IGameService> mockGameService = new Mock<IGameService>(MockBehavior.Strict);
             Mock<Player> mockPlayer = new Mock<Player>();
             Mock<BoardGame> mockGame = new Mock<BoardGame>();
-            mockPlayerService.Setup(x => x.createPlayer(It.IsAny<PlayerType>())).Returns(mockPlayer.Object);
+            mockPlayerService.Setup(x => x.createPlayer(It.IsAny<JObject>())).Returns(mockPlayer.Object);
             mockBoardService.Setup(x => x.createBoardGame(It.IsAny<BoardGameDTO>())).Returns(mockGame.Object);
             mockGameService.Setup(x => x.processMove(mockGame.Object, mockPlayer.Object)).Returns((BoardGameDTO)null).Verifiable();
             cont = new GameController(mockGameService.Object, mockBoardService.Object, mockPlayerService.Object);
-            cont.makeMove(new BoardGameDTO { next = 0 });
+            cont.makeMove(new BoardGameDTO { cur = new JObject() });
             mockGameService.Verify();
         }
     }
