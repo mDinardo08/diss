@@ -1,7 +1,18 @@
-<div class="container">
-    <div>
-        <span>
-            some text here
-        </span>
+<div class="container" class="col-md-12">
+    <span>I am a board</span>
+    <div >
+        <div *ngFor="let row of board" class="col-md-12">
+            <div *ngFor="let space of row" class="col-md-4">
+                <div *ngIf="space.board != null && space.board != undefined; else tile">
+                    <ultimateTictactoe [board] = space.board></ultimateTictactoe>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
+
+<ng-template #tile>
+    <td>
+        <tile></tile>
+    </td>
+</ng-template>

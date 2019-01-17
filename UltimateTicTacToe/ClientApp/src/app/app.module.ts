@@ -6,7 +6,6 @@ import { RouterModule } from "@angular/router";
 import * as Components from "./components";
 import { AppComponent } from "./app.component";
 import * as Services from "./services";
-import * as Logic from "./logicComponents";
 @NgModule({
   declarations: [
     AppComponent,
@@ -23,8 +22,7 @@ import * as Logic from "./logicComponents";
       { path: "", component: Components.GameComponent, pathMatch: "full" }
     ])
   ],
-  providers: [Services.ApiService, Services.GameService, Logic.BoardGameFactory],
-  bootstrap: [AppComponent],
-  entryComponents: [Components.TictactoeComponent]
+  providers: [Services.ApiService, Services.GameService],
+  bootstrap: [AppComponent]
 })
 export class AppModule { }

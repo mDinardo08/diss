@@ -1,3 +1,12 @@
  <div class="container">
-     <ultimateTictactoe #gameView></ultimateTictactoe>
- </div>
+    <div class="col-md-2"></div>
+    <div class="col-md-10">
+         <div *ngIf="board.board !== undefined; else tile" class="col-md-10">
+               <ultimateTictactoe [board]=board.board></ultimateTictactoe>
+         </div>
+    </div>
+</div>
+
+<ng-template #tile>
+   <tile></tile>
+</ng-template>
