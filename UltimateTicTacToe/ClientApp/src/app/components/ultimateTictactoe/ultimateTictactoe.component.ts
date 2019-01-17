@@ -9,8 +9,6 @@ import { Player } from "../../models/player/player.model";
 })
 
 export class TictactoeComponent extends AbstractBoardGameComponent {
-    @Input() board: Array<Array<BoardGame>>;
-    @Input() owner: Player;
 
     moveMade($event: any) {
         console.log($event);
