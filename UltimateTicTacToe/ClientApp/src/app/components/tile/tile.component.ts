@@ -9,8 +9,6 @@ import { Player } from "../../models/player/player.model";
 })
 
 export class TileComponent extends AbstractBoardGameComponent {
-    @Output() moveEvent =  new EventEmitter();
-
     makeMove($event: any): any {
         this.moveEvent.emit();
     }
