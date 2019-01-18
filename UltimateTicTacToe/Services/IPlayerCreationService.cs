@@ -11,5 +11,6 @@ namespace UltimateTicTacToe.Services
     {
         Player createPlayer(JObject jObject);
         Player createPlayer(PlayerType rANDOM);
+        List<Player> createPlayers(List<JObject> jObjects);
     }
 }

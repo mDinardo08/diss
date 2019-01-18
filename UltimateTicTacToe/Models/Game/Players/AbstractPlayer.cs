@@ -16,6 +16,11 @@ namespace UltimateTicTacToe.Models.Game.Players
             this.random = random;
         }
 
+        public void setName(string name)
+        {
+            this.name = name;
+        }
+
         public string getName()
         {
             return name;
