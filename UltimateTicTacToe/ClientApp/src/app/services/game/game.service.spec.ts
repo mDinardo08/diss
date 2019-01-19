@@ -2,6 +2,8 @@ import { GameService } from "./game.service";
 import { Observable } from "rxjs/Observable";
 import { BoardGameDTO } from "../../models/DTOs/BoardGameDTO";
 import { BoardGame } from "../../models/boardGame/boardgame/boardgame.model";
+import { BoardCreationDTO } from "../../models/DTOs/BoardCreationDTO";
+import { Player } from "../../models/player/player.model";
 
 describe("Game Service tests", () => {
 
@@ -44,25 +46,41 @@ describe("Game Service tests", () => {
     });
 
     it("Will call the api to get a new board", () => {
-        const mockApi = jasmine.createSpyObj("ApiService", ["get"]);
+        const mockApi = jasmine.createSpyObj("ApiService", ["post"]);
         service = new GameService(mockApi);
-        service.createGame(null);
-        expect(mockApi.get).toHaveBeenCalled();
+        service.createGame(null, null);
+        expect(mockApi.post).toHaveBeenCalled();
     });
 
-    it("Will call the api with the correct end point", () => {
-        const mockApi = jasmine.createSpyObj("ApiService", ["get"]);
+    it("Will call the api with the correct size arguement", () => {
+        const mockApi = jasmine.createSpyObj("ApiService", ["post"]);
         service = new GameService(mockApi);
-        service.createGame(2);
-        expect(mockApi.get).toHaveBeenCalledWith("Game/createBoard/2");
+        const dto = new BoardCreationDTO();
+        dto.size = 2;
+        dto.players = null;
+        service.createGame(2, null);
+        expect(mockApi.post).toHaveBeenCalledWith("Game/createBoard", dto);
+    });
+
+    it("Will call the api with the correct players arguement", () => {
+        const mockApi = jasmine.createSpyObj("ApiService", ["post"]);
+        service = new GameService(mockApi);
+        const dto = new BoardCreationDTO();
+        const players = [
+            new Player()
+        ];
+        dto.size = null;
+        dto.players = players;
+        service.createGame(null, players);
+        expect(mockApi.post).toHaveBeenCalledWith("Game/createBoard", dto);
     });
 
     it("Will return the observable given by the api", () => {
-        const mockApi = jasmine.createSpyObj("ApiService", ["get"]);
-        const obvs = new Observable<BoardGame>();
-        mockApi.get.and.returnValue(obvs);
+        const mockApi = jasmine.createSpyObj("ApiService", ["post"]);
+        const obvs = new Observable<BoardGameDTO>();
+        mockApi.post.and.returnValue(obvs);
         service = new GameService(mockApi);
-        const result = service.createGame(null);
+        const result = service.createGame(null, null);
         expect(result).toBe(obvs);
     });
 });
