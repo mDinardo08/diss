@@ -12,6 +12,7 @@ namespace UltimateTicTacToe.Services
         {
             type = PlayerType.RANDOM;
             player = new RandomAi(randomService);
+            successor = new HumanPlayerClassHandler(randomService);
         }
     }
 }

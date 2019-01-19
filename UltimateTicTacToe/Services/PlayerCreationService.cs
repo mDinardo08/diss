@@ -37,8 +37,8 @@ namespace UltimateTicTacToe.Services
 
         private Player createPlayerFromJObject(JObject player)
         {
-            Player result = createPlayer(player["type"].ToObject<PlayerType>());
-            result.setName(player["name"].ToObject<string>());
+            Player result = createPlayer((PlayerType)player["type"].ToObject<int>());
+            result.setName(player["name"].ToString());
             return result;
         }
     }
