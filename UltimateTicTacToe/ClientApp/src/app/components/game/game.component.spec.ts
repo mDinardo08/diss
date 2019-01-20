@@ -3,27 +3,25 @@ import { BoardGame } from "../../models/boardGame/boardgame/boardgame.model";
 import "rxjs/add/observable/of";
 import "rxjs/add/observable/throw";
 import { Observable } from "rxjs/Observable";
+import { Player } from "../../models/player/player.model";
+import { Move } from "../../models/move/move.model";
 describe("Game Component", () => {
 
     let comp: GameComponent;
     let mockService;
-    let mockFactory;
+
     beforeEach(() => {
-        mockService = jasmine.createSpyObj("GameService", ["createGame"]);
-        mockFactory = jasmine.createSpyObj("BoardGameFactory", ["createBoardgame"]);
-        comp = new GameComponent(mockService, mockFactory);
+        mockService = jasmine.createSpyObj("GameService", ["createGame", "makeMove"]);
+        comp = new GameComponent(mockService);
     });
 
-    it("Will ask the game service for a new game on init", () => {
-        mockService.createGame.and.returnValue(Observable.of("{}"));
-        comp.ngOnInit();
-        expect(mockService.createGame).toHaveBeenCalled();
-    });
-
-    it("Will default to a game size of 3", () => {
-        mockService.createGame.and.returnValue(Observable.of("{}"));
-        comp.ngOnInit();
-        expect(mockService.createGame).toHaveBeenCalledWith(3);
+    it("Will call the game service with the board ", () => {
+        const game = new BoardGame();
+        const board = new Array<Array<BoardGame>>();
+        game.board = board;
+        comp.board = game;
+        comp.moveMade(null);
+        expect(mockService.makeMove).toHaveBeenCalledWith(board);
     });
 
 });
