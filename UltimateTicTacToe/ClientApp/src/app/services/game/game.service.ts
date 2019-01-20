@@ -9,6 +9,7 @@ import { Player } from "../../models/player/player.model";
 @Injectable()
 export class GameService {
 
+    private curPlayer: Player;
 
     constructor(private api: ApiService) {}
 
@@ -20,6 +21,14 @@ export class GameService {
         const creationDto = new BoardCreationDTO();
         creationDto.size = size;
         creationDto.players = players;
-        return this.api.post<BoardGameDTO>("Game/createBoard", creationDto);
+        const dto = this.api.post<BoardGameDTO>("Game/createBoard", creationDto);
+        dto.subscribe((res) => {
+            this.curPlayer = res.cur;
+        });
+        return dto;
+    }
+
+    getCurrentPlayer(): Player {
+        return this.curPlayer;
     }
 }

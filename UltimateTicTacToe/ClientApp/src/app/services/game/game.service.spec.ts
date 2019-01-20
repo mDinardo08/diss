@@ -47,6 +47,7 @@ describe("Game Service tests", () => {
 
     it("Will call the api to get a new board", () => {
         const mockApi = jasmine.createSpyObj("ApiService", ["post"]);
+        mockApi.post.and.returnValue(Observable.of(BoardGameDTO));
         service = new GameService(mockApi);
         service.createGame(null, null);
         expect(mockApi.post).toHaveBeenCalled();
@@ -54,6 +55,7 @@ describe("Game Service tests", () => {
 
     it("Will call the api with the correct size arguement", () => {
         const mockApi = jasmine.createSpyObj("ApiService", ["post"]);
+        mockApi.post.and.returnValue(Observable.of(BoardGameDTO));
         service = new GameService(mockApi);
         const dto = new BoardCreationDTO();
         dto.size = 2;
@@ -64,6 +66,7 @@ describe("Game Service tests", () => {
 
     it("Will call the api with the correct players arguement", () => {
         const mockApi = jasmine.createSpyObj("ApiService", ["post"]);
+        mockApi.post.and.returnValue(Observable.of(BoardGameDTO));
         service = new GameService(mockApi);
         const dto = new BoardCreationDTO();
         const players = [
@@ -77,10 +80,21 @@ describe("Game Service tests", () => {
 
     it("Will return the observable given by the api", () => {
         const mockApi = jasmine.createSpyObj("ApiService", ["post"]);
-        const obvs = new Observable<BoardGameDTO>();
+        const obvs = Observable.of(BoardGameDTO);
         mockApi.post.and.returnValue(obvs);
         service = new GameService(mockApi);
         const result = service.createGame(null, null);
         expect(result).toBe(obvs);
+    });
+
+    it("Will set the current player to the cur player on the boardDto", () => {
+        const mockApi = jasmine.createSpyObj("ApiService", ["post"]);
+        const player = new Player();
+        const dto = new BoardGameDTO();
+        dto.cur = player;
+        mockApi.post.and.returnValue(Observable.of(dto));
+        service = new GameService(mockApi);
+        service.createGame(null, null);
+        expect(service.getCurrentPlayer()).toBe(player);
     });
 });
