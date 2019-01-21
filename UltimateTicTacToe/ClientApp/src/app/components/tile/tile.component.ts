@@ -9,7 +9,7 @@ import { PlayerColour } from "../../models/player/player.colour.enum";
     styleUrls: ["./tile.component.styles.css"]
 })
 
-export class TileComponent extends AbstractBoardGameComponent implements OnInit{
+export class TileComponent extends AbstractBoardGameComponent implements OnInit {
 
     public colour: string;
 
