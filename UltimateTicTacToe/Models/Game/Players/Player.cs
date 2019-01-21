@@ -6,6 +6,7 @@ namespace UltimateTicTacToe.Models.Game.Players
     {
         string getName();
         void setName(string name);
+        void setColour(PlayerColour colour);
         BoardGame makeMove(BoardGame game);
         PlayerType getPlayerType();
     }

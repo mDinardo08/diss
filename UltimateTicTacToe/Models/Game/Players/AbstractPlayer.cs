@@ -11,6 +11,7 @@ namespace UltimateTicTacToe.Models.Game.Players
         public string name;
         public IRandomService random;
         public PlayerType type;
+        public PlayerColour colour;
         public AbstractPlayer(IRandomService random)
         {
             this.random = random;
@@ -29,6 +30,11 @@ namespace UltimateTicTacToe.Models.Game.Players
         public PlayerType getPlayerType()
         {
             return type;
+        }
+
+        public void setColour(PlayerColour colour)
+        {
+            this.colour = colour;
         }
 
         public BoardGame makeMove(BoardGame game)
