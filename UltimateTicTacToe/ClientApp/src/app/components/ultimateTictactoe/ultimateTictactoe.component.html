@@ -1,13 +1,16 @@
-<div class="container-fluid card">
-    <div class="boarder">
-        <div *ngFor="let row of board" class="row">
-            <div *ngFor="let space of row" class="col">
-                <div *ngIf="space.board != null && space.board != undefined" style="position: relative">
-                    <ultimateTictactoe (moveEvent)="moveMade($event)" [board]=space.board [owner]=space.owner></ultimateTictactoe>
-                </div>
-                <div *ngIf="space.board == null || space.board == undefined">
-                    <tile (moveEvent)="moveMade($event)" [owner]=space.owner></tile>
-                </div>
+<div class="container" style="padding-top: 15px; padding-bottom: 15px">
+    <div *ngFor="let row of board; let x = index" class="row"
+    [class.tophl]="hasTopHorizontalLine(x)"
+    [class.bottomhl]="hasBottomHorizontalLine(x)">
+        <div *ngFor="let space of row; let y = index" class="col"
+        [class.leftvl]="hasLeftVerticalLine(y)"
+        [class.rightvl]="hasRightVerticalLine(y)"
+        style="padding: 0">
+            <div *ngIf="space.board != null && space.board != undefined">
+                <ultimateTictactoe (moveEvent)="moveMade($event, x, y)" [board]=space.board [owner]=space.owner></ultimateTictactoe>
+            </div>
+            <div *ngIf="space.board == null || space.board == undefined" >
+                <tile (moveEvent)="moveMade($event, x, y)" [owner]=space.owner></tile>
             </div>
         </div>
     </div>

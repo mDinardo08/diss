@@ -1,0 +1,18 @@
+.leftvl {
+    border-left: 1px solid black;
+    height: 100%;
+  }
+
+.rightvl {
+    border-right: 1px solid black;
+    height: 100%;
+
+}
+.tophl {
+    border-top: 1px solid black;
+    width: 100%
+}
+.bottomhl {
+    border-bottom: 1px solid black;
+    width: 100%
+}

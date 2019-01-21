@@ -24,6 +24,7 @@ export class GameService {
         const dto = this.api.post<BoardGameDTO>("Game/createBoard", creationDto);
         dto.subscribe((res) => {
             this.curPlayer = res.cur;
+            console.log("service");
         });
         return dto;
     }
