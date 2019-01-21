@@ -1,6 +1,5 @@
-import { Component, Output, EventEmitter, Input, OnInit } from "@angular/core";
+import { Component, OnInit } from "@angular/core";
 import { AbstractBoardGameComponent } from "../abstractBoardGame/abstractBoardGame.component";
-import { Player } from "../../models/player/player.model";
 import { GameService } from "../../services";
 import { PlayerColour } from "../../models/player/player.colour.enum";
 
