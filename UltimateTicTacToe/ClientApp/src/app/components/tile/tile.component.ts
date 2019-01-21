@@ -17,24 +17,10 @@ export class TileComponent extends AbstractBoardGameComponent implements OnInit{
         super();
     }
 
-    ngOnInit(): void {
-        this.setColour();
-    }
-
     makeMove($event: any): any {
         this.owner = this.gameService.getCurrentPlayer();
         this.setColour();
         this.moveEvent.emit(null);
-    }
-
-    private setColour(): void {
-        if (this.owner !== undefined && this.owner !== null) {
-            if (this.owner.colour === PlayerColour.BLUE) {
-                this.colour = "#0275d8";
-            } else {
-                this.colour = "#d9534f";
-            }
-        }
     }
 
 }
