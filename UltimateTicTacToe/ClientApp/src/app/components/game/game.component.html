@@ -4,7 +4,7 @@
 
       </div>
       <div class="col-md-5" *ngIf="game.board !== undefined">
-            <ultimateTictactoe [board]=game.board></ultimateTictactoe>
+            <ultimateTictactoe (moveEvent)="moveMade($event)" [board]=game.board></ultimateTictactoe>
       </div>
       <div class="col">
 
