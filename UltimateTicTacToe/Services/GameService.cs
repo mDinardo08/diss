@@ -80,6 +80,7 @@ namespace UltimateTicTacToe.Services
             {
                 jPlayer.Add("type", JToken.FromObject(player.getPlayerType()));
                 jPlayer.Add("name", JToken.FromObject(player.getName()));
+                jPlayer.Add("colour", JToken.FromObject(player.getColour()));
             }
             return jPlayer;
         }
