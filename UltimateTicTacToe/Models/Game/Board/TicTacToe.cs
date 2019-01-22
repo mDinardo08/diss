@@ -21,8 +21,8 @@ namespace UltimateTicTacToe.Models.Game
 
         public override void makeMove(Move move)
         {
+            validateBoard(move);
             board[move.possition.X][move.possition.Y].makeMove(move.next);
-            boardFilter = move.next.possition;
         }
 
         public override Player getWinner()
@@ -50,6 +50,17 @@ namespace UltimateTicTacToe.Models.Game
             return availableMoves;
         }
 
+        public override void validateBoard(Move move)
+        {
+            boardFilter = move.next.possition;
+            board[move.possition.X][move.possition.Y].validateBoard(move.next);
+        }
+
+        public Point2D getBoardFilter()
+        {
+            return boardFilter;
+        }
+
         private List<Move> getMovesFromAllSubBoards()
         {
             List<Move> result = new List<Move>();
@@ -58,11 +69,13 @@ namespace UltimateTicTacToe.Models.Game
                 for (int x = 0; x < board[y].Count; x++)
                 {
                     List<Move> subMoves = board[y][x].getAvailableMoves();
-                    subMoves.ForEach((Move m) => result.Add(new Move
-                    {
-                        next = m,
-                        possition = new Point2D { X = x, Y = y }
-                    }));
+                    subMoves.ForEach((Move m) => 
+                        result.Add(new Move
+                        {
+                            next = m,
+                            possition = new Point2D { X = x, Y = y }
+                        })
+                    );
                 }
             }
             return result;

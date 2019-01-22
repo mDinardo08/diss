@@ -22,5 +22,6 @@ namespace UltimateTicTacToe.Models.Game
         public abstract Player getWinner();
 
         public abstract void makeMove(Move move);
+        public abstract void validateBoard(Move move);
     }
 }
