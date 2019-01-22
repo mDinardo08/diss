@@ -6,7 +6,7 @@ import { BoardGame } from "../../models/boardGame/boardgame/boardgame.model";
 import { BoardCreationDTO } from "../../models/DTOs/BoardCreationDTO";
 import { Player } from "../../models/player/player.model";
 import { Move } from "../../models/move/move.model";
-import { IGameService } from "./game.service.interface";
+import { IGameService } from "./game.service.abstract";
 
 @Injectable()
 export class GameService implements IGameService {

@@ -1,7 +1,7 @@
 import { Component } from "@angular/core";
 import { BoardGame } from "../../models/boardGame/boardgame/boardgame.model";
 import { Move } from "../../models/move/move.model";
-import { IGameService } from "../../services/game/game.service.interface";
+import { IGameService } from "../../services/game/game.service.abstract";
 
 @Component({
     selector: "game",
