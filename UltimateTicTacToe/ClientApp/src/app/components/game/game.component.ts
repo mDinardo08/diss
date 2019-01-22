@@ -1,23 +1,22 @@
-import { Component, OnInit, ViewChild, ViewContainerRef } from "@angular/core";
+import { Component } from "@angular/core";
 import { GameService } from "../../services";
 import { BoardGame } from "../../models/boardGame/boardgame/boardgame.model";
-import { BoardCreationDTO } from "../../models/DTOs/BoardCreationDTO";
-import { Player } from "../../models/player/player.model";
-import { PlayerType } from "../../models/player/player.type.enum";
+import { Move } from "../../models/move/move.model";
 
 @Component({
     selector: "game",
     templateUrl: "./game.component.html"
 })
 
-export class GameComponent  {
+export class GameComponent {
 
     constructor(private gameService: GameService) {}
 
-    public board: BoardGame;
+    public game: BoardGame;
 
-
-    public moveMade($event): void {
-        this.gameService.makeMove(this.board.board);
+    public moveMade($event: Move): void {
+        this.gameService.makeMove(this.game.board, $event).subscribe((res) => {
+            this.game.board = res.game;
+        });
     }
 }
