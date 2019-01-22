@@ -33,7 +33,8 @@ namespace UltimateTicTacToe.Controllers
         {
             BoardGame game = boardCreationService.createBoardGame(gameDto);
             Player player = playerCreationService.createPlayer(gameDto.cur);
-            return ExecuteApiAction(() => new ApiResult<BoardGameDTO> { Model = gameService.processMove(game, player, null) });
+            List<Player> players = playerCreationService.createPlayers(gameDto.players);
+            return ExecuteApiAction(() => new ApiResult<BoardGameDTO> { Model = gameService.processMove(game, player, players) });
         }
 
         [HttpPost("createBoard")]
