@@ -6,15 +6,17 @@ import { BoardGame } from "../../models/boardGame/boardgame/boardgame.model";
 import { BoardCreationDTO } from "../../models/DTOs/BoardCreationDTO";
 import { Player } from "../../models/player/player.model";
 import { Move } from "../../models/move/move.model";
-import { IGameService } from "./game.service.abstract";
+import { AbstractGameService } from "./game.service.abstract";
 
 @Injectable()
-export class GameService implements IGameService {
+export class GameService extends AbstractGameService {
 
     curPlayer: Player;
     players: Array<Player>;
     board: Array<Array<BoardGame>>;
-    constructor(private api: ApiService) {}
+    constructor(private api: ApiService) {
+        super();
+    }
 
     makeMove(move: Move): Observable<BoardGameDTO> {
         const Dto = new BoardGameDTO();

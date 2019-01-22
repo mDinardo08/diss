@@ -1,7 +1,7 @@
 import { Move } from "../../models/move/move.model";
 import { Player } from "../../models/player/player.model";
 
-export abstract class IGameService {
+export abstract class AbstractGameService {
 
     abstract makeMove(move: Move);
 

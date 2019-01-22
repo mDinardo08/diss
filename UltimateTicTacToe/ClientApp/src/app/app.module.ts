@@ -22,7 +22,7 @@ import * as Services from "./services";
       { path: "", component: Components.GameComponent, pathMatch: "full" }
     ])
   ],
-  providers: [Services.ApiService, Services.GameService],
+  providers: [Services.ApiService, { provide: Services.AbstractGameService, useClass: Services.GameService }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
