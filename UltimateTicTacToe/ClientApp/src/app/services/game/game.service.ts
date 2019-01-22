@@ -6,20 +6,22 @@ import { BoardGame } from "../../models/boardGame/boardgame/boardgame.model";
 import { BoardCreationDTO } from "../../models/DTOs/BoardCreationDTO";
 import { Player } from "../../models/player/player.model";
 import { Move } from "../../models/move/move.model";
+import { IGameService } from "./game.service.interface";
 
 @Injectable()
-export class GameService {
+export class GameService implements IGameService {
 
-    private curPlayer: Player;
-    private players: Array<Player>;
+    curPlayer: Player;
+    players: Array<Player>;
+    board: Array<Array<BoardGame>>;
     constructor(private api: ApiService) {}
 
-    makeMove(game: Array<Array<BoardGame>>, lastMove: Move): Observable<BoardGameDTO> {
+    makeMove(move: Move): Observable<BoardGameDTO> {
         const Dto = new BoardGameDTO();
-        Dto.game = this.makeMoveOnBoard(game, lastMove);
-        Dto.lastMove = lastMove;
+        Dto.game = this.makeMoveOnBoard(this.board, move);
+        Dto.lastMove = move;
         Dto.players = this.players;
-        Dto.cur = this.players.find(x => x.colour !== this.curPlayer.colour);
+        Dto.cur = this.getNextPlayer()  ;
         const result = this.api.post<BoardGameDTO>("Game/makeMove", Dto);
         result.subscribe((res) => {
             this.curPlayer = res.cur;
@@ -35,6 +37,7 @@ export class GameService {
         const dto = this.api.post<BoardGameDTO>("Game/createBoard", creationDto);
         dto.subscribe((res) => {
             this.curPlayer = res.cur;
+            this.players = res.players;
         });
         return dto;
     }
@@ -43,14 +46,18 @@ export class GameService {
         return this.curPlayer;
     }
 
-    private makeMoveOnBoard(board: Array<Array<BoardGame>>, move: Move): Array<Array<BoardGame>> {
+    makeMoveOnBoard(board: Array<Array<BoardGame>>, move: Move): Array<Array<BoardGame>> {
         const result = board;
         const point = move.possition;
-        if (move.next === null) {
+        if (move.next === null || move.next === undefined) {
             result[point.X][point.Y].owner = this.curPlayer;
         } else {
             result[point.X][point.Y].board = this.makeMoveOnBoard(result[point.X][point.Y].board, move.next);
         }
         return result;
+    }
+
+    getNextPlayer(): Player {
+        return this.players.find(x => x.colour !== this.curPlayer.colour);
     }
 }
