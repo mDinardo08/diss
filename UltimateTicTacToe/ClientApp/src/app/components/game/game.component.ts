@@ -1,7 +1,7 @@
 import { Component } from "@angular/core";
-import { GameService } from "../../services";
 import { BoardGame } from "../../models/boardGame/boardgame/boardgame.model";
 import { Move } from "../../models/move/move.model";
+import { IGameService } from "../../services/game/game.service.interface";
 
 @Component({
     selector: "game",
@@ -10,12 +10,12 @@ import { Move } from "../../models/move/move.model";
 
 export class GameComponent {
 
-    constructor(private gameService: GameService) {}
+    constructor(private gameService: IGameService) {}
 
     public game: BoardGame;
 
     public moveMade($event: Move): void {
-        this.gameService.makeMove(this.game.board, $event).subscribe((res) => {
+        this.gameService.makeMove($event).subscribe((res) => {
             this.game.board = res.game;
         });
     }

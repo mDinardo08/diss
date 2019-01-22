@@ -23,7 +23,7 @@ describe("Game Component", () => {
         game.board = board;
         comp.game = game;
         comp.moveMade(null);
-        expect(mockService.makeMove).toHaveBeenCalledWith(board, null);
+        expect(mockService.makeMove).toHaveBeenCalledWith(null);
     });
 
     it("Will call the game service with the move event", () => {
@@ -31,7 +31,7 @@ describe("Game Component", () => {
         const move = new Move();
         comp.game = new BoardGame();
         comp.moveMade(move);
-        expect(mockService.makeMove).toHaveBeenCalledWith(undefined, move);
+        expect(mockService.makeMove).toHaveBeenCalledWith(move);
     });
 
     it("Will set the board returned from the service as it's board", () => {
