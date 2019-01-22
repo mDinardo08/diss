@@ -37,6 +37,11 @@ namespace UltimateTicTacToe.Models.Game.Players
             this.colour = colour;
         }
 
+        public PlayerColour getColour()
+        {
+            return this.colour;
+        }
+
         public BoardGame makeMove(BoardGame game)
         {
             List<Move> possibleMoves = game.getAvailableMoves();
