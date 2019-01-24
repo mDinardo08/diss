@@ -200,4 +200,27 @@ describe("Game Service tests", () => {
         const result = service.getNextPlayer();
         expect(result).toBe(other);
     });
+
+    it("Will set the board returned on board creation as it's board", () => {
+        const mockApi = jasmine.createSpyObj("ApiService", ["post"]);
+        const dto = new BoardGameDTO();
+        dto.game = new Array<Array<BoardGame>>();
+        mockApi.post.and.returnValue(Observable.of(dto));
+        service = new GameService(mockApi);
+        service.createGame(null, null);
+        expect(service.board).toBe(dto.game);
+    });
+
+    it("Will set the board returned after a move as it's board", () => {
+        const mockApi = jasmine.createSpyObj("ApiService", ["post"]);
+        const dto = new BoardGameDTO();
+        dto.game = new Array<Array<BoardGame>>();
+        mockApi.post.and.returnValue(Observable.of(dto));
+        service = new GameService(mockApi);
+        service.players = [];
+        spyOn(service, "makeMoveOnBoard").and.returnValue(new Array<Array<BoardGame>>());
+        service.makeMove(null);
+        expect(service.board).toBe(dto.game);
+
+    });
 });

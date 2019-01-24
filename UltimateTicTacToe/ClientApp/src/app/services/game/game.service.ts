@@ -27,6 +27,7 @@ export class GameService extends AbstractGameService {
         const result = this.api.post<BoardGameDTO>("Game/makeMove", Dto);
         result.subscribe((res) => {
             this.curPlayer = res.cur;
+            this.board = res.game;
         });
         return result;
     }
@@ -40,6 +41,7 @@ export class GameService extends AbstractGameService {
         dto.subscribe((res) => {
             this.curPlayer = res.cur;
             this.players = res.players;
+            this.board = res.game;
         });
         return dto;
     }
