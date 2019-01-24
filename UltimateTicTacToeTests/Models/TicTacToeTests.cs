@@ -401,5 +401,71 @@ namespace UltimateTicTacToeTests.Models
             game.validateBoard(move);
             mockGame.Verify();
         }
+
+        [TestMethod]
+        public void WillNotThrowAnExceptionIfNextIsNull()
+        {
+            Move move = new Move();
+            TicTacToe game = new TicTacToe(null);
+            try
+            {
+                game.validateBoard(move);
+            }
+            catch (Exception)
+            {
+                Assert.Fail();
+            }
+        }
+
+        [TestMethod]
+        public void WillAssignTheBoardFilterAsThePossitionOfTheMove()
+        {
+            TicTacToe game = new TicTacToe(null);
+            game.boardFilter = new Point2D
+            {
+                X = 0,
+                Y = 0
+            };
+            Mock<BoardGame> mockBoard = new Mock<BoardGame>();
+            mockBoard.Setup(x => x.getAvailableMoves()).Returns(new List<Move>
+            {
+                new Move()
+            });
+            game.board = new List<List<BoardGame>>
+            {
+                new List<BoardGame>
+                {
+                    mockBoard.Object
+                }
+            };
+            List<Move> result = game.getAvailableMoves();
+            Assert.IsTrue(result[0].possition.X == 0 && result[0].possition.Y == 0);
+        }
+
+        [TestMethod]
+        public void WillNestTheMoveReturnedByTheSubboard()
+        {
+            Move m = new Move();
+            TicTacToe game = new TicTacToe(null);
+            game.boardFilter = new Point2D
+            {
+                X = 0,
+                Y = 0
+            };
+            Mock<BoardGame> mockBoard = new Mock<BoardGame>();
+            mockBoard.Setup(x => x.getAvailableMoves()).Returns(new List<Move>
+            {
+                m
+            });
+            game.board = new List<List<BoardGame>>
+            {
+                new List<BoardGame>
+                {
+                    mockBoard.Object
+                }
+            };
+            List<Move> result = game.getAvailableMoves();
+            Assert.AreEqual(m, result[0].next);
+        }
     }
 }

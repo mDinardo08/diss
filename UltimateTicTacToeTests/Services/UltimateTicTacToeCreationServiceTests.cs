@@ -48,7 +48,7 @@ namespace UltimateTicTacToeTests.Services
             Mock<IPlayerCreationService> mockService = new Mock<IPlayerCreationService>(MockBehavior.Loose);
             mockService.Setup(x => x.createPlayer(It.IsAny<JObject>()));
             service = new UltimateTicTacToeCreationService(null, mockService.Object);
-            BoardGame game = service.createBoardGame(new BoardGameDTO { game = board });
+            BoardGame game = service.createBoardGame(new BoardGameDTO { game = board, lastMove = new Move() });
             Assert.IsTrue(game is TicTacToe);
         }
 
@@ -61,7 +61,7 @@ namespace UltimateTicTacToeTests.Services
             Mock<IPlayerCreationService> mockService = new Mock<IPlayerCreationService>(MockBehavior.Loose);
             mockService.Setup(x => x.createPlayer(It.IsAny<JObject>()));
             service = new UltimateTicTacToeCreationService(mockHandler.Object, mockService.Object);
-            TicTacToe game = service.createBoardGame(new BoardGameDTO { game = board }) as TicTacToe;
+            TicTacToe game = service.createBoardGame(new BoardGameDTO { game = board, lastMove = new Move() }) as TicTacToe;
             game.getWinner();
         }
 
@@ -76,7 +76,7 @@ namespace UltimateTicTacToeTests.Services
             Mock<IPlayerCreationService> mockService = new Mock<IPlayerCreationService>(MockBehavior.Loose);
             mockService.Setup(x => x.createPlayer(It.IsAny<JObject>()));
             service = new UltimateTicTacToeCreationService(null, mockService.Object);
-            TicTacToe game = service.createBoardGame(new BoardGameDTO { game = board }) as TicTacToe;
+            TicTacToe game = service.createBoardGame(new BoardGameDTO { game = board, lastMove = new Move() }) as TicTacToe;
             Assert.IsTrue(game.getBoard()[0][0] is Tile);
         }
 
@@ -88,7 +88,7 @@ namespace UltimateTicTacToeTests.Services
             Mock<IPlayerCreationService> mockService = new Mock<IPlayerCreationService>(MockBehavior.Loose);
             mockService.Setup(x => x.createPlayer(It.IsAny<JObject>()));
             service = new UltimateTicTacToeCreationService(null, mockService.Object);
-            TicTacToe game = service.createBoardGame(new BoardGameDTO { game = board }) as TicTacToe;
+            TicTacToe game = service.createBoardGame(new BoardGameDTO { game = board, lastMove = new Move() }) as TicTacToe;
             Assert.IsTrue(game.getBoard()[0].Count == 2);
         }
 
@@ -103,7 +103,7 @@ namespace UltimateTicTacToeTests.Services
             Mock<IPlayerCreationService> mockService = new Mock<IPlayerCreationService>(MockBehavior.Loose);
             mockService.Setup(x => x.createPlayer(It.IsAny<JObject>()));
             service = new UltimateTicTacToeCreationService(null, mockService.Object);
-            TicTacToe game = service.createBoardGame(new BoardGameDTO { game = board }) as TicTacToe;
+            TicTacToe game = service.createBoardGame(new BoardGameDTO { game = board, lastMove = new Move() }) as TicTacToe;
             Assert.IsTrue(game.getBoard().Count == 2);
         }
 
@@ -113,7 +113,7 @@ namespace UltimateTicTacToeTests.Services
             JObject ticTacToe = new JObject();
             ticTacToe.Add("board", JToken.FromObject(new List<List<BoardGame>>()));
             List<List<JObject>> board = JNestedBoard;
-            TicTacToe game = service.createBoardGame(new BoardGameDTO { game = board }) as TicTacToe;
+            TicTacToe game = service.createBoardGame(new BoardGameDTO { game = board, lastMove = new Move() }) as TicTacToe;
             Assert.IsTrue(game.getBoard()[0][0] is TicTacToe);
         }
 
@@ -126,7 +126,7 @@ namespace UltimateTicTacToeTests.Services
             JObject ticTacToe = new JObject();
             ticTacToe.Add("board", JToken.FromObject(new List<List<BoardGame>>()));
             List<List<JObject>> board = JNestedBoard;
-            TicTacToe game = service.createBoardGame(new BoardGameDTO { game = board }) as TicTacToe;
+            TicTacToe game = service.createBoardGame(new BoardGameDTO { game = board, lastMove = new Move()}) as TicTacToe;
             try
             {
                 (game.getBoard()[0][0] as TicTacToe).getWinner();
@@ -153,7 +153,7 @@ namespace UltimateTicTacToeTests.Services
                     })
                 }
             };
-            TicTacToe game = service.createBoardGame(new BoardGameDTO { game = board }) as TicTacToe;
+            TicTacToe game = service.createBoardGame(new BoardGameDTO { game = board, lastMove = new Move() }) as TicTacToe;
             mockService.Verify();
         }
 
@@ -173,7 +173,7 @@ namespace UltimateTicTacToeTests.Services
                     JObject.FromObject(tile)
                 }
             };
-            TicTacToe game = service.createBoardGame(new BoardGameDTO { game = board }) as TicTacToe;
+            TicTacToe game = service.createBoardGame(new BoardGameDTO { game = board, lastMove = new Move() }) as TicTacToe;
             Assert.AreEqual(p, (game.board[0][0] as Tile).owner);
         }
 

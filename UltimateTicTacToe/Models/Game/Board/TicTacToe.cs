@@ -12,7 +12,7 @@ namespace UltimateTicTacToe.Models.Game
     public class TicTacToe : CompositeGame
     {
         private IWinChecker winChecker;
-        private Point2D boardFilter;
+        public Point2D boardFilter;
 
         public TicTacToe(IWinChecker winChecker)
         {
@@ -34,7 +34,7 @@ namespace UltimateTicTacToe.Models.Game
             }
             return owner;
         }
-        
+
         public override List<Move> getAvailableMoves()
         {
             List<Move> availableMoves = new List<Move>();
@@ -42,6 +42,7 @@ namespace UltimateTicTacToe.Models.Game
             {
                 List<Move> subBoardMoves = getSector(boardFilter).getAvailableMoves();
                 availableMoves = subBoardMoves.Count > 0 ? subBoardMoves : getMovesFromAllSubBoards();
+                availableMoves = nestMoves(availableMoves);
             }
             else if (winChecker.checkForWin(this) == null)
             {
@@ -52,8 +53,11 @@ namespace UltimateTicTacToe.Models.Game
 
         public override void validateBoard(Move move)
         {
-            boardFilter = move.next.possition;
-            board[move.possition.X][move.possition.Y].validateBoard(move.next);
+            if (move.next != null)
+            {
+                boardFilter = move.next.possition;
+                board[move.possition.X][move.possition.Y].validateBoard(move.next);
+            }
         }
 
         public Point2D getBoardFilter()
@@ -69,7 +73,7 @@ namespace UltimateTicTacToe.Models.Game
                 for (int x = 0; x < board[y].Count; x++)
                 {
                     List<Move> subMoves = board[y][x].getAvailableMoves();
-                    subMoves.ForEach((Move m) => 
+                    subMoves.ForEach((Move m) =>
                         result.Add(new Move
                         {
                             next = m,
@@ -78,6 +82,20 @@ namespace UltimateTicTacToe.Models.Game
                     );
                 }
             }
+            return result;
+        }
+
+        private List<Move> nestMoves(List<Move> moves)
+        {
+            List<Move> result = new List<Move>();
+            moves.ForEach((m) =>
+            {
+                result.Add(new Move
+                {
+                    possition = boardFilter,
+                    next = m
+                });
+            });
             return result;
         }
     }
