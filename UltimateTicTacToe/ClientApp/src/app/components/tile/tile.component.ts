@@ -1,7 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { AbstractBoardGameComponent } from "../abstractBoardGame/abstractBoardGame.component";
-import { GameService } from "../../services";
-import { PlayerColour } from "../../models/player/player.colour.enum";
+import { AbstractGameService } from "../../services";
 
 @Component({
     selector: "tile",
@@ -13,7 +12,7 @@ export class TileComponent extends AbstractBoardGameComponent implements OnInit 
 
     public colour: string;
 
-    constructor(private gameService: GameService) {
+    constructor(private gameService: AbstractGameService) {
         super();
     }
 
