@@ -3,6 +3,7 @@ import { componentFactoryName, AssertNotNull } from "@angular/compiler";
 import { BoardGame } from "../../models/boardGame/boardgame/boardgame.model";
 import { Player } from "../../models/player/player.model";
 import { PlayerColour } from "../../models/player/player.colour.enum";
+import { Move } from "../../models/move/move.model";
 
 describe("Tile Component", () => {
 
@@ -11,19 +12,22 @@ describe("Tile Component", () => {
     beforeEach(() => {
         const mockService = jasmine.createSpyObj("GameService", ["getCurrentPlayer"]);
         comp = new TileComponent(mockService);
+        comp.availableMoves = [];
     });
 
     it("Will create a moveEvent on creation", () => {
         expect(comp.moveEvent).not.toBeNull();
     });
 
-    it("Will emit an event on makeMove", () => {
+    it("Will emit an event on makeMove if available moves is not empty", () => {
+        comp.availableMoves.push(new Move());
         spyOn(comp.moveEvent, "emit");
         comp.makeMove(null);
         expect(comp.moveEvent.emit).toHaveBeenCalled();
     });
 
     it("Will emit null", () => {
+        comp.availableMoves.push(new Move());
         spyOn(comp.moveEvent, "emit");
         comp.makeMove(null);
         expect(comp.moveEvent.emit).toHaveBeenCalledWith(null);
@@ -35,6 +39,7 @@ describe("Tile Component", () => {
         player.name = "fake";
         mockService.getCurrentPlayer.and.returnValue(player);
         comp = new TileComponent(mockService);
+        comp.availableMoves = [new Move()];
         comp.makeMove(null);
         expect(comp.owner).toBe(player);
     });
@@ -71,7 +76,15 @@ describe("Tile Component", () => {
         player.colour = PlayerColour.BLUE;
         mockService.getCurrentPlayer.and.returnValue(player);
         comp = new TileComponent(mockService);
+        comp.availableMoves = [new Move()];
         comp.makeMove(null);
         expect(comp.colour).toBe("#0275d8");
+    });
+
+    it("Will not emit an event if available moves is empty array", () => {
+        comp.availableMoves = [];
+        spyOn(comp.moveEvent, "emit");
+        comp.makeMove(null);
+        expect(comp.moveEvent.emit).not.toHaveBeenCalled();
     });
 });
