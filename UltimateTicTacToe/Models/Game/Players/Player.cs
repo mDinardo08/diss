@@ -8,7 +8,7 @@ namespace UltimateTicTacToe.Models.Game.Players
         void setName(string name);
         void setColour(PlayerColour colour);
         PlayerColour getColour();
-        BoardGame makeMove(BoardGame game);
+        Move makeMove(BoardGame game);
         PlayerType getPlayerType();
     }
 }

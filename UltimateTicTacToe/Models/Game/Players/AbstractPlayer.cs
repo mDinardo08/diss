@@ -42,13 +42,13 @@ namespace UltimateTicTacToe.Models.Game.Players
             return this.colour;
         }
 
-        public BoardGame makeMove(BoardGame game)
+        public Move makeMove(BoardGame game)
         {
             List<Move> possibleMoves = game.getAvailableMoves();
             Move decided = decideMove(game, possibleMoves);
             decided.setOwner(this);
             game.makeMove(decided);
-            return game;
+            return decided;
         }
 
         abstract protected Move decideMove(BoardGame game, List<Move> moves);
