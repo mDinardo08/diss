@@ -68,11 +68,11 @@ namespace UltimateTicTacToe.Models.Game
         private List<Move> getMovesFromAllSubBoards()
         {
             List<Move> result = new List<Move>();
-            for (int y = 0; y < board.Count; y++)
+            for (int x = 0; x < board.Count; x++)
             {
-                for (int x = 0; x < board[y].Count; x++)
+                for (int y = 0; y < board[x].Count; y++)
                 {
-                    List<Move> subMoves = board[y][x].getAvailableMoves();
+                    List<Move> subMoves = board[x][y].getAvailableMoves();
                     subMoves.ForEach((Move m) =>
                         result.Add(new Move
                         {

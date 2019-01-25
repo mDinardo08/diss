@@ -187,7 +187,7 @@ namespace UltimateTicTacToeTests.Models
         }
 
         [TestMethod]
-        public void WillAssignTheCorrectPossitionInTheXDirection()
+        public void WillAssignTheCorrectPossitionInTheYDirection()
         {
             Move m = new Move
             {
@@ -207,11 +207,11 @@ namespace UltimateTicTacToeTests.Models
                 }
             };
             Point2D result = game.getAvailableMoves()[1].possition;
-            Assert.IsTrue(result.X == 1);
+            Assert.IsTrue(result.Y == 1);
         }
 
         [TestMethod]
-        public void WillAssignTheCorrectPossitionInTheYDirection()
+        public void WillAssignTheCorrectPossitionInTheXDirection()
         {
             Move m = new Move
             {
@@ -235,7 +235,7 @@ namespace UltimateTicTacToeTests.Models
                 }
             };
             Point2D result = game.getAvailableMoves()[1].possition;
-            Assert.IsTrue(result.Y == 1);
+            Assert.IsTrue(result.X == 1);
         }
 
         [TestMethod]
