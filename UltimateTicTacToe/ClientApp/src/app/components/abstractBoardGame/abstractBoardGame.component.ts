@@ -8,6 +8,7 @@ export abstract class AbstractBoardGameComponent implements OnInit {
 
     @Input() owner: Player;
     @Input() board: Array<Array<BoardGame>>;
+    @Input() availableMoves: Array<Move>;
     @Output() moveEvent =  new EventEmitter<Move>();
     public colour: string;
 
