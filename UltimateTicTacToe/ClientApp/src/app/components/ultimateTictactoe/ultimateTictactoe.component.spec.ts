@@ -28,7 +28,7 @@ describe("Tictactoe component", () => {
         const event = new Move();
         event.next = move;
         event.possition = {
-            X: null, Y: null
+            x: null, y: null
         };
         expect(comp.moveEvent.emit).toHaveBeenCalledWith(event);
     });
@@ -38,7 +38,7 @@ describe("Tictactoe component", () => {
         const move = new Move();
         comp.moveMade(null, 0, null);
         const event = new Move();
-        event.possition = {X: 0, Y: null};
+        event.possition = {x: 0, y: null};
         event.next = null;
         expect(comp.moveEvent.emit).toHaveBeenCalledWith(event);
     });
@@ -48,7 +48,7 @@ describe("Tictactoe component", () => {
         const move = new Move();
         comp.moveMade(null, null, 0);
         const event = new Move();
-        event.possition = {X: null, Y: 0};
+        event.possition = {x: null, y: 0};
         event.next = null;
         expect(comp.moveEvent.emit).toHaveBeenCalledWith(event);
     });
@@ -62,10 +62,14 @@ describe("Tictactoe component", () => {
     it("Will return moves next move if possition matches coords passed in", () => {
         const m = new Move();
         const n = new Move();
+        n.possition = {
+            x: 0,
+            y: 0
+        };
         m.next = n;
         m.possition = {
-            X: 0,
-            Y: 0
+            x: 0,
+            y: 0
         };
         comp.availableMoves = [m];
         const result = comp.getAvailableMoves(0, 0);
@@ -77,11 +81,25 @@ describe("Tictactoe component", () => {
         const n = new Move();
         m.next = n;
         m.possition = {
-            X: 0,
-            Y: 0
+            x: 0,
+            y: 0
         };
         comp.availableMoves = [m, m];
         const result = comp.getAvailableMoves(0, 0);
         expect(result.length).toBe(2);
+    });
+
+    it("Will return all moves if the possition matches", () => {
+        const internal = new Move();
+        internal.next = internal;
+        internal.possition =  { x: 1, y: 2};
+        comp.availableMoves = [
+            internal,
+            internal,
+            internal,
+            internal,
+            internal];
+        const result = comp.getAvailableMoves(1, 2);
+        expect(result.length).toBe(5);
     });
 });

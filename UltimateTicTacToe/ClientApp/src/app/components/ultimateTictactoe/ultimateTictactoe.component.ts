@@ -16,20 +16,21 @@ export class TictactoeComponent extends AbstractBoardGameComponent {
         const move = new Move();
         move.next = $event;
         move.possition = {
-            X: x,
-            Y: y
+            x: x,
+            y: y
         };
         this.moveEvent.emit(move);
     }
 
     getAvailableMoves(x: number, y: number): Array<Move> {
         let result = new Array<Move>();
-        if (this.availableMoves.length > 0) {
-            const filteredMoves = this.availableMoves.filter((move) => {
-                return move.possition.X === x && move.possition.Y === y;
-            });
-            result = result.concat(filteredMoves.map((move) => move.next));
+        const filteredMoves = new Array<Move>();
+        for (let i = 0; i < this.availableMoves.length; i++) {
+            if (this.availableMoves[i].possition.x === x && this.availableMoves[i].possition.y === y) {
+                filteredMoves.push(this.availableMoves[i]);
+            }
         }
+        result = result.concat(filteredMoves.map((move) => move.next));
         return result;
     }
 
