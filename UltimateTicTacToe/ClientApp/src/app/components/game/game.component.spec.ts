@@ -34,12 +34,12 @@ describe("Game Component", () => {
         expect(mockService.makeMove).toHaveBeenCalledWith(move);
     });
 
-    it("Will set the board returned from the service as it's board", () => {
-        const dto = new BoardGameDTO();
-        dto.game = new Array<Array<BoardGame>>();
-        mockService.makeMove.and.returnValue(Observable.of(dto));
-        comp.game = new BoardGame();
-        comp.moveMade(null);
-        expect(comp.game.board).toBe(dto.game);
+    it("Will subscribe to the game service board updated event", () => {
+        mockService = jasmine.createSpyObj("GameService", ["boardUpdatedEvent", "createGame"]);
+        const mockEmittor = jasmine.createSpyObj("EventEmitter", ["subscribe"]);
+        mockService.boardUpdatedEvent = mockEmittor;
+        comp = new GameComponent(mockService);
+        comp.ngOnInit();
+        expect(mockService.boardUpdatedEvent.subscribe).toHaveBeenCalled();
     });
 });
