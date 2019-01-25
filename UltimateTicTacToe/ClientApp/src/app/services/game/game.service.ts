@@ -1,4 +1,4 @@
-import { Injectable } from "@angular/core";
+import { Injectable, Output, EventEmitter } from "@angular/core";
 import { ApiService } from "../api/api.service";
 import { BoardGameDTO } from "../../models/DTOs/BoardGameDTO";
 import { Observable } from "rxjs/Observable";
@@ -14,11 +14,14 @@ export class GameService extends AbstractGameService {
     curPlayer: Player;
     players: Array<Player>;
     board: Array<Array<BoardGame>>;
+    availableMoves: Array<Move>;
+    @Output() boardUpdatedEvent = new EventEmitter<Array<Array<BoardGame>>>();
+
     constructor(private api: ApiService) {
         super();
     }
 
-    makeMove(move: Move): Observable<BoardGameDTO> {
+    makeMove(move: Move): void {
         const Dto = new BoardGameDTO();
         Dto.game = this.makeMoveOnBoard(this.board, move);
         Dto.lastMove = move;
@@ -28,8 +31,9 @@ export class GameService extends AbstractGameService {
         result.subscribe((res) => {
             this.curPlayer = res.cur;
             this.board = res.game;
+            this.availableMoves = res.availableMoves;
+            this.boardUpdatedEvent.emit(this.board);
         });
-        return result;
     }
 
     createGame(size: number, players: Array<Player>): Observable<BoardGameDTO> {
@@ -42,12 +46,17 @@ export class GameService extends AbstractGameService {
             this.curPlayer = res.cur;
             this.players = res.players;
             this.board = res.game;
+            this.boardUpdatedEvent.emit(this.board);
         });
         return dto;
     }
 
     getCurrentPlayer(): Player {
         return this.curPlayer;
+    }
+
+    getAvailableMoves(): Move[] {
+        return this.availableMoves;
     }
 
     makeMoveOnBoard(board: Array<Array<BoardGame>>, move: Move): Array<Array<BoardGame>> {

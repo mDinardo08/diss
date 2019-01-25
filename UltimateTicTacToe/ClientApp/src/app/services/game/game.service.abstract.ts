@@ -5,9 +5,11 @@ import { BoardGameDTO } from "../../models/DTOs/BoardGameDTO";
 
 export abstract class AbstractGameService {
 
-    abstract makeMove(move: Move): Observable<BoardGameDTO>;
+    abstract makeMove(move: Move): void;
 
-    abstract createGame(size: number, players: Array<Player>): Observable<BoardGameDTO>;
+    abstract createGame(size: number, players: Array<Player>): void;
 
     abstract getCurrentPlayer(): Player;
+
+    abstract getAvailableMoves(): Array<Move>;
 }
