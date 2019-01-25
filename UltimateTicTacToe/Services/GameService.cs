@@ -30,15 +30,6 @@ namespace UltimateTicTacToe.Services
                 if (cur.getPlayerType() != PlayerType.HUMAN)
                 {
                     HandleAiMove(cur, game, result, players);
-                    /*List<List<BoardGame>> board = cur.makeMove(game).getBoard();
-                    result.game = convertToJObject(board);
-                    Player next = players.Find(x => !x.Equals(cur));
-                    result.cur = convertToJObject(next);
-                    try
-                    {
-                        result.Winner = game.getWinner();
-                    }
-                    catch (NoWinnerException) { }*/
                 }
                 else
                 {
@@ -46,13 +37,16 @@ namespace UltimateTicTacToe.Services
                     result.game = convertToJObject(game.getBoard());
                 }
             }
+            result.availableMoves = game.getAvailableMoves();
             return result;
         }
 
         private void HandleAiMove(Player Ai, BoardGame game, BoardGameDTO result, List<Player> players)
         {
-            List<List<BoardGame>> board = Ai.makeMove(game).getBoard();
+            Move move = Ai.makeMove(game);
+            List<List<BoardGame>> board = game.getBoard();
             result.game = convertToJObject(board);
+            result.lastMove = move;
             Player next = players.Find(x => !x.Equals(Ai));
             result.cur = convertToJObject(next);
             try
