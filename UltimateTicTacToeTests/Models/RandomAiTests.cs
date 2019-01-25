@@ -67,16 +67,6 @@ namespace UltimateTicTacToeTests.Models
             mockGame.Verify(x => x.makeMove(move), Times.Once);
         }
 
-        [TestMethod]
-        public void WillReturnTheMutatedBoard()
-        {
-            Mock<BoardGame> mockGame = new Mock<BoardGame>(MockBehavior.Loose);
-            mockGame.Setup(x => x.getAvailableMoves()).Returns(new List<Move> { new Move() });
-            Mock<IRandomService> mock = new Mock<IRandomService>(MockBehavior.Loose);
-            player = new RandomAi(mock.Object);
-            BoardGame result = player.makeMove(mockGame.Object);
-            Assert.AreEqual(mockGame.Object, result);
-        }
 
         [TestMethod]
         public void WillSetItselfAsTheOwnerOfTheMove()
