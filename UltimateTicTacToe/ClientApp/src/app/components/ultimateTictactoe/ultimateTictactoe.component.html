@@ -7,10 +7,10 @@
         [class.rightvl]="hasRightVerticalLine(y)"
         style="padding: 0">
             <div *ngIf="space.board != null && space.board != undefined">
-                <ultimateTictactoe [availableMoves]="getAvailableMoves(row, col)" (moveEvent)="moveMade($event, x, y)" [board]=space.board [owner]=space.owner></ultimateTictactoe>
+                <ultimateTictactoe [availableMoves]="getAvailableMoves(x, y)" (moveEvent)="moveMade($event, x, y)" [board]=space.board [owner]=space.owner></ultimateTictactoe>
             </div>
             <div *ngIf="space.board == null || space.board == undefined" >
-                <tile (moveEvent)="moveMade($event, x, y)" [owner]=space.owner></tile>
+                <tile (moveEvent)="moveMade($event, x, y)" [availableMoves]="getAvailableMoves(x, y)" [owner]=space.owner></tile>
             </div>
         </div>
     </div>
