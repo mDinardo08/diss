@@ -22,6 +22,17 @@ export class TictactoeComponent extends AbstractBoardGameComponent {
         this.moveEvent.emit(move);
     }
 
+    getAvailableMoves(x: number, y: number): Array<Move> {
+        let result = new Array<Move>();
+        if (this.availableMoves.length > 0) {
+            const filteredMoves = this.availableMoves.filter((move) => {
+                return move.possition.X === x && move.possition.Y === y;
+            });
+            result = result.concat(filteredMoves.map((move) => move.next));
+        }
+        return result;
+    }
+
     hasTopHorizontalLine(x: number): boolean {
         return x > 0;
     }

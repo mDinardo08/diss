@@ -52,4 +52,36 @@ describe("Tictactoe component", () => {
         event.next = null;
         expect(comp.moveEvent.emit).toHaveBeenCalledWith(event);
     });
+
+    it("Will return an empty list if available moves list is empty", () => {
+        comp.availableMoves = [];
+        const result = comp.getAvailableMoves(0, 0);
+        expect(result).toEqual([]);
+    });
+
+    it("Will return moves next move if possition matches coords passed in", () => {
+        const m = new Move();
+        const n = new Move();
+        m.next = n;
+        m.possition = {
+            X: 0,
+            Y: 0
+        };
+        comp.availableMoves = [m];
+        const result = comp.getAvailableMoves(0, 0);
+        expect(result[0]).toBe(n);
+    });
+
+    it("Will return all moves that match in possition", () => {
+        const m = new Move();
+        const n = new Move();
+        m.next = n;
+        m.possition = {
+            X: 0,
+            Y: 0
+        };
+        comp.availableMoves = [m, m];
+        const result = comp.getAvailableMoves(0, 0);
+        expect(result.length).toBe(2);
+    });
 });
