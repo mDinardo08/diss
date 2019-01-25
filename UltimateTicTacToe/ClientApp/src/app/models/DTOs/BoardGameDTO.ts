@@ -8,4 +8,5 @@ export class BoardGameDTO {
     public cur: Player;
     public players: Array<Player>;
     public lastMove: Move;
+    public availableMoves: Array<Move>;
 }
