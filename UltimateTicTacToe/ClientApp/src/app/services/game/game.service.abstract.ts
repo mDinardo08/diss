@@ -1,10 +1,10 @@
 import { Move } from "../../models/move/move.model";
 import { Player } from "../../models/player/player.model";
-import { Observable } from "rxjs/Observable";
-import { BoardGameDTO } from "../../models/DTOs/BoardGameDTO";
+import { Output, EventEmitter } from "@angular/core";
+import { BoardGame } from "../../models/boardGame/boardgame/boardgame.model";
 
 export abstract class AbstractGameService {
-
+    @Output() boardUpdatedEvent = new EventEmitter<Array<Array<BoardGame>>>();
     abstract makeMove(move: Move): void;
 
     abstract createGame(size: number, players: Array<Player>): void;
@@ -12,4 +12,6 @@ export abstract class AbstractGameService {
     abstract getCurrentPlayer(): Player;
 
     abstract getAvailableMoves(): Array<Move>;
+
+    abstract getBoard(): Array<Array<BoardGame>>;
 }

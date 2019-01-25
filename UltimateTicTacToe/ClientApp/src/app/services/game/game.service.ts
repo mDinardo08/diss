@@ -15,7 +15,6 @@ export class GameService extends AbstractGameService {
     players: Array<Player>;
     board: Array<Array<BoardGame>>;
     availableMoves: Array<Move>;
-    @Output() boardUpdatedEvent = new EventEmitter<Array<Array<BoardGame>>>();
 
     constructor(private api: ApiService) {
         super();
@@ -57,6 +56,10 @@ export class GameService extends AbstractGameService {
 
     getAvailableMoves(): Move[] {
         return this.availableMoves;
+    }
+
+    getBoard(): Array<Array<BoardGame>> {
+        return this.board;
     }
 
     makeMoveOnBoard(board: Array<Array<BoardGame>>, move: Move): Array<Array<BoardGame>> {
