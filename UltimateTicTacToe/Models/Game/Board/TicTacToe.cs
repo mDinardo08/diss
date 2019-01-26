@@ -21,8 +21,8 @@ namespace UltimateTicTacToe.Models.Game
 
         public override void makeMove(Move move)
         {
-            validateBoard(move);
             board[move.possition.X][move.possition.Y].makeMove(move.next);
+            validateBoard(move);
         }
 
         public override Player getWinner()
@@ -61,10 +61,10 @@ namespace UltimateTicTacToe.Models.Game
 
         public override void validateBoard(Move move)
         {
-            if (move.next != null)
+            if (move.next.possition != null)
             {
                 boardFilter = move.next.possition;
-                board[move.possition.X][move.possition.Y].validateBoard(move.next);
+                getSector(boardFilter).validateBoard(move.next);
                                  }
             owner = winChecker.checkForWin(this);
         }

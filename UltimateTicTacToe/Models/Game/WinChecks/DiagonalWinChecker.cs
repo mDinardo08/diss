@@ -37,7 +37,7 @@ namespace UltimateTicTacToe.Models.Game.WinCheck
             {
                 try
                 {
-                    diagWinner = board[board.Count - i - 1][i].getWinner() == board[board.Count - i][i - 1].getWinner();
+                    diagWinner = board[board.Count - i - 1][i].getWinner().getColour() == board[board.Count - i][i - 1].getWinner().getColour();
                 }
                 catch (NoWinnerException)
                 {
@@ -61,7 +61,7 @@ namespace UltimateTicTacToe.Models.Game.WinCheck
             {
                 try
                 {
-                    diagWinner = board[i - 1][i - 1].getWinner() == board[i][i].getWinner();
+                    diagWinner = board[i - 1][i - 1].getWinner().getColour() == board[i][i].getWinner().getColour();
                 }
                 catch (NoWinnerException)
                 {

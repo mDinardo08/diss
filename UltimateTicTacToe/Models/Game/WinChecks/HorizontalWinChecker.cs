@@ -29,7 +29,7 @@ namespace UltimateTicTacToe.Models.Game.WinCheck
                 {
                     try
                     {
-                        winningRow = board[i][j - 1].getWinner() == board[i][j].getWinner();
+                        winningRow = board[i][j - 1].getWinner().getColour() == board[i][j].getWinner().getColour();
                     }
                     catch (NoWinnerException)
                     {
