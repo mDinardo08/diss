@@ -11,8 +11,6 @@ import { Move } from "../../models/move/move.model";
 
 export class TileComponent extends AbstractBoardGameComponent implements OnInit {
 
-    public colour: string;
-
     constructor(private gameService: AbstractGameService) {
         super();
     }
