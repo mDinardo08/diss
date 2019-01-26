@@ -21,6 +21,7 @@ describe("Game Service tests", () => {
         service.board = board;
         const move = new Move();
         move.possition = {x: 0, y: 0};
+        move.next = new Move();
         service.curPlayer = new Player();
         const result = service.makeMoveOnBoard(board, move);
         expect(result[0][0].owner).toBe(service.curPlayer);
@@ -34,6 +35,7 @@ describe("Game Service tests", () => {
         service.board = board;
         const move = new Move();
         move.possition = {x: 0, y: 1};
+        move.next = new Move();
         service.curPlayer = new Player();
         const result = service.makeMoveOnBoard(board, move);
         expect(result[0][1].owner).toBe(service.curPlayer);
@@ -46,6 +48,7 @@ describe("Game Service tests", () => {
         board[1][0] = new BoardGame();
         service.board = board;
         const move = new Move();
+        move.next = new Move();
         move.possition = {x: 1, y: 0};
         service.curPlayer = new Player();
         const result = service.makeMoveOnBoard(board, move);
@@ -65,6 +68,7 @@ describe("Game Service tests", () => {
         move.possition = {x: 0, y: 0};
         const innerMove = new Move();
         innerMove.possition = {x: 0, y: 0};
+        innerMove.next = new Move();
         move.next = innerMove;
         service.curPlayer = new Player();
         spyOn(service, "makeMoveOnBoard").and.callThrough();

@@ -60,7 +60,7 @@ export class GameService extends AbstractGameService {
     makeMoveOnBoard(board: Array<Array<BoardGame>>, move: Move): Array<Array<BoardGame>> {
         const result = board;
         const point = move.possition;
-        if (move.next === null || move.next === undefined) {
+        if (move.next.possition === null || move.next.possition === undefined) {
             result[point.x][point.y].owner = this.curPlayer;
         } else {
             result[point.x][point.y].board = this.makeMoveOnBoard(result[point.x][point.y].board, move.next);
