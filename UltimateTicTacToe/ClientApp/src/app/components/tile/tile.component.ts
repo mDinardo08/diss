@@ -1,6 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { AbstractBoardGameComponent } from "../abstractBoardGame/abstractBoardGame.component";
 import { AbstractGameService } from "../../services";
+import { Move } from "../../models/move/move.model";
 
 @Component({
     selector: "tile",
@@ -20,7 +21,7 @@ export class TileComponent extends AbstractBoardGameComponent implements OnInit 
         if (this.availableMoves.length > 0) {
             this.owner = this.gameService.getCurrentPlayer();
             this.setColour();
-            this.moveEvent.emit(null);
+            this.moveEvent.emit(new Move());
         }
     }
 

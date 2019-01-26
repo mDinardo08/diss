@@ -26,11 +26,11 @@ describe("Tile Component", () => {
         expect(comp.moveEvent.emit).toHaveBeenCalled();
     });
 
-    it("Will emit null", () => {
+    it("Will emit a new Move", () => {
         comp.availableMoves.push(new Move());
         spyOn(comp.moveEvent, "emit");
         comp.makeMove(null);
-        expect(comp.moveEvent.emit).toHaveBeenCalledWith(null);
+        expect(comp.moveEvent.emit).toHaveBeenCalledWith(jasmine.any(Move));
     });
 
     it("Will set its owner to whatever player the game service returns", () => {
