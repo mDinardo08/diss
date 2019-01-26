@@ -124,8 +124,8 @@ namespace UltimateTicTacToeTests.Models
             {
                 possition = new Point2D
                 {
-                    X = 10,
-                    Y = 10
+                    X = 0,
+                    Y = 0
                 }
             };
             move.possition = new Point2D
@@ -153,8 +153,8 @@ namespace UltimateTicTacToeTests.Models
             {
                 possition = new Point2D
                 {
-                    X = 10,
-                    Y = 10
+                    X = 0,
+                    Y = 0
                 }
             };
             move.possition = new Point2D
@@ -180,6 +180,7 @@ namespace UltimateTicTacToeTests.Models
         public void WillNotThrowAnExceptionIfNextIsNull()
         {
             Move move = new Move();
+            move.next = new Move();
             TicTacToe game = new TicTacToe(new Mock<IWinChecker>().Object);
             try
             {
@@ -199,7 +200,10 @@ namespace UltimateTicTacToeTests.Models
             mockChecker.Setup(x => x.checkForWin(It.IsAny<BoardGame>()))
                 .Returns(mockPlayer.Object);
             TicTacToe game = new TicTacToe(mockChecker.Object);
-            game.validateBoard(new Move());
+            Move m = new Move();
+            m.next = new Move();
+            m.possition = new Point2D();
+            game.validateBoard(m);
             Assert.AreEqual(mockPlayer.Object, game.owner);
         }
 

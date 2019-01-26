@@ -65,7 +65,7 @@ namespace UltimateTicTacToe.Models.Game
             {
                 boardFilter = move.next.possition;
                 getSector(boardFilter).validateBoard(move.next);
-                                 }
+            }
             owner = winChecker.checkForWin(this);
         }
 
