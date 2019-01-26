@@ -40,8 +40,17 @@ namespace UltimateTicTacToe.Models.Game
             List<Move> availableMoves = new List<Move>();
             if (boardFilter != null)
             {
-                List<Move> subBoardMoves = getSector(boardFilter).getAvailableMoves();
-                availableMoves = subBoardMoves.Count > 0 ? subBoardMoves : getMovesFromAllSubBoards();
+                BoardGame subBoard = getSector(boardFilter);
+                try
+                {
+                    subBoard.getWinner();
+                    availableMoves = subBoard.getAvailableMoves();
+                }
+                catch
+                {
+                    availableMoves = getMovesFromAllSubBoards();
+                }
+                availableMoves = availableMoves.Count > 0 ? availableMoves : getMovesFromAllSubBoards();
                 availableMoves = nestMoves(availableMoves);
             }
             else if (winChecker.checkForWin(this) == null)
@@ -57,7 +66,8 @@ namespace UltimateTicTacToe.Models.Game
             {
                 boardFilter = move.next.possition;
                 board[move.possition.X][move.possition.Y].validateBoard(move.next);
-            }
+                                 }
+            owner = winChecker.checkForWin(this);
         }
 
         public Point2D getBoardFilter()

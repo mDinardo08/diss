@@ -98,7 +98,7 @@ namespace UltimateTicTacToeTests.Models
         [TestMethod]
         public void WillPassTheNextMoveToTheSectorDefinedInMove()
         {
-            CompositeGame game = new TicTacToe(null);
+            CompositeGame game = new TicTacToe(new Mock<IWinChecker>().Object);
             Move n = new Move();
             Move m = new Move
             {
@@ -359,7 +359,7 @@ namespace UltimateTicTacToeTests.Models
                 X = 0,
                 Y = 0
             };
-            TicTacToe game = new TicTacToe(null);
+            TicTacToe game = new TicTacToe(new Mock<IWinChecker>().Object);
             game.board = new List<List<BoardGame>>
             {
                 new List<BoardGame>
@@ -390,7 +390,7 @@ namespace UltimateTicTacToeTests.Models
             };
             Mock<BoardGame> mockGame = new Mock<BoardGame>();
             mockGame.Setup(x => x.validateBoard(move.next)).Verifiable();
-            TicTacToe game = new TicTacToe(null);
+            TicTacToe game = new TicTacToe(new Mock<IWinChecker>().Object);
             game.board = new List<List<BoardGame>>
             {
                 new List<BoardGame>
@@ -406,7 +406,7 @@ namespace UltimateTicTacToeTests.Models
         public void WillNotThrowAnExceptionIfNextIsNull()
         {
             Move move = new Move();
-            TicTacToe game = new TicTacToe(null);
+            TicTacToe game = new TicTacToe(new Mock<IWinChecker>().Object);
             try
             {
                 game.validateBoard(move);
@@ -466,6 +466,50 @@ namespace UltimateTicTacToeTests.Models
             };
             List<Move> result = game.getAvailableMoves();
             Assert.AreEqual(m, result[0].next);
+        }
+
+        [TestMethod]
+        public void WillReturnMovesFromAllBoardsIfBoardFilterPointsToAFinishedGame()
+        {
+            Mock<IWinChecker> mockChecker = new Mock<IWinChecker>();
+            TicTacToe game = new TicTacToe(mockChecker.Object);
+            Mock<BoardGame> mockGame = new Mock<BoardGame>();
+            mockGame.Setup(x => x.getAvailableMoves())
+                .Returns(new List<Move>
+                {
+                    new Move()
+                })
+                .Verifiable();
+            mockGame.Setup(x => x.getWinner()).Throws(new NoWinnerException());
+            game.boardFilter = new Point2D
+            {
+                X = 0, Y = 0
+            };
+            game.board = new List<List<BoardGame>>
+            {
+                new List<BoardGame>
+                {
+                    mockGame.Object, mockGame.Object, mockGame.Object
+                },
+                new List<BoardGame>
+                {
+                    mockGame.Object, mockGame.Object, mockGame.Object
+                }
+            };
+            game.getAvailableMoves();
+            mockGame.Verify(x => x.getAvailableMoves(), Times.Exactly(6));
+        }
+
+        [TestMethod]
+        public void WillSetTheOwnerToWhateverTheWinCheckerReturnsOnValidation()
+        {
+            Mock<IWinChecker> mockChecker = new Mock<IWinChecker>();
+            Mock<Player> mockPlayer = new Mock<Player>();
+            mockChecker.Setup(x => x.checkForWin(It.IsAny<BoardGame>()))
+                .Returns(mockPlayer.Object);
+            TicTacToe game = new TicTacToe(mockChecker.Object);
+            game.validateBoard(new Move());
+            Assert.AreEqual(mockPlayer.Object, game.owner);
         }
     }
 }

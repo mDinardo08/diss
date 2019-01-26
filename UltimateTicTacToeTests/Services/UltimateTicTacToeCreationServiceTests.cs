@@ -22,7 +22,7 @@ namespace UltimateTicTacToeTests.Services
         [TestInitialize()]
         public void Setup()
         {
-            service = new UltimateTicTacToeCreationService(null, null);
+            service = new UltimateTicTacToeCreationService(new Mock<IWinChecker>().Object, null);
             JBoard = new JObject();
             JBoard.Add("board", JToken.FromObject(new List<List<BoardGame>>()));
             JNestedBoard = new List<List<JObject>>
@@ -47,7 +47,8 @@ namespace UltimateTicTacToeTests.Services
 
             Mock<IPlayerCreationService> mockService = new Mock<IPlayerCreationService>(MockBehavior.Loose);
             mockService.Setup(x => x.createPlayer(It.IsAny<JObject>()));
-            service = new UltimateTicTacToeCreationService(null, mockService.Object);
+            service = new UltimateTicTacToeCreationService(new Mock<IWinChecker>().Object,
+                mockService.Object);
             BoardGame game = service.createBoardGame(new BoardGameDTO { game = board, lastMove = new Move() });
             Assert.IsTrue(game is TicTacToe);
         }
@@ -75,7 +76,7 @@ namespace UltimateTicTacToeTests.Services
             };
             Mock<IPlayerCreationService> mockService = new Mock<IPlayerCreationService>(MockBehavior.Loose);
             mockService.Setup(x => x.createPlayer(It.IsAny<JObject>()));
-            service = new UltimateTicTacToeCreationService(null, mockService.Object);
+            service = new UltimateTicTacToeCreationService(new Mock<IWinChecker>().Object, mockService.Object);
             TicTacToe game = service.createBoardGame(new BoardGameDTO { game = board, lastMove = new Move() }) as TicTacToe;
             Assert.IsTrue(game.getBoard()[0][0] is Tile);
         }
@@ -87,7 +88,7 @@ namespace UltimateTicTacToeTests.Services
             board[0].Add(JBoard);
             Mock<IPlayerCreationService> mockService = new Mock<IPlayerCreationService>(MockBehavior.Loose);
             mockService.Setup(x => x.createPlayer(It.IsAny<JObject>()));
-            service = new UltimateTicTacToeCreationService(null, mockService.Object);
+            service = new UltimateTicTacToeCreationService(new Mock<IWinChecker>().Object, mockService.Object);
             TicTacToe game = service.createBoardGame(new BoardGameDTO { game = board, lastMove = new Move() }) as TicTacToe;
             Assert.IsTrue(game.getBoard()[0].Count == 2);
         }
@@ -102,7 +103,7 @@ namespace UltimateTicTacToeTests.Services
             });
             Mock<IPlayerCreationService> mockService = new Mock<IPlayerCreationService>(MockBehavior.Loose);
             mockService.Setup(x => x.createPlayer(It.IsAny<JObject>()));
-            service = new UltimateTicTacToeCreationService(null, mockService.Object);
+            service = new UltimateTicTacToeCreationService(new Mock<IWinChecker>().Object, mockService.Object);
             TicTacToe game = service.createBoardGame(new BoardGameDTO { game = board, lastMove = new Move() }) as TicTacToe;
             Assert.IsTrue(game.getBoard().Count == 2);
         }
@@ -142,7 +143,7 @@ namespace UltimateTicTacToeTests.Services
         {
             Mock<IPlayerCreationService> mockService = new Mock<IPlayerCreationService>(MockBehavior.Loose);
             mockService.Setup(x => x.createPlayer(It.IsAny<JObject>())).Verifiable();
-            service = new UltimateTicTacToeCreationService(null, mockService.Object);
+            service = new UltimateTicTacToeCreationService(new Mock<IWinChecker>().Object, mockService.Object);
             List<List<JObject>> board = new List<List<JObject>>
             {
                 new List<JObject>
@@ -165,7 +166,7 @@ namespace UltimateTicTacToeTests.Services
             Player p = new RandomAi(null);
             tile.owner = p;
             mockService.Setup(x => x.createPlayer(It.IsAny<JObject>())).Returns(p);
-            service = new UltimateTicTacToeCreationService(null, mockService.Object);
+            service = new UltimateTicTacToeCreationService(new Mock<IWinChecker>().Object, mockService.Object);
             List<List<JObject>> board = new List<List<JObject>>
             {
                 new List<JObject>
