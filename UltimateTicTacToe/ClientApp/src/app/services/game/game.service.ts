@@ -28,10 +28,7 @@ export class GameService extends AbstractGameService {
         Dto.cur = this.getNextPlayer()  ;
         const result = this.api.post<BoardGameDTO>("Game/makeMove", Dto);
         result.subscribe((res) => {
-            this.curPlayer = res.cur;
-            this.board = res.game;
-            this.availableMoves = res.availableMoves;
-            this.boardUpdatedEvent.emit(this.board);
+            this.boardUpdated(res);
         });
     }
 
@@ -42,10 +39,8 @@ export class GameService extends AbstractGameService {
         this.players = players;
         const dto = this.api.post<BoardGameDTO>("Game/createBoard", creationDto);
         dto.subscribe((res) => {
-            this.curPlayer = res.cur;
             this.players = res.players;
-            this.board = res.game;
-            this.boardUpdatedEvent.emit(this.board);
+            this.boardUpdated(res);
         });
         return dto;
     }
@@ -75,5 +70,13 @@ export class GameService extends AbstractGameService {
 
     getNextPlayer(): Player {
         return this.players.find(x => x.colour !== this.curPlayer.colour);
+    }
+
+    boardUpdated(res: BoardGameDTO): void {
+        this.curPlayer = res.cur;
+        this.board = res.game;
+        this.availableMoves = res.availableMoves;
+        console.log(this.availableMoves);
+        this.boardUpdatedEvent.emit(this.board);
     }
 }
