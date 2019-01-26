@@ -37,27 +37,26 @@ namespace UltimateTicTacToe.Models.Game
 
         public override List<Move> getAvailableMoves()
         {
-            List<Move> availableMoves = new List<Move>();
-            if (boardFilter != null)
+            List<Move> result = new List<Move>();
+            if (!isWon())
             {
-                BoardGame subBoard = getSector(boardFilter);
-                try
+                if (boardFilter == null)
                 {
-                    subBoard.getWinner();
-                    availableMoves = subBoard.getAvailableMoves();
+                    result = getMovesFromAllSubBoards();
                 }
-                catch
+                else
                 {
-                    availableMoves = getMovesFromAllSubBoards();
+                    if (getSector(boardFilter).isWon() || getSector(boardFilter).isDraw())
+                    {
+                        result = getMovesFromAllSubBoards();
+                    }
+                    else
+                    {
+                        result = getFilteredSubBoardMoves();
+                    }
                 }
-                availableMoves = availableMoves.Count > 0 ? availableMoves : getMovesFromAllSubBoards();
-                availableMoves = nestMoves(availableMoves);
             }
-            else if (winChecker.checkForWin(this) == null)
-            {
-                availableMoves = getMovesFromAllSubBoards();
-            }
-            return availableMoves;
+            return result;
         }
 
         public override void validateBoard(Move move)
@@ -75,37 +74,41 @@ namespace UltimateTicTacToe.Models.Game
             return boardFilter;
         }
 
+        private List<Move> getFilteredSubBoardMoves()
+        {
+            List<Move> result = new List<Move>();
+            List<Move> subMoves = getSector(boardFilter).getAvailableMoves();
+            subMoves.ForEach((move) =>
+            {
+                result.Add(nestMove(move, boardFilter));
+            });
+            return result;
+        }
+
+        private Move nestMove(Move move, Point2D possiton)
+        {
+            return new Move
+            {
+                next = move,
+                possition = possiton
+            };
+        }
         private List<Move> getMovesFromAllSubBoards()
         {
             List<Move> result = new List<Move>();
             for (int x = 0; x < board.Count; x++)
             {
-                for (int y = 0; y < board[x].Count; y++)
+                for (int y = 0; y < board[0].Count; y++)
                 {
-                    List<Move> subMoves = board[x][y].getAvailableMoves();
-                    subMoves.ForEach((Move m) =>
-                        result.Add(new Move
-                        {
-                            next = m,
-                            possition = new Point2D { X = x, Y = y }
-                        })
-                    );
+                    Point2D possition = new Point2D();
+                    possition.X = x;
+                    possition.Y = y;
+                    board[x][y].getAvailableMoves().ForEach((move) =>
+                    {
+                        result.Add(nestMove(move, possition));
+                    });
                 }
             }
-            return result;
-        }
-
-        private List<Move> nestMoves(List<Move> moves)
-        {
-            List<Move> result = new List<Move>();
-            moves.ForEach((m) =>
-            {
-                result.Add(new Move
-                {
-                    possition = boardFilter,
-                    next = m
-                });
-            });
             return result;
         }
     }

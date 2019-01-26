@@ -23,5 +23,15 @@ namespace UltimateTicTacToe.Models.Game
 
         public abstract void makeMove(Move move);
         public abstract void validateBoard(Move move);
+
+        public bool isWon()
+        {
+            return owner != null; 
+        }
+
+        public bool isDraw()
+        {
+            return owner == null && getAvailableMoves().Count == 0;
+        }
     }
 }

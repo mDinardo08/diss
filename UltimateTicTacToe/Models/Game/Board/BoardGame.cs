@@ -11,5 +11,7 @@ namespace UltimateTicTacToe.Models.Game
         List<Move> getAvailableMoves();
         List<List<BoardGame>> getBoard();
         void validateBoard(Move move);
+        bool isWon();
+        bool isDraw();
     }
 }
