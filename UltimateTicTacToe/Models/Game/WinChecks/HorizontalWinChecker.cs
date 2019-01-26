@@ -22,24 +22,34 @@ namespace UltimateTicTacToe.Models.Game.WinCheck
         {
             Point result = new Point { X = -1, Y = -1 };
             List<List<BoardGame>> board = game.getBoard();
-            for (int i  = 0; i < board.Count; i++)
+            for (int row  = 0; row < board.Count; row++)
             {
                 bool winningRow = true;
-                for (int j = 1; j < board.Count; j++)
+                BoardGame leftMost = board[row][0];
+                if (leftMost.isWon())
                 {
-                    try
+                    for (int col = 1; col < board.Count; col++)
                     {
-                        winningRow = board[i][j - 1].getWinner().getColour() == board[i][j].getWinner().getColour();
+                        BoardGame space = board[row][col];
+                        if (space.isWon())
+                        {
+                            if (leftMost.getWinner().getColour() != space.getWinner().getColour())
+                            {
+                                winningRow = false;
+                            }
+                        }
+                        else
+                        {
+                            winningRow = false;
+                        }
                     }
-                    catch (NoWinnerException)
-                    {
-                        winningRow = false;
-                        break;
-                    }
+                } else
+                {
+                    winningRow = false;
                 }
                 if (winningRow)
                 {
-                    result = new Point { X = i, Y = 0 };
+                    result = new Point { X = row, Y = 0 };
                 }
             }
             return result;
