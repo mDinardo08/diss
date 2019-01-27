@@ -22,7 +22,8 @@ namespace UltimateTicTacToe.Services
         public BoardGame createBoardGame(BoardGameDTO gameDto)
         {
             BoardGame result = createTicTacToe(gameDto.game);
-            result.validateBoard(gameDto.lastMove);
+            result.validateBoard();
+            result.registerMove(gameDto.lastMove);
             return result;
         }
 
@@ -74,7 +75,9 @@ namespace UltimateTicTacToe.Services
                     }
                     else
                     {
-                        board[row].Add(createTicTacToe(space["board"].ToObject<List<List<JObject>>>()));
+                        TicTacToe innerGame = createTicTacToe(space["board"].ToObject<List<List<JObject>>>());
+                        innerGame.owner = playerCreationService.createPlayer(space["owner"] as JObject);
+                        board[row].Add(innerGame);
                     }
                 }
             }
