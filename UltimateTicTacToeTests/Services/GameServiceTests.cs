@@ -29,6 +29,7 @@ namespace UltimateTicTacToeTests.Services
             Mock<Player> p = new Mock<Player>();
             p.Setup(x => x.getPlayerType()).Returns((PlayerType) 0);
             mockGame.Setup(x => x.getWinner()).Returns(p.Object);
+            mockGame.Setup(x => x.getBoard()).Returns(new List<List<BoardGame>>());
             BoardGameDTO result = service.processMove(mockGame.Object, p.Object, new List<Player>());
             Assert.AreEqual(p.Object, result.Winner);
         }
@@ -47,12 +48,12 @@ namespace UltimateTicTacToeTests.Services
         }
 
         [TestMethod]
-        public void WillReturnTheAiAsTheWinnerIfItsMoveWinsTheGame()
+        public void WillReturnTheAisTheWinnerIfItsMoveWinsTheGame()
         {
             Mock<BoardGame> mockGame = new Mock<BoardGame>(MockBehavior.Loose);
             Mock<Player> p = new Mock<Player>();
             p.Setup(x => x.makeMove(mockGame.Object)).Returns(new Move());
-            mockGame.SetupSequence(x => x.getWinner()).Throws(new NoWinnerException()).Returns(p.Object);
+            mockGame.Setup(x => x.getWinner()).Returns(p.Object);
             mockGame.Setup(x => x.getBoard()).Returns(new List<List<BoardGame>>());
             BoardGameDTO result = service.processMove(mockGame.Object, p.Object, new List<Player>());
             Assert.IsTrue(result.Winner == p.Object);
@@ -230,7 +231,10 @@ namespace UltimateTicTacToeTests.Services
             mockHuman.Setup(x => x.makeMove(It.IsAny<BoardGame>()))
                 .Returns((Move)null)
                 .Verifiable();
-            service.processMove(new Mock<BoardGame>().Object, mockHuman.Object, new List<Player>());
+            Mock<BoardGame> mockgame = new Mock<BoardGame>();
+            mockgame.Setup(x => x.getBoard())
+                .Returns(new List<List<BoardGame>>());
+            service.processMove(mockgame.Object, mockHuman.Object, new List<Player>());
             mockHuman.Verify(x => x.makeMove(It.IsAny<BoardGame>()), Times.Never);
         }
 
@@ -238,6 +242,8 @@ namespace UltimateTicTacToeTests.Services
         public void WillAddTheAvailableMovesToTheDto()
         {
             Mock<BoardGame> mockGame = new Mock<BoardGame>();
+            mockGame.Setup(x => x.getBoard())
+                .Returns(new List<List<BoardGame>>());
             List<Move> available = new List<Move>();
             mockGame.Setup(x => x.getAvailableMoves()).Returns(available);
             Mock<Player> mockHuman = new Mock<Player>();

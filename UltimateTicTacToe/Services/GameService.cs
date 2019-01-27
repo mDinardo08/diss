@@ -21,15 +21,18 @@ namespace UltimateTicTacToe.Services
         {
             BoardGameDTO result = new BoardGameDTO();
             result.players = buildPlayersArray(players);
-            try
+            if (game.isWon())
             {
                 result.Winner = game.getWinner();
-            }
-            catch (NoWinnerException)
+            }else
             {
                 if (cur.getPlayerType() != PlayerType.HUMAN)
                 {
                     HandleAiMove(cur, game, result, players);
+                    if (game.isWon())
+                    {
+                        result.Winner = game.getWinner();
+                    }
                 }
                 else
                 {
