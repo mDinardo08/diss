@@ -40,6 +40,7 @@ namespace UltimateTicTacToe.Services
                     result.game = convertToJObject(game.getBoard());
                 }
             }
+            result.game = convertToJObject(game.getBoard());
             result.availableMoves = game.getAvailableMoves();
             return result;
         }
@@ -48,7 +49,6 @@ namespace UltimateTicTacToe.Services
         {
             Move move = Ai.makeMove(game);
             List<List<BoardGame>> board = game.getBoard();
-            result.game = convertToJObject(board);
             result.lastMove = move;
             Player next = players.Find(x => !x.Equals(Ai));
             result.cur = convertToJObject(next);
