@@ -33,23 +33,32 @@ namespace UltimateTicTacToe.Models.Game.WinCheck
         {
             bool diagWinner = true;
             Point result = new Point { X = -1, Y = -1 };
-            for (int i = board.Count - 1; i > 1; i--)
+            BoardGame bottomLeft = board[board.Count - 1][0];
+            if (bottomLeft.isWon())
             {
-                try
+                for (int i = 0; i < board.Count - 1; i++)
                 {
-                    diagWinner = board[board.Count - i - 1][i].getWinner().getColour() == board[board.Count - i][i - 1].getWinner().getColour();
+                    BoardGame space = board[i][board.Count - 1 - i];
+                    if (space.isWon())
+                    {
+                        if (space.getWinner().getColour() != bottomLeft.getWinner().getColour())
+                        {
+                            diagWinner = false;
+                        }
+                    }
+                    else
+                    {
+                        diagWinner = false;
+                    }
                 }
-                catch (NoWinnerException)
-                {
-                    diagWinner = false;
-                    break;
-                }
-                if (diagWinner)
-                {
-                    result = new Point { X = board.Count - 1, Y = 0 };
-                }
+            }else
+            {
+                diagWinner = false;
             }
-
+            if (diagWinner)
+            {
+                result = new Point { X = 2, Y = 0 };
+            }
             return result;
         }
 
@@ -57,23 +66,33 @@ namespace UltimateTicTacToe.Models.Game.WinCheck
         {
             bool diagWinner = true;
             Point result = new Point { X = -1, Y = -1 };
-            for (int i = 1; i < board.Count; i++)
+            BoardGame topLeft = board[0][0];
+            if (topLeft.isWon())
             {
-                try
+                for(int i = 1; i< board.Count; i++)
                 {
-                    diagWinner = board[i - 1][i - 1].getWinner().getColour() == board[i][i].getWinner().getColour();
-                }
-                catch (NoWinnerException)
-                {
-                    diagWinner = false;
-                    break;
-                }
-                if (diagWinner)
-                {
-                    result = new Point { X = 0, Y = 0 } ;
+                    BoardGame space = board[i][i];
+                    if (space.isWon())
+                    {
+                        if(space.getWinner().getColour() != topLeft.getWinner().getColour())
+                        {
+                            diagWinner = false;
+                        }
+                    }
+                    else
+                    {
+                        diagWinner = false;
+                    }
                 }
             }
-
+            else
+            {
+                diagWinner = false;
+            }
+            if (diagWinner)
+            {
+                result = new Point { X = 0, Y = 0 };
+            }
             return result;
         }
     }
