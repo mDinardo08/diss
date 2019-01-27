@@ -110,60 +110,17 @@ namespace UltimateTicTacToeTests.Models
             game.setBoard(new List<List<BoardGame>>
             {
                 new List<BoardGame>{ },
-                new List<BoardGame>{null, mock.Object}
+                new List<BoardGame>{new Mock<BoardGame>().Object, mock.Object}
             });
             game.makeMove(m);
             Assert.AreEqual(n, mock.Invocations[0].Arguments[0]);
         }
 
         [TestMethod]
-        public void WillSetItsBoardFilterToTheNextPossition()
+        public void WillCallToValidateSubBoards()
         {
-            Move move = new Move();
-            move.next = new Move
-            {
-                possition = new Point2D
-                {
-                    X = 0,
-                    Y = 0
-                }
-            };
-            move.possition = new Point2D
-            {
-                X = 0,
-                Y = 0
-            };
-            TicTacToe game = new TicTacToe(new Mock<IWinChecker>().Object);
-            game.board = new List<List<BoardGame>>
-            {
-                new List<BoardGame>
-                {
-                    new Mock<BoardGame>().Object
-                }
-            };
-            game.validateBoard(move);
-            Assert.AreEqual(move.next.possition, game.getBoardFilter());
-        }
-
-        [TestMethod]
-        public void WillPassTheNextMoveToThePossitionOfTheTopMove()
-        {
-            Move move = new Move();
-            move.next = new Move
-            {
-                possition = new Point2D
-                {
-                    X = 0,
-                    Y = 0
-                }
-            };
-            move.possition = new Point2D
-            {
-                X = 0,
-                Y = 0
-            };
             Mock<BoardGame> mockGame = new Mock<BoardGame>();
-            mockGame.Setup(x => x.validateBoard(move.next)).Verifiable();
+            mockGame.Setup(x => x.validateBoard()).Verifiable();
             TicTacToe game = new TicTacToe(new Mock<IWinChecker>().Object);
             game.board = new List<List<BoardGame>>
             {
@@ -172,39 +129,126 @@ namespace UltimateTicTacToeTests.Models
                     mockGame.Object
                 }
             };
-            game.validateBoard(move);
+            game.validateBoard();
             mockGame.Verify();
         }
 
         [TestMethod]
-        public void WillNotThrowAnExceptionIfNextIsNull()
+        public void WillCallToValidateBoardAcrossRow()
         {
-            Move move = new Move();
-            move.next = new Move();
+            Mock<BoardGame> mockGame = new Mock<BoardGame>();
+            mockGame.Setup(x => x.validateBoard()).Verifiable();
             TicTacToe game = new TicTacToe(new Mock<IWinChecker>().Object);
-            try
+            game.board = new List<List<BoardGame>>
             {
-                game.validateBoard(move);
-            }
-            catch (Exception)
-            {
-                Assert.Fail();
-            }
+                new List<BoardGame>
+                {
+                    mockGame.Object, mockGame.Object
+                }
+            };
+            game.validateBoard();
+            mockGame.Verify(x => x.validateBoard(), Times.Exactly(2));
         }
 
         [TestMethod]
-        public void WillSetTheOwnerToWhateverTheWinCheckerReturnsOnValidation()
+        public void WillCallToValidateBoardAcrossColumns()
+        {
+            Mock<BoardGame> mockGame = new Mock<BoardGame>();
+            mockGame.Setup(x => x.validateBoard()).Verifiable();
+            TicTacToe game = new TicTacToe(new Mock<IWinChecker>().Object);
+            game.board = new List<List<BoardGame>>
+            {
+                new List<BoardGame>
+                {
+                    mockGame.Object
+                },
+                new List<BoardGame>
+                {
+                    mockGame.Object
+                }
+            };
+            game.validateBoard();
+            mockGame.Verify(x => x.validateBoard(), Times.Exactly(2));
+        }
+
+        [TestMethod]
+        public void WillSetOwnerToWhateverPlayerTheWinCheckerReturns()
         {
             Mock<IWinChecker> mockChecker = new Mock<IWinChecker>();
             Mock<Player> mockPlayer = new Mock<Player>();
             mockChecker.Setup(x => x.checkForWin(It.IsAny<BoardGame>()))
                 .Returns(mockPlayer.Object);
             TicTacToe game = new TicTacToe(mockChecker.Object);
-            Move m = new Move();
-            m.next = new Move();
-            m.possition = new Point2D();
-            game.validateBoard(m);
-            Assert.AreEqual(mockPlayer.Object, game.owner);
+            game.board = new List<List<BoardGame>>();
+            game.validateBoard();
+            Assert.AreEqual(game.owner, mockPlayer.Object);
+        }
+
+        [TestMethod]
+        public void WillSetNextPossitionAsBoardFilter()
+        {
+            Move move = new Move();
+            Move next = new Move();
+            next.possition = new Point2D
+            {
+                X = 0,
+                Y = 0
+            };
+            move.next = next;
+            TicTacToe game = new TicTacToe(null);
+            game.board = new List<List<BoardGame>>
+            {
+                new List<BoardGame>
+                {
+                    new Mock<BoardGame>().Object
+                }
+            };
+            game.registerMove(move);
+            Assert.AreEqual(next.possition, game.boardFilter);
+        }
+
+        [TestMethod]
+        public void WillNotSetBoardFilterIfNextPossitionIsNull()
+        {
+            Move move = new Move();
+            move.next = new Move();
+            TicTacToe game = new TicTacToe(null);
+            game.board = new List<List<BoardGame>>
+            {
+                new List<BoardGame>
+                {
+                    new Mock<BoardGame>().Object
+                }
+            };
+            game.registerMove(move);
+            Assert.IsNull(game.boardFilter);
+        }
+
+        [TestMethod]
+        public void WillCallTheNextPossitionBoardToRegisterTheMove()
+        {
+            Move move = new Move();
+            Move next = new Move();
+            next.possition = new Point2D
+            {
+                X = 1,
+                Y = 1
+            };
+            move.next = next;
+            TicTacToe game = new TicTacToe(null);
+            Mock<BoardGame> mockGame = new Mock<BoardGame>();
+            mockGame.Setup(x => x.registerMove(move.next))
+                .Verifiable();
+            game.board = new List<List<BoardGame>>
+            {
+                new List<BoardGame>(),
+                new List<BoardGame>
+                {
+                    null, mockGame.Object
+                }
+            };
+            game.registerMove(move);
+            mockGame.Verify();
         }
 
         [TestMethod]

@@ -22,7 +22,7 @@ namespace UltimateTicTacToe.Models.Game
         public abstract Player getWinner();
 
         public abstract void makeMove(Move move);
-        public abstract void validateBoard(Move move);
+        public abstract void validateBoard();
 
         public bool isWon()
         {
@@ -33,5 +33,7 @@ namespace UltimateTicTacToe.Models.Game
         {
             return owner == null && getAvailableMoves().Count == 0;
         }
+
+        public abstract void registerMove(Move move);
     }
 }

@@ -12,7 +12,6 @@ namespace UltimateTicTacToe.Models.Game
     public class TicTacToe : CompositeGame
     {
         private IWinChecker winChecker;
-        public Point2D boardFilter;
 
         public TicTacToe(IWinChecker winChecker)
         {
@@ -22,7 +21,8 @@ namespace UltimateTicTacToe.Models.Game
         public override void makeMove(Move move)
         {
             board[move.possition.X][move.possition.Y].makeMove(move.next);
-            validateBoard(move);
+            validateBoard();
+            registerMove(move);
         }
 
         public override Player getWinner()
@@ -59,14 +59,16 @@ namespace UltimateTicTacToe.Models.Game
             return result;
         }
 
-        public override void validateBoard(Move move)
+        public override void validateBoard()
         {
-            if (move.next.possition != null)
+            for ( int x = 0; x < board.Count; x++)
             {
-                boardFilter = move.next.possition;
-                getSector(boardFilter).validateBoard(move.next);
+                for ( int y = 0; y < board[x].Count; y++)
+                {
+                    board[x][y].validateBoard();
+                }
             }
-            owner = winChecker.checkForWin(this);
+            owner = owner ?? winChecker.checkForWin(this);
         }
 
         public Point2D getBoardFilter()

@@ -22,7 +22,11 @@ namespace UltimateTicTacToe.Models.Game
             owner = move.owner;
         }
 
-        public override void validateBoard(Move move)
+        public override void registerMove(Move move)
+        {
+        }
+
+        public override void validateBoard()
         {
         }
     }
