@@ -17,6 +17,11 @@
     width: 100%
 }
 
-.container {
-    margin-left: 15px;
+.owned {
+    border: 5px solid
+}
+
+.row {
+    margin-left: 0px;
+    margin-right: 0px;
 }

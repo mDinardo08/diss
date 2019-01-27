@@ -1,7 +1,11 @@
-<div class="container" style="padding-top: 15px; padding-bottom: 15px">
-    <div *ngFor="let row of board; let x = index" class="row"
-    [class.tophl]="hasTopHorizontalLine(x)"
-    [class.bottomhl]="hasBottomHorizontalLine(x)">
+<div class="container" style="padding-top: 15px; padding-bottom: 15px"
+     [class.owned]="owner != null && owner != undefined"
+     [style.border-color]="color">
+     <div>
+        <div *ngFor="let row of board; let x = index" class="row"
+        [class.tophl]="hasTopHorizontalLine(x)"
+        [class.bottomhl]="hasBottomHorizontalLine(x)"
+        style="padding-left: 0px; padding-right: 0px;">
         <div *ngFor="let space of row; let y = index" class="col"
         [class.leftvl]="hasLeftVerticalLine(y)"
         [class.rightvl]="hasRightVerticalLine(y)"
@@ -14,4 +18,5 @@
             </div>
         </div>
     </div>
+     </div>
 </div>
