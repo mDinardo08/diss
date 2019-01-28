@@ -17,6 +17,7 @@ export class GameComponent implements OnInit {
 
     public game: BoardGame;
     public availableMoves: Array<Move>;
+    public lastMove: Move;
 
     public ngOnInit(): void {
         this.game = new BoardGame();
@@ -41,5 +42,6 @@ export class GameComponent implements OnInit {
     private boardUpdated(): void {
         this.game.board = this.gameService.getBoard();
         this.availableMoves = this.gameService.getAvailableMoves();
+        this.lastMove = this.gameService.getLastMove();
     }
 }
