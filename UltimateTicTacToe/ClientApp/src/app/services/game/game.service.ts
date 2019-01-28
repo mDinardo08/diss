@@ -20,6 +20,10 @@ export class GameService extends AbstractGameService {
         super();
     }
 
+    getLastMove(): Move {
+        return this.lastMove;
+    }
+
     makeMove(move: Move): void {
         const Dto = new BoardGameDTO();
         Dto.game = this.makeMoveOnBoard(this.board, move);
