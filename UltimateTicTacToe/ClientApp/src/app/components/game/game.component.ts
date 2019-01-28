@@ -8,7 +8,8 @@ import { PlayerColour } from "../../models/player/player.colour.enum";
 
 @Component({
     selector: "game",
-    templateUrl: "./game.component.html"
+    templateUrl: "./game.component.html",
+    styleUrls: ["./game.component.styles.css"]
 })
 
 export class GameComponent implements OnInit {
@@ -18,6 +19,7 @@ export class GameComponent implements OnInit {
     public game: BoardGame;
     public availableMoves: Array<Move>;
     public lastMove: Move;
+    public overlayVisable: boolean;
 
     public ngOnInit(): void {
         this.game = new BoardGame();
@@ -28,7 +30,8 @@ export class GameComponent implements OnInit {
         const ai  = new Player();
         ai.colour = PlayerColour.RED;
         ai.name = "ai";
-        ai.type = PlayerType.RANDOM;
+        ai.type = PlayerType.HUMAN;
+        this.overlayVisable = true;
         this.gameService.createGame(3, [human, ai]);
         this.gameService.boardUpdatedEvent.subscribe((res: Array<Array<BoardGame>>) => {
             this.boardUpdated();
@@ -36,6 +39,7 @@ export class GameComponent implements OnInit {
     }
 
     public moveMade($event: Move): void {
+        this.overlayVisable = true;
         this.gameService.makeMove($event);
     }
 
@@ -43,5 +47,6 @@ export class GameComponent implements OnInit {
         this.game.board = this.gameService.getBoard();
         this.availableMoves = this.gameService.getAvailableMoves();
         this.lastMove = this.gameService.getLastMove();
+        this.overlayVisable = false;
     }
 }

@@ -42,4 +42,10 @@ describe("Game Component", () => {
         comp.ngOnInit();
         expect(mockService.boardUpdatedEvent.subscribe).toHaveBeenCalled();
     });
+
+    it("Will set the over lay when a move is made", () => {
+        comp.moveMade(new Move());
+        expect(comp.overlayVisable).toBe(true);
+    });
+
 });
