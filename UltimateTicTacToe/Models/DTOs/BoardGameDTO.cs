@@ -10,7 +10,9 @@ namespace UltimateTicTacToe.Models.DTOs
     {
         public List<List<JObject>> game;
         public Player Winner;
-        public PlayerType next;
+        public List<JObject> players;
+        public JObject cur;
         public Move lastMove;
+        public List<Move> availableMoves;
     }
 }

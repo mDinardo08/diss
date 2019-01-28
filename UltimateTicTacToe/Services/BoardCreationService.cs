@@ -10,5 +10,6 @@ namespace UltimateTicTacToe.Services
     public interface BoardCreationService
     {
         BoardGame createBoardGame(BoardGameDTO gameDto);
+        BoardGame createBoardGame(int size);
     }
 }

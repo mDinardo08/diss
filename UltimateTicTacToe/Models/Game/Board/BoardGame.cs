@@ -10,5 +10,9 @@ namespace UltimateTicTacToe.Models.Game
         void makeMove(Move move);
         List<Move> getAvailableMoves();
         List<List<BoardGame>> getBoard();
+        void validateBoard();
+        bool isWon();
+        bool isDraw();
+        void registerMove(Move move);
     }
 }

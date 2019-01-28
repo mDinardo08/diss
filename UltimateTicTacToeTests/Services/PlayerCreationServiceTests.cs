@@ -46,8 +46,12 @@ namespace UltimateTicTacToeTests.Services
         {
             JObject player = new JObject();
             player.Add("type", 1000);
+            player.Add("name", "");
+            player.Add("colour", 1000);
             Mock<PlayerClassHandler> mockHandler = new Mock<PlayerClassHandler>(MockBehavior.Strict);
-            mockHandler.Setup(x => x.createPlayer((PlayerType)1000)).Returns((Player)null).Verifiable();
+            mockHandler.Setup(x => x.createPlayer((PlayerType)1000))
+                .Returns(new Mock<Player>().Object)
+                .Verifiable();
             service = new PlayerCreationService(mockHandler.Object);
             service.createPlayer(player);
             mockHandler.Verify();
@@ -58,6 +62,8 @@ namespace UltimateTicTacToeTests.Services
         {
             JObject player = new JObject();
             player.Add("type", 1000);
+            player.Add("name", "");
+            player.Add("colour", 1000);
             Mock<Player> mockPlayer = new Mock<Player>();
             Mock<PlayerClassHandler> mockHandler = new Mock<PlayerClassHandler>(MockBehavior.Strict);
             mockHandler.Setup(x => x.createPlayer((PlayerType)1000)).Returns(mockPlayer.Object).Verifiable();
@@ -71,6 +77,116 @@ namespace UltimateTicTacToeTests.Services
         {
             Player result = service.createPlayer(null);
             Assert.IsNull(result);
+        }
+
+        [TestMethod]
+        public void WillCallHandlerForEveryJObjectInTheArray()
+        {
+            List<JObject> jObjects = new List<JObject>();
+            JObject jObj = new JObject();
+            jObj.Add("type", 1000);
+            jObj.Add("name", "");
+            jObj.Add("colour", 100);
+            jObjects.Add(jObj);
+            Mock<PlayerClassHandler> mockHandler = new Mock<PlayerClassHandler>();
+            mockHandler.Setup(x => x.createPlayer((PlayerType)1000))
+                .Returns(new Mock<Player>().Object)
+                .Verifiable();
+            service = new PlayerCreationService(mockHandler.Object);
+            service.createPlayers(jObjects);
+            mockHandler.Verify();
+        }
+
+        [TestMethod]
+        public void WIllCallTheHandlerOncePerJObject()
+        {
+            List<JObject> jObjects = new List<JObject>();
+            JObject jObj = new JObject();
+            jObj.Add("type", 1000);
+            jObj.Add("name", "");
+            jObj.Add("colour", 100);
+            jObjects.Add(jObj);
+            jObjects.Add(jObj);
+            Mock<PlayerClassHandler> mockHandler = new Mock<PlayerClassHandler>();
+            mockHandler.Setup(x => x.createPlayer((PlayerType)1000))
+                .Returns(new Mock<Player>().Object)
+                .Verifiable();
+            service = new PlayerCreationService(mockHandler.Object);
+            service.createPlayers(jObjects);
+            Assert.AreEqual(2, mockHandler.Invocations.Count);
+        }
+
+        [TestMethod]
+        public void WillSetTheNameOfThePlayer()
+        {
+            JObject player = new JObject();
+            player.Add("type", 1000);
+            player.Add("name", "some silly name");
+            player.Add("colour", 100);
+            Mock<PlayerClassHandler> mockHandler = new Mock<PlayerClassHandler>();
+            Mock<Player> mockPlayer = new Mock<Player>(MockBehavior.Loose);
+            mockPlayer.Setup(x => x.setName("some silly name")).Verifiable();
+            mockHandler.Setup(x => x.createPlayer((PlayerType)1000)).Returns(mockPlayer.Object);
+            service = new PlayerCreationService(mockHandler.Object);
+            service.createPlayer(player);
+            mockPlayer.Verify();
+        }
+
+        [TestMethod]
+        public void WillSetTheNamesOfThePlayersInTheArray()
+        {
+            JObject player = new JObject();
+            player.Add("type", 1000);
+            player.Add("name", "some silly name");
+            player.Add("colour", 10);
+            List<JObject> players = new List<JObject>
+            {
+                player
+            };
+            Mock<PlayerClassHandler> mockHandler = new Mock<PlayerClassHandler>();
+            Mock<Player> mockPlayer = new Mock<Player>(MockBehavior.Loose);
+            mockPlayer.Setup(x => x.setName("some silly name")).Verifiable();
+            mockHandler.Setup(x => x.createPlayer((PlayerType)1000)).Returns(mockPlayer.Object);
+            service = new PlayerCreationService(mockHandler.Object);
+            service.createPlayers(players);
+            mockPlayer.Verify();
+        }
+
+        [TestMethod]
+        public void WillReturnAnArrayOfWhatWasReturnedByTheHandler()
+        {
+            JObject player = new JObject();
+            player.Add("type", 1000);
+            player.Add("name", "");
+            player.Add("colour", 100);
+            List<JObject> players = new List<JObject>
+            {
+                player
+            };
+            Mock<PlayerClassHandler> mockHandler = new Mock<PlayerClassHandler>();
+            Mock<Player> mockPlayer = new Mock<Player>();
+            mockHandler.Setup(x => x.createPlayer((PlayerType)1000))
+                .Returns(mockPlayer.Object);
+            service = new PlayerCreationService(mockHandler.Object);
+            List<Player> result = service.createPlayers(players);
+            Assert.IsTrue(result[0] == mockPlayer.Object);
+        }
+
+        [TestMethod]
+        public void WillSetThePlayerColourField()
+        {
+            JObject player = new JObject();
+            player.Add("type", 1000);
+            player.Add("colour", 1000);
+            player.Add("name", "some silly name");
+            Mock<PlayerClassHandler> mockHandler = new Mock<PlayerClassHandler>();
+            Mock<Player> mockPlayer = new Mock<Player>(MockBehavior.Strict);
+            mockPlayer.Setup(x => x.setName("some silly name"));
+            mockPlayer.Setup(x => x.setColour((PlayerColour)1000)).Verifiable();
+            mockHandler.Setup(x => x.createPlayer((PlayerType)1000)).Returns(mockPlayer.Object);
+            service = new PlayerCreationService(mockHandler.Object);
+            service.createPlayer(player);
+            mockPlayer.Verify();
         }
     }
 }

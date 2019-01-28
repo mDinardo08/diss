@@ -26,6 +26,8 @@ namespace UltimateTicTacToeTests.Models
             MockException = new Mock<BoardGame>(MockBehavior.Strict);
             MockException.Setup(x => x.getWinner()).Throws(new NoWinnerException());
             MockGame = new Mock<BoardGame>(MockBehavior.Strict);
+            MockGame.Setup(x => x.isWon()).Returns(true);
+            MockException.Setup(x => x.isWon()).Returns(false);
         }
 
         [TestMethod]

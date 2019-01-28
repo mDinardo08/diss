@@ -1,0 +1,16 @@
+<div>
+    <div class="row">
+      <div class="col">
+      </div>
+      <div class="col-md-5" *ngIf="game.board !== undefined">
+            <div *ngIf="overlayVisable" class="overlay">
+              <div class="overlaytext">
+                waiting for server
+              </div>
+            </div> 
+            <ultimateTictactoe (moveEvent)="moveMade($event)" [lastMove]="lastMove" [availableMoves]="availableMoves" [board]=game.board></ultimateTictactoe>
+      </div>
+      <div class="col">
+      </div>
+    </div>
+</div>

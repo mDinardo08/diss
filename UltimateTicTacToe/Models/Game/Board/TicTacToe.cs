@@ -11,8 +11,7 @@ namespace UltimateTicTacToe.Models.Game
 {
     public class TicTacToe : CompositeGame
     {
-        public IWinChecker winChecker;
-        public Point2D boardFilter;
+        private IWinChecker winChecker;
 
         public TicTacToe(IWinChecker winChecker)
         {
@@ -22,47 +21,94 @@ namespace UltimateTicTacToe.Models.Game
         public override void makeMove(Move move)
         {
             board[move.possition.X][move.possition.Y].makeMove(move.next);
-            boardFilter = move.next.possition;
+            validateBoard();
+            registerMove(move);
         }
 
         public override Player getWinner()
         {
-            Player result = winChecker.checkForWin(this);
-            if (result == null)
+            owner = owner == null ? winChecker.checkForWin(this) : owner;
+            if (owner == null)
             {
                 throw new NoWinnerException();
             }
-            return result;
-        }
-        
-        public override List<Move> getAvailableMoves()
-        {
-            List<Move> availableMoves = new List<Move>();
-            if (boardFilter != null)
-            {
-                List<Move> subBoardMoves = getSector(boardFilter).getAvailableMoves();
-                availableMoves = subBoardMoves.Count > 0 ? subBoardMoves : getMovesFromAllSubBoards();
-            }
-            else if (winChecker.checkForWin(this) == null)
-            {
-                availableMoves = getMovesFromAllSubBoards();
-            }
-            return availableMoves;
+            return owner;
         }
 
+        public override List<Move> getAvailableMoves()
+        {
+            List<Move> result = new List<Move>();
+            if (!isWon())
+            {
+                if (boardFilter == null)
+                {
+                    result = getMovesFromAllSubBoards();
+                }
+                else
+                {
+                    if (getSector(boardFilter).isWon() || getSector(boardFilter).isDraw())
+                    {
+                        result = getMovesFromAllSubBoards();
+                    }
+                    else
+                    {
+                        result = getFilteredSubBoardMoves();
+                    }
+                }
+            }
+            return result;
+        }
+
+        public override void validateBoard()
+        {
+            for ( int x = 0; x < board.Count; x++)
+            {
+                for ( int y = 0; y < board[x].Count; y++)
+                {
+                    board[x][y].validateBoard();
+                }
+            }
+            owner = owner ?? winChecker.checkForWin(this);
+        }
+
+        public Point2D getBoardFilter()
+        {
+            return boardFilter;
+        }
+
+        private List<Move> getFilteredSubBoardMoves()
+        {
+            List<Move> result = new List<Move>();
+            List<Move> subMoves = getSector(boardFilter).getAvailableMoves();
+            subMoves.ForEach((move) =>
+            {
+                result.Add(nestMove(move, boardFilter));
+            });
+            return result;
+        }
+
+        private Move nestMove(Move move, Point2D possiton)
+        {
+            return new Move
+            {
+                next = move,
+                possition = possiton
+            };
+        }
         private List<Move> getMovesFromAllSubBoards()
         {
             List<Move> result = new List<Move>();
-            for (int y = 0; y < board.Count; y++)
+            for (int x = 0; x < board.Count; x++)
             {
-                for (int x = 0; x < board[y].Count; x++)
+                for (int y = 0; y < board[0].Count; y++)
                 {
-                    List<Move> subMoves = board[y][x].getAvailableMoves();
-                    subMoves.ForEach((Move m) => result.Add(new Move
+                    Point2D possition = new Point2D();
+                    possition.X = x;
+                    possition.Y = y;
+                    board[x][y].getAvailableMoves().ForEach((move) =>
                     {
-                        next = m,
-                        possition = new Point2D { X = x, Y = y }
-                    }));
+                        result.Add(nestMove(move, possition));
+                    });
                 }
             }
             return result;

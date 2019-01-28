@@ -5,6 +5,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Models;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using UltimateTicTacToe.Models.DTOs;
 using UltimateTicTacToe.Models.Game;
 using UltimateTicTacToe.Models.Game.Players;
@@ -30,8 +32,17 @@ namespace UltimateTicTacToe.Controllers
         public IActionResult makeMove([FromBody]BoardGameDTO gameDto)
         {
             BoardGame game = boardCreationService.createBoardGame(gameDto);
-            Player player = playerCreationService.createPlayer(gameDto.next);
-            return ExecuteApiAction(() => new ApiResult<BoardGameDTO> { Model = gameService.processMove(game, player) });
+            Player player = playerCreationService.createPlayer(gameDto.cur);
+            List<Player> players = playerCreationService.createPlayers(gameDto.players);
+            return ExecuteApiAction(() => new ApiResult<BoardGameDTO> { Model = gameService.processMove(game, player, players) });
+        }
+
+        [HttpPost("createBoard")]
+        public IActionResult createBoard([FromBody]BoardCreationDto creationDto)
+        {
+            BoardGame board = boardCreationService.createBoardGame(creationDto.size);
+            List<Player> players = playerCreationService.createPlayers(creationDto.players);
+            return ExecuteApiAction(() => new ApiResult<BoardGameDTO> { Model = gameService.processMove(board, players[0], players) });
         }
     }
 }

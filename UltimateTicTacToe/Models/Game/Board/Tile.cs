@@ -6,7 +6,6 @@ namespace UltimateTicTacToe.Models.Game
 {
     public class Tile : AbstractBoard
     {
-        public Player owner;
         public new List<List<BoardGame>> board = null;
         public override List<Move> getAvailableMoves()
         {
@@ -21,6 +20,14 @@ namespace UltimateTicTacToe.Models.Game
         public override void makeMove(Move move)
         {
             owner = move.owner;
+        }
+
+        public override void registerMove(Move move)
+        {
+        }
+
+        public override void validateBoard()
+        {
         }
     }
 }

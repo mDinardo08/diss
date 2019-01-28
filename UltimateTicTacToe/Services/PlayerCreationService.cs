@@ -7,7 +7,7 @@ using UltimateTicTacToe.Models.Game.Players;
 
 namespace UltimateTicTacToe.Services
 {
-    public class PlayerCreationService : IPlayerCreationService
+    public class PlayerCreationService :  IPlayerCreationService
     {
         public PlayerClassHandler classHandler;
         public PlayerCreationService(PlayerClassHandler classHandler)
@@ -17,12 +17,30 @@ namespace UltimateTicTacToe.Services
 
         public Player createPlayer(JObject jObject)
         {
-            return jObject == null ? null : createPlayer(jObject.GetValue("type").ToObject<PlayerType>());
+            return jObject == null ? null : createPlayerFromJObject(jObject);
         }
 
         public Player createPlayer(PlayerType type)
         {
             return classHandler.createPlayer(type);
+        }
+
+        public List<Player> createPlayers(List<JObject> jObjects)
+        {
+            List<Player> result = new List<Player>();
+            foreach(JObject player in jObjects)
+            {
+                result.Add(createPlayer(player));
+            }
+            return result;
+        }
+
+        private Player createPlayerFromJObject(JObject player)
+        {
+            Player result = createPlayer((PlayerType)player["type"].ToObject<int>());
+            result.setName(player["name"].ToString());
+            result.setColour((PlayerColour)player["colour"].ToObject<int>());
+            return result;
         }
     }
 }

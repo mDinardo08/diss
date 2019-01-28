@@ -1,0 +1,4 @@
+<div style="padding: 3px" [class.available]="availableMoves.length > 0" [class.last]="lastMove!=null">
+    <div (click)="makeMove($event)" class="box" [style.backgroundColor]="colour">
+    </div>
+</div>

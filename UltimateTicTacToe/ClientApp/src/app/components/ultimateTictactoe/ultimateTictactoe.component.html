@@ -1,0 +1,22 @@
+<div class="container" style="padding-top: 15px; padding-bottom: 15px"
+     [class.owned]="hasBorder()"
+     [style.border-color]="colour">
+     <div>
+        <div *ngFor="let row of board; let x = index" class="row"
+        [class.tophl]="hasTopHorizontalLine(x)"
+        [class.bottomhl]="hasBottomHorizontalLine(x)"
+        style="padding-left: 0px; padding-right: 0px;">
+        <div *ngFor="let space of row; let y = index" class="col"
+        [class.leftvl]="hasLeftVerticalLine(y)"
+        [class.rightvl]="hasRightVerticalLine(y)"
+        style="padding: 0">
+            <div *ngIf="space.board != null && space.board != undefined">
+                <ultimateTictactoe [lastMove]="getLastMove(x, y)" [availableMoves]="getAvailableMoves(x, y)" (moveEvent)="moveMade($event, x, y)" [board]=space.board [owner]=space.owner></ultimateTictactoe>
+            </div>
+            <div *ngIf="space.board == null || space.board == undefined" >
+                <tile (moveEvent)="moveMade($event, x, y)" [lastMove]="getLastMove(x, y)" [availableMoves]="getAvailableMoves(x, y)" [owner]=space.owner></tile>
+            </div>
+        </div>
+    </div>
+     </div>
+</div>

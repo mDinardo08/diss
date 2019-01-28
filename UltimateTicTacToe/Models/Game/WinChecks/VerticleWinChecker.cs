@@ -25,17 +25,27 @@ namespace UltimateTicTacToe.Models.Game.WinCheck
             for (int col = 0; col < board.Count; col++)
             {
                 bool winningCol = true;
-                for (int row = 1; row < board.Count; row++)
+                BoardGame topmost = board[0][col];
+                if (topmost.isWon())
                 {
-                    try
+                    for (int row = 1; row < board.Count; row++)
                     {
-                        winningCol = board[row - 1][col].getWinner() == board[row][col].getWinner();
+                        BoardGame space = board[row][col];
+                        if (space.isWon())
+                        {
+                            if(topmost.getWinner().getColour() != space.getWinner().getColour())
+                            {
+                                winningCol = false;
+                            }
+                        }
+                        else
+                        {
+                            winningCol = false;
+                        }
                     }
-                    catch (NoWinnerException)
-                    {
-                        winningCol = false;
-                        break;
-                    }
+                } else
+                {
+                    winningCol = false;
                 }
                 if (winningCol)
                 {

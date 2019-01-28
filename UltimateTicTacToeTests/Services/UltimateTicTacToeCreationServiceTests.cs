@@ -22,9 +22,10 @@ namespace UltimateTicTacToeTests.Services
         [TestInitialize()]
         public void Setup()
         {
-            service = new UltimateTicTacToeCreationService(null, null);
+            service = new UltimateTicTacToeCreationService(new Mock<IWinChecker>().Object, new Mock<IPlayerCreationService>().Object);
             JBoard = new JObject();
             JBoard.Add("board", JToken.FromObject(new List<List<BoardGame>>()));
+            JBoard.Add("owner", JToken.FromObject(new HumanPlayer(null)));
             JNestedBoard = new List<List<JObject>>
             {
                 new List<JObject>
@@ -44,15 +45,18 @@ namespace UltimateTicTacToeTests.Services
                     JObject.FromObject(new TicTacToe(null))
                 }
             };
-
             Mock<IPlayerCreationService> mockService = new Mock<IPlayerCreationService>(MockBehavior.Loose);
             mockService.Setup(x => x.createPlayer(It.IsAny<JObject>()));
-            service = new UltimateTicTacToeCreationService(null, mockService.Object);
-            BoardGame game = service.createBoardGame(new BoardGameDTO { game = board });
+            service = new UltimateTicTacToeCreationService(new Mock<IWinChecker>().Object,
+                mockService.Object);
+            Move move = new Move();
+            move.next = new Move();
+            BoardGame game = service.createBoardGame(new BoardGameDTO { game = board, lastMove = move });
             Assert.IsTrue(game is TicTacToe);
         }
 
         [TestMethod]
+        [ExpectedException(typeof(NoWinnerException))]
         public void WillSupplyAWinCheckerToTheGame()
         {
             Mock<IWinChecker> mockHandler = new Mock<IWinChecker>(MockBehavior.Loose);
@@ -60,8 +64,10 @@ namespace UltimateTicTacToeTests.Services
             Mock<IPlayerCreationService> mockService = new Mock<IPlayerCreationService>(MockBehavior.Loose);
             mockService.Setup(x => x.createPlayer(It.IsAny<JObject>()));
             service = new UltimateTicTacToeCreationService(mockHandler.Object, mockService.Object);
-            TicTacToe game = service.createBoardGame(new BoardGameDTO { game = board }) as TicTacToe;
-            Assert.IsNotNull(game.winChecker);
+            Move move = new Move();
+            move.next = new Move();
+            TicTacToe game = service.createBoardGame(new BoardGameDTO { game = board, lastMove = move}) as TicTacToe;
+            game.getWinner();
         }
 
         [TestMethod]
@@ -74,8 +80,10 @@ namespace UltimateTicTacToeTests.Services
             };
             Mock<IPlayerCreationService> mockService = new Mock<IPlayerCreationService>(MockBehavior.Loose);
             mockService.Setup(x => x.createPlayer(It.IsAny<JObject>()));
-            service = new UltimateTicTacToeCreationService(null, mockService.Object);
-            TicTacToe game = service.createBoardGame(new BoardGameDTO { game = board }) as TicTacToe;
+            service = new UltimateTicTacToeCreationService(new Mock<IWinChecker>().Object, mockService.Object);
+            Move move = new Move();
+            move.next = new Move();
+            TicTacToe game = service.createBoardGame(new BoardGameDTO { game = board, lastMove = move }) as TicTacToe;
             Assert.IsTrue(game.getBoard()[0][0] is Tile);
         }
 
@@ -86,8 +94,10 @@ namespace UltimateTicTacToeTests.Services
             board[0].Add(JBoard);
             Mock<IPlayerCreationService> mockService = new Mock<IPlayerCreationService>(MockBehavior.Loose);
             mockService.Setup(x => x.createPlayer(It.IsAny<JObject>()));
-            service = new UltimateTicTacToeCreationService(null, mockService.Object);
-            TicTacToe game = service.createBoardGame(new BoardGameDTO { game = board }) as TicTacToe;
+            service = new UltimateTicTacToeCreationService(new Mock<IWinChecker>().Object, mockService.Object);
+            Move move = new Move();
+            move.next = new Move();
+            TicTacToe game = service.createBoardGame(new BoardGameDTO { game = board, lastMove = move }) as TicTacToe;
             Assert.IsTrue(game.getBoard()[0].Count == 2);
         }
 
@@ -101,8 +111,10 @@ namespace UltimateTicTacToeTests.Services
             });
             Mock<IPlayerCreationService> mockService = new Mock<IPlayerCreationService>(MockBehavior.Loose);
             mockService.Setup(x => x.createPlayer(It.IsAny<JObject>()));
-            service = new UltimateTicTacToeCreationService(null, mockService.Object);
-            TicTacToe game = service.createBoardGame(new BoardGameDTO { game = board }) as TicTacToe;
+            service = new UltimateTicTacToeCreationService(new Mock<IWinChecker>().Object, mockService.Object);
+            Move move = new Move();
+            move.next = new Move();
+            TicTacToe game = service.createBoardGame(new BoardGameDTO { game = board, lastMove = move}) as TicTacToe;
             Assert.IsTrue(game.getBoard().Count == 2);
         }
 
@@ -112,7 +124,9 @@ namespace UltimateTicTacToeTests.Services
             JObject ticTacToe = new JObject();
             ticTacToe.Add("board", JToken.FromObject(new List<List<BoardGame>>()));
             List<List<JObject>> board = JNestedBoard;
-            TicTacToe game = service.createBoardGame(new BoardGameDTO { game = board }) as TicTacToe;
+            Move move = new Move();
+            move.next = new Move();
+            TicTacToe game = service.createBoardGame(new BoardGameDTO { game = board, lastMove = move }) as TicTacToe;
             Assert.IsTrue(game.getBoard()[0][0] is TicTacToe);
         }
 
@@ -120,12 +134,22 @@ namespace UltimateTicTacToeTests.Services
         public void NestedGamesWillHaveAWinChecker()
         {
             Mock<IWinChecker> mockHandler = new Mock<IWinChecker>(MockBehavior.Loose);
-            service = new UltimateTicTacToeCreationService(mockHandler.Object, null);
+            mockHandler.Setup(x => x.checkForWin(It.IsAny<BoardGame>())).Returns(new Mock<Player>().Object);
+            service = new UltimateTicTacToeCreationService(mockHandler.Object, new Mock<IPlayerCreationService>().Object); ;
             JObject ticTacToe = new JObject();
             ticTacToe.Add("board", JToken.FromObject(new List<List<BoardGame>>()));
             List<List<JObject>> board = JNestedBoard;
-            TicTacToe game = service.createBoardGame(new BoardGameDTO { game = board }) as TicTacToe;
-            Assert.IsNotNull((game.getBoard()[0][0] as TicTacToe).winChecker);
+            Move move = new Move();
+            move.next = new Move();
+            TicTacToe game = service.createBoardGame(new BoardGameDTO { game = board, lastMove = move}) as TicTacToe;
+            try
+            {
+                (game.getBoard()[0][0] as TicTacToe).getWinner();
+            }
+            catch (Exception e)
+            {
+                Assert.Fail("Expected no exception but got: " + e);
+            }
         }
 
         [TestMethod]
@@ -133,7 +157,7 @@ namespace UltimateTicTacToeTests.Services
         {
             Mock<IPlayerCreationService> mockService = new Mock<IPlayerCreationService>(MockBehavior.Loose);
             mockService.Setup(x => x.createPlayer(It.IsAny<JObject>())).Verifiable();
-            service = new UltimateTicTacToeCreationService(null, mockService.Object);
+            service = new UltimateTicTacToeCreationService(new Mock<IWinChecker>().Object, mockService.Object);
             List<List<JObject>> board = new List<List<JObject>>
             {
                 new List<JObject>
@@ -144,7 +168,9 @@ namespace UltimateTicTacToeTests.Services
                     })
                 }
             };
-            TicTacToe game = service.createBoardGame(new BoardGameDTO { game = board }) as TicTacToe;
+            Move move = new Move();
+            move.next = new Move();
+            TicTacToe game = service.createBoardGame(new BoardGameDTO { game = board, lastMove = move }) as TicTacToe;
             mockService.Verify();
         }
 
@@ -156,7 +182,7 @@ namespace UltimateTicTacToeTests.Services
             Player p = new RandomAi(null);
             tile.owner = p;
             mockService.Setup(x => x.createPlayer(It.IsAny<JObject>())).Returns(p);
-            service = new UltimateTicTacToeCreationService(null, mockService.Object);
+            service = new UltimateTicTacToeCreationService(new Mock<IWinChecker>().Object, mockService.Object);
             List<List<JObject>> board = new List<List<JObject>>
             {
                 new List<JObject>
@@ -164,8 +190,73 @@ namespace UltimateTicTacToeTests.Services
                     JObject.FromObject(tile)
                 }
             };
-            TicTacToe game = service.createBoardGame(new BoardGameDTO { game = board }) as TicTacToe;
+            Move move = new Move();
+            move.next = new Move();
+            TicTacToe game = service.createBoardGame(new BoardGameDTO { game = board, lastMove = move }) as TicTacToe;
             Assert.AreEqual(p, (game.board[0][0] as Tile).owner);
+        }
+
+        [TestMethod]
+        public void WillReturnATicTacToeGame()
+        {
+            BoardGame result = service.createBoardGame(3);
+            Assert.IsTrue(result is TicTacToe);
+        }
+
+        [TestMethod]
+        public void WillReturnAOuterListOfDesiredHeight()
+        {
+            TicTacToe result = service.createBoardGame(3) as TicTacToe;
+            Assert.IsTrue(result.board.Count == 3);
+        }
+
+        [TestMethod]
+        public void WillReturnAInnerListWhichCountIsSize()
+        {
+            TicTacToe result = service.createBoardGame(3) as TicTacToe;
+            Assert.IsTrue(result.board[0].Count == 3);
+        }
+
+        [TestMethod]
+        public void WillSpawnTicTacToeBoardsAsInternalBoards()
+        {
+            TicTacToe result = service.createBoardGame(3) as TicTacToe;
+            Assert.IsTrue(result.board[0][0] is TicTacToe);
+        }
+
+        [TestMethod]
+        public void WillPlaceABoardOfTheCorrectHeightInTheInternalGames()
+        {
+            TicTacToe result = service.createBoardGame(3) as TicTacToe;
+            TicTacToe internalGame = result.board[0][0] as TicTacToe;
+            Assert.IsTrue(internalGame.board.Count == 3);
+        }
+
+        [TestMethod]
+        public void WillPlaceABoardOfTheCorrectWidth()
+        {
+            TicTacToe result = service.createBoardGame(3) as TicTacToe;
+            TicTacToe internalGame = result.board[0][0] as TicTacToe;
+            Assert.IsTrue(internalGame.board[0].Count == 3);
+        }
+
+        [TestMethod]
+        public void WillPlaceNewTilesInTheBoard()
+        {
+            TicTacToe result = service.createBoardGame(3) as TicTacToe;
+            TicTacToe internalGame = result.board[0][0] as TicTacToe;
+            Assert.IsTrue(internalGame.board[0][0] is Tile);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(NoWinnerException))]
+        public void WillPassAWinCheckerToTheTicTacToeGameOuter()
+        {
+            Mock<IWinChecker> mockHandler = new Mock<IWinChecker>();
+            service = new UltimateTicTacToeCreationService(mockHandler.Object, null);
+            TicTacToe result = service.createBoardGame(3) as TicTacToe;
+            TicTacToe internalGame = result.board[0][0] as TicTacToe;
+            internalGame.getWinner();
         }
     }
 }

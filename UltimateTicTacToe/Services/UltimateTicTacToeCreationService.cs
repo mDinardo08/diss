@@ -21,12 +21,47 @@ namespace UltimateTicTacToe.Services
 
         public BoardGame createBoardGame(BoardGameDTO gameDto)
         {
-            return createTicTacToe(gameDto.game, winChecker);
+            BoardGame result = createTicTacToe(gameDto.game);
+            result.validateBoard();
+            result.registerMove(gameDto.lastMove);
+            return result;
         }
 
-        private TicTacToe createTicTacToe(List<List<JObject>> JObjectBoard, IWinChecker winCheck)
+        public BoardGame createBoardGame(int size)
         {
-            TicTacToe result = new TicTacToe(winCheck);
+            TicTacToe result = new TicTacToe(winChecker);
+            List<List<BoardGame>> board = new List<List<BoardGame>>();
+            for (int y = 0; y < size; y++)
+            {
+                board.Add(new List<BoardGame>());
+                for (int x = 0; x < size; x++)
+                {
+                    board[y].Add(createNewTicTacToe(size));
+                }
+            }
+            result.board = board;
+            return result;
+        }
+
+        private TicTacToe createNewTicTacToe(int size)
+        {
+            TicTacToe result = new TicTacToe(winChecker);
+            List<List<BoardGame>> board = new List<List<BoardGame>>();
+            for (int y = 0; y < size; y++)
+            {
+                board.Add(new List<BoardGame>());
+                for (int x = 0; x < size; x++)
+                {
+                    board[y].Add(new Tile());
+                }
+            }
+            result.board = board;
+            return result;
+        }
+
+        private TicTacToe createTicTacToe(List<List<JObject>> JObjectBoard)
+        {
+            TicTacToe result = new TicTacToe(this.winChecker);
             List<List<BoardGame>> board = new List<List<BoardGame>>();
             for (int row = 0; row < JObjectBoard.Count; row++)
             {
@@ -40,7 +75,9 @@ namespace UltimateTicTacToe.Services
                     }
                     else
                     {
-                        board[row].Add(createTicTacToe(space["board"].ToObject<List<List<JObject>>>(), winCheck));
+                        TicTacToe innerGame = createTicTacToe(space["board"].ToObject<List<List<JObject>>>());
+                        innerGame.owner = playerCreationService.createPlayer(space["owner"] as JObject);
+                        board[row].Add(innerGame);
                     }
                 }
             }

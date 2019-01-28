@@ -24,6 +24,9 @@ namespace UltimateTicTacToeTests.Models
             h = new HorizontalWinChecker();
             MockException = new Mock<BoardGame>(MockBehavior.Strict);
             MockGame = new Mock<BoardGame>(MockBehavior.Strict);
+            MockGame.Setup(x => x.isWon()).Returns(true);
+            MockException.Setup(x => x.isWon())
+                .Returns(false);
             MockException.Setup(x => x.getWinner()).Throws(new NoWinnerException());
         }
 
@@ -87,8 +90,6 @@ namespace UltimateTicTacToeTests.Models
         public void WillReturnTheWinnerOfThreeGamesInTheThirdRow()
         {
             Mock<Player> player = new Mock<Player>();
-            var MockException = new Mock<BoardGame>(MockBehavior.Strict);
-            MockException.Setup(x => x.getWinner()).Throws(new NoWinnerException());
             MockGame.Setup(x => x.getBoard()).Returns(new List<List<BoardGame>>
                 {
                     new List<BoardGame>{MockException.Object, MockException.Object , MockException.Object},
