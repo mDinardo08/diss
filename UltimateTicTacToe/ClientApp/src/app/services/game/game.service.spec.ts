@@ -245,4 +245,27 @@ describe("Game Service tests", () => {
         service.makeMove(null);
         expect(service.getAvailableMoves()).toBe(dto.availableMoves);
     });
+
+    it("Will register the move made", () => {
+        const mockApi = jasmine.createSpyObj("ApiService", ["post"]);
+        mockApi.post.and.returnValue(Observable.of());
+        service = new GameService(mockApi);
+        spyOn(service, "makeMoveOnBoard").and.returnValue(null);
+        spyOn(service, "getNextPlayer").and.returnValue(null);
+        const move = new Move();
+        service.makeMove(move);
+        expect(service.lastMove).toBe(move);
+    });
+
+    it("Will assign the last move from the dto as the last move", () => {
+        const mockApi = jasmine.createSpyObj("ApiService", ["post"]);
+        const dto = new BoardGameDTO();
+        dto.lastMove = new Move();
+        mockApi.post.and.returnValue(Observable.of(dto));
+        service = new GameService(mockApi);
+        spyOn(service, "makeMoveOnBoard").and.returnValue(null);
+        spyOn(service, "getNextPlayer").and.returnValue(null);
+        service.makeMove(null);
+        expect(service.lastMove).toBe(dto.lastMove);
+    });
 });

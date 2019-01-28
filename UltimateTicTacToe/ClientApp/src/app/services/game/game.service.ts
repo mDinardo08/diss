@@ -15,7 +15,7 @@ export class GameService extends AbstractGameService {
     players: Array<Player>;
     board: Array<Array<BoardGame>>;
     availableMoves: Array<Move>;
-
+    lastMove: Move;
     constructor(private api: ApiService) {
         super();
     }
@@ -23,6 +23,7 @@ export class GameService extends AbstractGameService {
     makeMove(move: Move): void {
         const Dto = new BoardGameDTO();
         Dto.game = this.makeMoveOnBoard(this.board, move);
+        this.lastMove = move;
         Dto.lastMove = move;
         Dto.players = this.players;
         Dto.cur = this.getNextPlayer()  ;
@@ -76,6 +77,7 @@ export class GameService extends AbstractGameService {
         this.curPlayer = res.cur;
         this.board = res.game;
         this.availableMoves = res.availableMoves;
+        this.lastMove = res.lastMove;
         this.boardUpdatedEvent.emit(this.board);
     }
 }
