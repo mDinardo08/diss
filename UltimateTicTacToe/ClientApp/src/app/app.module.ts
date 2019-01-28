@@ -6,15 +6,18 @@ import { RouterModule } from "@angular/router";
 import * as Components from "./components";
 import { AppComponent } from "./app.component";
 import * as Services from "./services";
+import { ModalModule } from "ngx-bootstrap/modal";
 @NgModule({
   declarations: [
     AppComponent,
     Components.NavMenuComponent,
     Components.GameComponent,
     Components.TictactoeComponent,
-    Components.TileComponent
+    Components.TileComponent,
+    Components.GameSetupComponent
   ],
   imports: [
+    ModalModule.forRoot(),
     BrowserModule.withServerTransition({ appId: "ng-cli-universal" }),
     HttpClientModule,
     FormsModule,
@@ -22,6 +25,7 @@ import * as Services from "./services";
       { path: "", component: Components.GameComponent, pathMatch: "full" }
     ])
   ],
+  entryComponents: [Components.GameSetupComponent],
   providers: [Services.ApiService, { provide: Services.AbstractGameService, useClass: Services.GameService }],
   bootstrap: [AppComponent]
 })
