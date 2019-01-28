@@ -1,5 +1,6 @@
 import { TictactoeComponent } from "./ultimateTictactoe.component";
 import { Move } from "../../models/move/move.model";
+import { Player } from "../../models/player/player.model";
 
 describe("Tictactoe component", () => {
 
@@ -101,5 +102,22 @@ describe("Tictactoe component", () => {
             internal];
         const result = comp.getAvailableMoves(1, 2);
         expect(result.length).toBe(5);
+    });
+
+    it("Will return true if owner is set", () => {
+        comp.owner = new Player();
+        expect(comp.hasBorder()).toBe(true);
+    });
+
+    it("Will return true if owner is not set but all subboards have a owner", () => {
+        const sub = {owner: {colour: 0, type: 0, name: ""}, board: [[]]};
+        comp.board = [[sub]];
+        expect(comp.hasBorder()).toBe(true);
+    });
+
+    it("Will return false if owner is not set and atleast one subboard does not have an owner", () => {
+        const sub = {owner: null, board: [[]]};
+        comp.board = [[sub]];
+        expect(comp.hasBorder()).toBe(false);
     });
 });

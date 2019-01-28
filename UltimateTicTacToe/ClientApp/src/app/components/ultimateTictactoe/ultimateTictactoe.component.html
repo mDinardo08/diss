@@ -1,5 +1,5 @@
 <div class="container" style="padding-top: 15px; padding-bottom: 15px"
-     [class.owned]="owner != null && owner != undefined"
+     [class.owned]="hasBorder()"
      [style.border-color]="colour">
      <div>
         <div *ngFor="let row of board; let x = index" class="row"

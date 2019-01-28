@@ -1,7 +1,5 @@
-import { Component, Input, OnInit } from "@angular/core";
+import { Component } from "@angular/core";
 import { AbstractBoardGameComponent } from "../abstractBoardGame/abstractBoardGame.component";
-import { BoardGame } from "../../models/boardGame/boardgame/boardgame.model";
-import { Player } from "../../models/player/player.model";
 import { Move } from "../../models/move/move.model";
 
 @Component({
@@ -31,6 +29,21 @@ export class TictactoeComponent extends AbstractBoardGameComponent {
             }
         }
         result = result.concat(filteredMoves.map((move) => move.next));
+        return result;
+    }
+
+    hasBorder(): boolean {
+        let result = true;
+        if (this.owner === null || this.owner === undefined) {
+            for (let x = 0; x < this.board.length; x++) {
+                for (let y = 0; y < this.board[x].length; y++) {
+                    const subOwner = this.board[x][y].owner;
+                    if (subOwner === null || subOwner === undefined) {
+                        result = false;
+                    }
+                }
+            }
+        }
         return result;
     }
 
