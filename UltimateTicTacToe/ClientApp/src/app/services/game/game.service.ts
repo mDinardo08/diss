@@ -81,7 +81,9 @@ export class GameService extends AbstractGameService {
         this.curPlayer = res.cur;
         this.board = res.game;
         this.availableMoves = res.availableMoves;
-        this.lastMove = res.lastMove;
+        if (res.lastMove !== undefined && res.lastMove !== null) {
+            this.lastMove = res.lastMove;
+        }
         this.boardUpdatedEvent.emit(this.board);
     }
 }

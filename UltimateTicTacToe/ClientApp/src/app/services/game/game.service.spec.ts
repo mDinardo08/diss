@@ -268,4 +268,14 @@ describe("Game Service tests", () => {
         service.makeMove(null);
         expect(service.lastMove).toBe(dto.lastMove);
     });
+
+    it("Will not reasign the last move if the dto does not have one", () => {
+        const mockApi = jasmine.createSpyObj("ApiService", ["post"]);
+        mockApi.post.and.returnValue(Observable.of());
+        service = new GameService(mockApi);
+        spyOn(service, "makeMoveOnBoard").and.returnValue(null);
+        spyOn(service, "getNextPlayer").and.returnValue(null);
+        service.makeMove(new Move());
+        expect(service.lastMove).not.toBeNull();
+    });
 });
