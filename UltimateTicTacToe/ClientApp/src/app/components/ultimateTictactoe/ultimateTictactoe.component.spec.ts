@@ -1,6 +1,7 @@
 import { TictactoeComponent } from "./ultimateTictactoe.component";
 import { Move } from "../../models/move/move.model";
 import { Player } from "../../models/player/player.model";
+import { AssertNotNull } from "@angular/compiler";
 
 describe("Tictactoe component", () => {
 
@@ -119,5 +120,41 @@ describe("Tictactoe component", () => {
         const sub = {owner: null, board: [[]]};
         comp.board = [[sub]];
         expect(comp.hasBorder()).toBe(false);
+    });
+
+    it("Will return null if the x component does not match the x of the last move", () => {
+        const move = new Move();
+        move.possition = {
+            x: 10, y: 0
+        };
+        comp.lastMove = move;
+        expect(comp.getLastMove(0, 0)).toBeNull();
+    });
+
+    it("Will return null if the y component does not match the x of the last move", () => {
+        const move = new Move();
+        move.possition = {
+            x: 0, y: 10
+        };
+        comp.lastMove = move;
+        expect(comp.getLastMove(0, 0)).toBeNull();
+    });
+
+    it("Will return the next move if both x and y match", () => {
+        const move = new Move();
+        move.possition = {
+            x: 0, y: 0
+        };
+        move.next = new Move();
+        comp.lastMove = move;
+        expect(comp.getLastMove(0, 0)).toBe(move.next);
+    });
+
+    it("Will not throw an exeption if lastmove is null", () => {
+        try {
+            comp.getLastMove(0, 0);
+        } catch {
+            fail();
+        }
     });
 });

@@ -9,7 +9,6 @@ import { Move } from "../../models/move/move.model";
 })
 
 export class TictactoeComponent extends AbstractBoardGameComponent {
-
     moveMade($event: Move, x: number, y: number): void {
         const move = new Move();
         move.next = $event;
@@ -46,6 +45,16 @@ export class TictactoeComponent extends AbstractBoardGameComponent {
         }
         return result;
     }
+
+    getLastMove(x: number, y: number): Move {
+        let result = null;
+        if (this.lastMove !== null && this.lastMove !== undefined) {
+            const possition = this.lastMove.possition;
+            result = possition.x === x && possition.y === y ? this.lastMove.next : null;
+        }
+        return result;
+    }
+
 
     hasTopHorizontalLine(x: number): boolean {
         return x > 0;
