@@ -11,8 +11,12 @@ namespace UltimateTicTacToe.Services
         public RandomPlayerClassHandler(IRandomService randomService) : base(randomService)
         {
             type = PlayerType.RANDOM;
-            player = new RandomAi(randomService);
             successor = new HumanPlayerClassHandler(randomService);
+        }
+
+        protected override Player buildPlayer()
+        {
+            return new RandomAi(randomService);
         }
     }
 }

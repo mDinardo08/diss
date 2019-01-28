@@ -10,7 +10,6 @@ namespace UltimateTicTacToe.Services
     {
         public PlayerType type;
         public PlayerClassHandler successor;
-        public Player player;
         public IRandomService randomService;
         public AbstractPlayerClassHandler(IRandomService randomService)
         {
@@ -22,12 +21,14 @@ namespace UltimateTicTacToe.Services
             Player result = null;
             if(this.type == type)
             {
-                result = player;
+                result = buildPlayer();
             }else
             {
                 result = successor?.createPlayer(type);
             }
             return result;
         }
+
+        protected abstract Player buildPlayer();
     }
 }
