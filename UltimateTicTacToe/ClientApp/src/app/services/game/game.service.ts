@@ -85,5 +85,9 @@ export class GameService extends AbstractGameService {
             this.lastMove = res.lastMove;
         }
         this.boardUpdatedEvent.emit(this.board);
+        if ((res.winner !== undefined && res.winner !== null) ||
+            this.availableMoves.length === 0) {
+                this.gameOverEvent.emit(res.winner);
+        }
     }
 }

@@ -8,6 +8,7 @@ import { PlayerColour } from "../../models/player/player.colour.enum";
 import { BsModalService } from "ngx-bootstrap/modal/bs-modal.service";
 import { GameSetupComponent } from "../gameSetup/setup.component";
 import { ModalOptions, BsModalRef } from "ngx-bootstrap/modal";
+import { GameOverComponent } from "../gameOver/gameover.component";
 
 @Component({
     selector: "game",
@@ -32,6 +33,10 @@ export class GameComponent implements OnInit {
         this.gameStarter = this.modalService.show(GameSetupComponent, config);
         this.gameStarter.content.opponentSelectedEvent.subscribe((opp) => {
             this.startGame(opp);
+        });
+        this.gameService.gameOverEvent.subscribe((winner) => {
+            const modal = this.modalService.show(GameOverComponent);
+            modal.content.Winner = winner;
         });
         this.gameService.boardUpdatedEvent.subscribe((res: Array<Array<BoardGame>>) => {
             this.boardUpdated();

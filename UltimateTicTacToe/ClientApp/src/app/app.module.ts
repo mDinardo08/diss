@@ -15,7 +15,8 @@ import { BsDropdownModule } from "ngx-bootstrap/dropdown";
     Components.GameComponent,
     Components.TictactoeComponent,
     Components.TileComponent,
-    Components.GameSetupComponent
+    Components.GameSetupComponent,
+    Components.GameOverComponent
   ],
   imports: [
     BsDropdownModule.forRoot(),
@@ -27,7 +28,7 @@ import { BsDropdownModule } from "ngx-bootstrap/dropdown";
       { path: "", component: Components.GameComponent, pathMatch: "full" }
     ])
   ],
-  entryComponents: [Components.GameSetupComponent],
+  entryComponents: [Components.GameSetupComponent, Components.GameOverComponent],
   providers: [Services.ApiService, { provide: Services.AbstractGameService, useClass: Services.GameService }],
   bootstrap: [AppComponent]
 })
