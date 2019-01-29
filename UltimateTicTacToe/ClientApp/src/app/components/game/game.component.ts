@@ -5,6 +5,9 @@ import { AbstractGameService } from "../../services/game/game.service.abstract";
 import { Player } from "../../models/player/player.model";
 import { PlayerType } from "../../models/player/player.type.enum";
 import { PlayerColour } from "../../models/player/player.colour.enum";
+import { BsModalService } from "ngx-bootstrap/modal/bs-modal.service";
+import { GameSetupComponent } from "../gameSetup/setup.component";
+import { ModalOptions, BsModalRef } from "ngx-bootstrap/modal";
 
 @Component({
     selector: "game",
@@ -14,25 +17,22 @@ import { PlayerColour } from "../../models/player/player.colour.enum";
 
 export class GameComponent implements OnInit {
 
-    constructor(private gameService: AbstractGameService) {}
+    constructor(private gameService: AbstractGameService, private modalService: BsModalService) {}
 
     public game: BoardGame;
     public availableMoves: Array<Move>;
     public lastMove: Move;
     public overlayVisable: boolean;
-
+    public gameStarter: BsModalRef;
     public ngOnInit(): void {
         this.game = new BoardGame();
-        const human = new Player();
-        human.type = PlayerType.HUMAN;
-        human.name = "human";
-        human.colour = PlayerColour.BLUE;
-        const ai  = new Player();
-        ai.colour = PlayerColour.RED;
-        ai.name = "ai";
-        ai.type = PlayerType.HUMAN;
-        this.overlayVisable = true;
-        this.gameService.createGame(3, [human, ai]);
+        this.availableMoves = new Array<Move>();
+        this.lastMove = new Move();
+        const config: ModalOptions = { class: "modal-sm" };
+        this.gameStarter = this.modalService.show(GameSetupComponent, config);
+        this.gameStarter.content.opponentSelectedEvent.subscribe((opp) => {
+            this.startGame(opp);
+        });
         this.gameService.boardUpdatedEvent.subscribe((res: Array<Array<BoardGame>>) => {
             this.boardUpdated();
         });
@@ -41,6 +41,15 @@ export class GameComponent implements OnInit {
     public moveMade($event: Move): void {
         this.overlayVisable = true;
         this.gameService.makeMove($event);
+    }
+
+    private startGame(opponent: Player): void {
+        const human = new Player();
+        human.type = PlayerType.HUMAN;
+        human.colour = PlayerColour.BLUE;
+        human.name = "";
+        this.gameService.createGame(3, [human, opponent]);
+        this.gameStarter.hide();
     }
 
     private boardUpdated(): void {

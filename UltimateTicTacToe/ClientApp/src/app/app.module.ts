@@ -7,6 +7,7 @@ import * as Components from "./components";
 import { AppComponent } from "./app.component";
 import * as Services from "./services";
 import { ModalModule } from "ngx-bootstrap/modal";
+import { BsDropdownModule } from "ngx-bootstrap/dropdown";
 @NgModule({
   declarations: [
     AppComponent,
@@ -17,6 +18,7 @@ import { ModalModule } from "ngx-bootstrap/modal";
     Components.GameSetupComponent
   ],
   imports: [
+    BsDropdownModule.forRoot(),
     ModalModule.forRoot(),
     BrowserModule.withServerTransition({ appId: "ng-cli-universal" }),
     HttpClientModule,
