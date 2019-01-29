@@ -10,10 +10,12 @@ describe("Game Component", () => {
 
     let comp: GameComponent;
     let mockService;
+    let mockBs;
 
     beforeEach(() => {
         mockService = jasmine.createSpyObj("GameService", ["createGame", "makeMove"]);
-        comp = new GameComponent(mockService);
+        mockBs = jasmine.createSpyObj("BsModalService", ["show"]);
+        comp = new GameComponent(mockService, mockBs);
     });
 
     it("Will call the game service with the board ", () => {
@@ -37,8 +39,11 @@ describe("Game Component", () => {
     it("Will subscribe to the game service board updated event", () => {
         mockService = jasmine.createSpyObj("GameService", ["boardUpdatedEvent", "createGame"]);
         const mockEmittor = jasmine.createSpyObj("EventEmitter", ["subscribe"]);
+        const notCalledEmittor = jasmine.createSpyObj("EvenEmitter", ["subscribe"]);
         mockService.boardUpdatedEvent = mockEmittor;
-        comp = new GameComponent(mockService);
+        mockService.gameOverEvent = notCalledEmittor;
+        mockBs.show.and.returnValue({content: {opponentSelectedEvent: notCalledEmittor}});
+        comp = new GameComponent(mockService, mockBs);
         comp.ngOnInit();
         expect(mockService.boardUpdatedEvent.subscribe).toHaveBeenCalled();
     });

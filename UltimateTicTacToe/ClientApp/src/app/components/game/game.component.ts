@@ -25,6 +25,8 @@ export class GameComponent implements OnInit {
     public lastMove: Move;
     public overlayVisable: boolean;
     public gameStarter: BsModalRef;
+    public gameOver: BsModalRef;
+    public players: Array<Player>;
     public ngOnInit(): void {
         this.game = new BoardGame();
         this.availableMoves = new Array<Move>();
@@ -35,12 +37,22 @@ export class GameComponent implements OnInit {
             this.startGame(opp);
         });
         this.gameService.gameOverEvent.subscribe((winner) => {
-            const modal = this.modalService.show(GameOverComponent);
-            modal.content.Winner = winner;
+            this.gameOver = this.modalService.show(GameOverComponent);
+            this.gameOver.content.Winner = winner;
+            this.gameOver.content.playAgainEvent.subscribe((playAgain) => {
+                this.playAgain(playAgain);
+            });
         });
         this.gameService.boardUpdatedEvent.subscribe((res: Array<Array<BoardGame>>) => {
             this.boardUpdated();
         });
+    }
+    playAgain(playAgain: boolean): void {
+        if (playAgain) {
+            this.overlayVisable = true;
+            this.gameService.createGame(3, this.gameService.getPlayers());
+        }
+        this.gameOver.hide();
     }
 
     public moveMade($event: Move): void {
