@@ -1,5 +1,5 @@
 import { Player } from "../../models/player/player.model";
-import { Component } from "@angular/core";
+import { Component, EventEmitter, Output } from "@angular/core";
 import { PlayerColour } from "../../models/player/player.colour.enum";
 
 @Component({
@@ -11,7 +11,12 @@ export class GameOverComponent {
 
     public Winner: Player;
     public colours = PlayerColour;
+    @Output() playAgainEvent = new EventEmitter<boolean>();
     hasWinner(): boolean {
         return this.Winner !== null && this.Winner !== undefined;
+    }
+
+    playAgain(playAgain: boolean): void {
+        this.playAgainEvent.emit(playAgain);
     }
 }

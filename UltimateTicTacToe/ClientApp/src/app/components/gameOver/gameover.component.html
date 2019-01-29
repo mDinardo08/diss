@@ -5,12 +5,23 @@
   </button>
 </div>
 <div class="modal-body">
- <div *ngIf="hasWinner()">
+  <div *ngIf="hasWinner()">
     {{colours[Winner.colour]}} Has won!!
- </div>
- <div *ngIf="!hasWinner()">
+  </div>
+  <div *ngIf="!hasWinner()">
     The game is a draw
- </div>
+  </div>
+  <div>
+    Would you like to play again:
+  </div>
+  <div class="btn-group" dropdown>
+    <button id="button-type" type="button" class="btn btn-primary" (click)="playAgain(true)" aria-controls="dropdown-type">
+      Yes
+    </button>
+    <button id="button-type" type="button" class="btn btn-primary" (click)="playAgain(false)" aria-controls="dropdown-type">
+      No
+    </button>
+  </div>
 </div>
 <div class="modal-footer">
   <button type="button" class="btn btn-default" (click)="bsModalRef.hide()">{{closeBtnName}}</button>
