@@ -42,6 +42,7 @@ export class GameService extends AbstractGameService {
         creationDto.size = size;
         creationDto.players = players;
         this.players = players;
+        this.lastMove = null;
         const dto = this.api.post<BoardGameDTO>("Game/createBoard", creationDto);
         dto.subscribe((res) => {
             this.players = res.players;
@@ -62,6 +63,9 @@ export class GameService extends AbstractGameService {
         return this.board;
     }
 
+    getPlayers(): Player[] {
+        return this.players;
+    }
     makeMoveOnBoard(board: Array<Array<BoardGame>>, move: Move): Array<Array<BoardGame>> {
         const result = board;
         const point = move.possition;

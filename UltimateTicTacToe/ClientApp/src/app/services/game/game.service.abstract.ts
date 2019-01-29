@@ -17,4 +17,6 @@ export abstract class AbstractGameService {
     abstract getBoard(): Array<Array<BoardGame>>;
 
     abstract getLastMove(): Move;
+
+    abstract getPlayers(): Array<Player>;
 }

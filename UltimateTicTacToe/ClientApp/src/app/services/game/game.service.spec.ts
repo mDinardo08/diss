@@ -12,6 +12,7 @@ describe("Game Service tests", () => {
 
     beforeEach(() => {
         service = new GameService(null);
+        service.availableMoves = [];
     });
 
     it("Will assign the current player as the owner of the tile described on the move", () => {
@@ -78,8 +79,11 @@ describe("Game Service tests", () => {
 
     it("Will call the api service to make a move", () => {
         const mockApi = jasmine.createSpyObj("ApiService", ["post"]);
-        mockApi.post.and.returnValue(Observable.of(BoardGameDTO));
+        const dto = new BoardGameDTO();
+        dto.availableMoves = [new Move()];
+        mockApi.post.and.returnValue(Observable.of(dto));
         service = new GameService(mockApi);
+        service.availableMoves = [];
         spyOn(service, "makeMoveOnBoard").and.returnValue(new Array<Array<BoardGame>>());
         spyOn(service, "getNextPlayer").and.returnValue(new Player());
         service.makeMove(null);
@@ -88,7 +92,9 @@ describe("Game Service tests", () => {
 
     it("Will call the api with the correct endpoint", () => {
         const mockApi = jasmine.createSpyObj("ApiService", ["post"]);
-        mockApi.post.and.returnValue(Observable.of(BoardGameDTO));
+        const recieved = new BoardGameDTO();
+        recieved.availableMoves = [new Move()];
+        mockApi.post.and.returnValue(Observable.of(recieved));
         service = new GameService(mockApi);
         spyOn(service, "makeMoveOnBoard").and.returnValue(new Array<Array<BoardGame>>());
         spyOn(service, "getNextPlayer").and.returnValue(new Player());
@@ -103,7 +109,9 @@ describe("Game Service tests", () => {
 
     it("Will call the api with a BoardgameDto with the last move set", () => {
         const mockApi = jasmine.createSpyObj("ApiService", ["post"]);
-        mockApi.post.and.returnValue(Observable.of(BoardGameDTO));
+        const recieved = new BoardGameDTO();
+        recieved.availableMoves = [new Move()];
+        mockApi.post.and.returnValue(Observable.of(recieved));
         service = new GameService(mockApi);
         spyOn(service, "makeMoveOnBoard").and.returnValue(new Array<Array<BoardGame>>());
         spyOn(service, "getNextPlayer").and.returnValue(new Player());
@@ -121,7 +129,9 @@ describe("Game Service tests", () => {
 
     it("Will call the api to get a new board", () => {
         const mockApi = jasmine.createSpyObj("ApiService", ["post"]);
-        mockApi.post.and.returnValue(Observable.of(BoardGameDTO));
+        const dto = new BoardGameDTO();
+        dto.availableMoves = [new Move()];
+        mockApi.post.and.returnValue(Observable.of(dto));
         service = new GameService(mockApi);
         service.createGame(null, null);
         expect(mockApi.post).toHaveBeenCalled();
@@ -129,7 +139,9 @@ describe("Game Service tests", () => {
 
     it("Will call the api with the correct size arguement", () => {
         const mockApi = jasmine.createSpyObj("ApiService", ["post"]);
-        mockApi.post.and.returnValue(Observable.of(BoardGameDTO));
+        const recieved = new BoardGameDTO();
+        recieved.availableMoves = [new Move()];
+        mockApi.post.and.returnValue(Observable.of(recieved));
         service = new GameService(mockApi);
         const dto = new BoardCreationDTO();
         dto.size = 2;
@@ -140,7 +152,9 @@ describe("Game Service tests", () => {
 
     it("Will call the api with the correct players arguement", () => {
         const mockApi = jasmine.createSpyObj("ApiService", ["post"]);
-        mockApi.post.and.returnValue(Observable.of(BoardGameDTO));
+        const recieved = new BoardGameDTO();
+        recieved.availableMoves = [new Move()];
+        mockApi.post.and.returnValue(Observable.of(recieved));
         service = new GameService(mockApi);
         const dto = new BoardCreationDTO();
         const players = [
@@ -157,6 +171,7 @@ describe("Game Service tests", () => {
         const player = new Player();
         const dto = new BoardGameDTO();
         dto.cur = player;
+        dto.availableMoves = [new Move()];
         mockApi.post.and.returnValue(Observable.of(dto));
         service = new GameService(mockApi);
         service.createGame(null, null);
@@ -170,6 +185,7 @@ describe("Game Service tests", () => {
         const dto = new BoardGameDTO();
         dto.cur = player;
         dto.players = players;
+        dto.availableMoves = [new Move()];
         mockApi.post.and.returnValue(Observable.of(dto));
         service = new GameService(mockApi);
         service.createGame(null, null);
@@ -190,6 +206,7 @@ describe("Game Service tests", () => {
         const mockApi = jasmine.createSpyObj("ApiService", ["post"]);
         const dto = new BoardGameDTO();
         dto.game = new Array<Array<BoardGame>>();
+        dto.availableMoves = [new Move()];
         mockApi.post.and.returnValue(Observable.of(dto));
         service = new GameService(mockApi);
         service.createGame(null, null);
@@ -200,6 +217,7 @@ describe("Game Service tests", () => {
         const mockApi = jasmine.createSpyObj("ApiService", ["post"]);
         const dto = new BoardGameDTO();
         dto.game = new Array<Array<BoardGame>>();
+        dto.availableMoves = [new Move()];
         mockApi.post.and.returnValue(Observable.of(dto));
         service = new GameService(mockApi);
         service.players = [];
@@ -213,6 +231,7 @@ describe("Game Service tests", () => {
         const mockApi = jasmine.createSpyObj("ApiService", ["post"]);
         const dto = new BoardGameDTO();
         dto.game = new Array<Array<BoardGame>>();
+        dto.availableMoves = [new Move()];
         mockApi.post.and.returnValue(Observable.of(dto));
         service = new GameService(mockApi);
         spyOn(service.boardUpdatedEvent, "emit");
@@ -226,6 +245,7 @@ describe("Game Service tests", () => {
         const mockApi = jasmine.createSpyObj("ApiService", ["post"]);
         const dto = new BoardGameDTO();
         dto.game = new Array<Array<BoardGame>>();
+        dto.availableMoves = [new Move()];
         mockApi.post.and.returnValue(Observable.of(dto));
         service = new GameService(mockApi);
         spyOn(service.boardUpdatedEvent, "emit");
@@ -261,6 +281,7 @@ describe("Game Service tests", () => {
         const mockApi = jasmine.createSpyObj("ApiService", ["post"]);
         const dto = new BoardGameDTO();
         dto.lastMove = new Move();
+        dto.availableMoves = [new Move()];
         mockApi.post.and.returnValue(Observable.of(dto));
         service = new GameService(mockApi);
         spyOn(service, "makeMoveOnBoard").and.returnValue(null);
