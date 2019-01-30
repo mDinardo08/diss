@@ -51,6 +51,8 @@ export class GameComponent implements OnInit {
         if (playAgain) {
             this.overlayVisable = true;
             this.gameService.createGame(3, this.gameService.getPlayers());
+        } else {
+            this.gameStarter = this.modalService.show(GameSetupComponent, {class: "modal-sm"});
         }
         this.gameOver.hide();
     }
