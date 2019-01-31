@@ -9,7 +9,7 @@ namespace UltimateTicTacToe.Models.DTOs
     public class BoardGameDTO
     {
         public List<List<JObject>> game;
-        public Player Winner;
+        public PlayerColour? Winner;
         public List<JObject> players;
         public JObject cur;
         public Move lastMove;
