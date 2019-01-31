@@ -46,7 +46,7 @@ namespace UltimateTicTacToe.Models.Game.Players
         {
             List<Move> possibleMoves = game.getAvailableMoves();
             Move decided = decideMove(game, possibleMoves);
-            decided.setOwner(this);
+            decided.setOwner(this.getColour());
             game.makeMove(decided);
             return decided;
         }
