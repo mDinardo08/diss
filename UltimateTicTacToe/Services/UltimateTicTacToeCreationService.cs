@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using UltimateTicTacToe.Models.DTOs;
 using UltimateTicTacToe.Models.Game;
+using UltimateTicTacToe.Models.Game.Players;
 using UltimateTicTacToe.Models.Game.WinCheck;
 
 namespace UltimateTicTacToe.Services
@@ -76,7 +77,7 @@ namespace UltimateTicTacToe.Services
                     else
                     {
                         TicTacToe innerGame = createTicTacToe(space["board"].ToObject<List<List<JObject>>>());
-                        innerGame.owner = playerCreationService.createPlayer(space["owner"] as JObject);
+                        innerGame.owner = space["owner"].ToObject<PlayerColour?>();
                         board[row].Add(innerGame);
                     }
                 }
@@ -88,7 +89,7 @@ namespace UltimateTicTacToe.Services
         private Tile createTile(JObject jObject)
         {
             Tile t = new Tile();
-            t.owner = playerCreationService.createPlayer(jObject["owner"] as JObject);
+            t.owner = jObject["owner"].ToObject<PlayerColour?>();
             return t;
         }
     }
