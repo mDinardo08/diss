@@ -7,14 +7,14 @@ namespace UltimateTicTacToe.Models.MCTS
 {
     public interface INode
     {
-        void expand();
-        List<INode> getChildren();
-        INode getParent();
-        bool isExpanded();
         bool isLeaf();
-        void rollOut();
-        int getVisits();
-        int getTotalScore();
+        List<INode> getChildren();
         double getUBC1();
+        int getVisits();
+        void rollOut();
+        void expand();
+        INode getParent();
+        void backPropagate(int score);
+        double getReward();
     }
 }
