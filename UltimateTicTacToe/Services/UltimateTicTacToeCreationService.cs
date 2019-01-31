@@ -13,11 +13,9 @@ namespace UltimateTicTacToe.Services
     public class UltimateTicTacToeCreationService : BoardCreationService
     {
         public IWinChecker winChecker;
-        public IPlayerCreationService playerCreationService;
-        public UltimateTicTacToeCreationService(IWinChecker winChecker, IPlayerCreationService playerCreationService)
+        public UltimateTicTacToeCreationService(IWinChecker winChecker)
         {
             this.winChecker = winChecker;
-            this.playerCreationService = playerCreationService;
         }
 
         public BoardGame createBoardGame(BoardGameDTO gameDto)
