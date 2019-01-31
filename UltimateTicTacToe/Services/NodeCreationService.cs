@@ -3,22 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using UltimateTicTacToe.Models.Game;
+using UltimateTicTacToe.Models.Game.Players;
 using UltimateTicTacToe.Models.MCTS;
 
 namespace UltimateTicTacToe.Services
 {
     public class NodeCreationService : INodeCreationService
     {
-        private IGameService gameService;
 
-        public NodeCreationService(IGameService gameService)
+        public INode createNode(BoardGame game, PlayerColour colour)
         {
-            this.gameService = gameService;
-        }
-
-        public INode createNode(BoardGame game)
-        {
-            return new Node(game, null, null, gameService);
+            return new Node(game, null, null, colour);
         }
     }
 }

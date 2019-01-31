@@ -17,13 +17,13 @@ namespace UltimateTicTacToeTests.Services
         [TestInitialize()]
         public void Setup()
         {
-            service = new NodeCreationService(null);
+            service = new NodeCreationService();
         }
 
         [TestMethod]
         public void WillReturnANode()
         {
-            INode result = service.createNode(null);
+            INode result = service.createNode(null, 0);
             Assert.IsTrue(result is Node);
         }
 
@@ -31,18 +31,8 @@ namespace UltimateTicTacToeTests.Services
         public void WillPassBoardGameToNode()
         {
             Mock<BoardGame> mockGame = new Mock<BoardGame>();
-            Node result = service.createNode(mockGame.Object) as Node;
-            Assert.IsTrue(result.subject == mockGame.Object);
-        }
-
-        [TestMethod]
-        public void WillPassGameServiceToNode()
-        {
-            Mock<IGameService> mockService = new Mock<IGameService>();
-            service = new NodeCreationService(mockService.Object);
-            Node result = service.createNode(null) as Node;
-            Assert.IsTrue(result.gameService == mockService.Object);
-
+            Node result = service.createNode(mockGame.Object, 0) as Node;
+            Assert.IsTrue(result.game == mockGame.Object);
         }
     }
 }
