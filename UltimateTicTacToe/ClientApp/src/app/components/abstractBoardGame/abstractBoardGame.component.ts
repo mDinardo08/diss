@@ -6,7 +6,7 @@ import { PlayerColour } from "../../models/player/player.colour.enum";
 
 export abstract class AbstractBoardGameComponent implements OnInit {
 
-    @Input() owner: Player;
+    @Input() owner: PlayerColour;
     @Input() board: Array<Array<BoardGame>>;
     @Input() availableMoves: Array<Move>;
     @Input() lastMove: Move;
@@ -19,7 +19,7 @@ export abstract class AbstractBoardGameComponent implements OnInit {
 
     protected setColour(): void {
         if (this.owner !== undefined && this.owner !== null) {
-            if (this.owner.colour === PlayerColour.BLUE) {
+            if (this.owner === PlayerColour.BLUE) {
                 this.colour = "#0275d8";
             } else {
                 this.colour = "#d9534f";
