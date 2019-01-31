@@ -10,7 +10,7 @@ namespace UltimateTicTacToe.Models.Game
 
         public override object Clone()
         {
-            throw new System.NotImplementedException();
+            return MemberwiseClone();
         }
 
         public override List<Move> getAvailableMoves()

@@ -43,5 +43,19 @@ namespace UltimateTicTacToeTests.Models
             Assert.IsTrue(result.Count == 0);
         }
 
+        [TestMethod]
+        public void WillReturnAObjectWhichIsNotARefernceToIt()
+        {
+            Tile tile = new Tile();
+            Assert.AreNotSame(tile, tile.Clone());
+        }
+
+        [TestMethod]
+        public void WillReturnANewOwner()
+        {
+            Tile tile = new Tile();
+            tile.owner = (PlayerColour)100;
+            Assert.AreNotSame(tile.owner, (tile.Clone() as Tile).owner);
+        }
     }
 }
