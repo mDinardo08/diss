@@ -19,11 +19,11 @@ namespace UltimateTicTacToeTests.Models
             Mock<Player> player = new Mock<Player>();
             Move move = new Move
             {
-                owner = player.Object
+                owner = 0
             };
             Tile t = new Tile();
             t.makeMove(move);
-            Assert.AreEqual(player.Object, t.getWinner());
+            Assert.AreEqual((PlayerColour)0, t.getWinner());
         }
 
         [TestMethod]
@@ -38,7 +38,7 @@ namespace UltimateTicTacToeTests.Models
         public void WillReturnAnEmptyListIfTileIsAlreadyTaken()
         {
             Tile t = new Tile();
-            t.owner = new Mock<Player>().Object;
+            t.owner = 0;
             List<Move> result = t.getAvailableMoves();
             Assert.IsTrue(result.Count == 0);
         }
