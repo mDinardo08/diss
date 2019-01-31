@@ -54,7 +54,7 @@ namespace UltimateTicTacToeTests.Models
                     new List<BoardGame>{MockException.Object, MockException.Object, MockException.Object }
                 });
             Mock<IWinChecker> mock = new Mock<IWinChecker>(MockBehavior.Strict);
-            mock.Setup(x => x.checkForWin(MockGame.Object)).Returns((Player)null);
+            mock.Setup(x => x.checkForWin(MockGame.Object)).Returns((PlayerColour?)null);
             h.successor = mock.Object;
             h.check = (CompositeGame => new Point { X = -1, Y = -1 });
             h.checkForWin(MockGame.Object);
@@ -69,8 +69,8 @@ namespace UltimateTicTacToeTests.Models
                 {
                     new List<BoardGame>{MockGame.Object, MockGame.Object, MockGame.Object}
                 });
-            MockGame.Setup(x => x.getWinner()).Returns(player.Object);
-            Assert.AreEqual(player.Object, h.checkForWin(MockGame.Object));
+            MockGame.Setup(x => x.getWinner()).Returns(0);
+            Assert.AreEqual((PlayerColour)0, h.checkForWin(MockGame.Object));
         }
 
         [TestMethod]
@@ -82,8 +82,8 @@ namespace UltimateTicTacToeTests.Models
                     new List<BoardGame>{MockException.Object, MockException.Object , MockException.Object},
                     new List<BoardGame>{MockGame.Object, MockGame.Object, MockGame.Object}
                 });
-            MockGame.Setup(x => x.getWinner()).Returns(player.Object);
-            Assert.AreEqual(player.Object, h.checkForWin(MockGame.Object));
+            MockGame.Setup(x => x.getWinner()).Returns(0);
+            Assert.AreEqual((PlayerColour)0, h.checkForWin(MockGame.Object));
         }
 
         [TestMethod]
@@ -96,15 +96,15 @@ namespace UltimateTicTacToeTests.Models
                     new List<BoardGame>{MockException.Object, MockException.Object , MockException.Object},
                     new List<BoardGame>{MockGame.Object, MockGame.Object, MockGame.Object}
                 });
-            MockGame.Setup(x => x.getWinner()).Returns(player.Object);
-            Assert.AreEqual(player.Object, h.checkForWin(MockGame.Object));
+            MockGame.Setup(x => x.getWinner()).Returns(0);
+            Assert.AreEqual((PlayerColour)0, h.checkForWin(MockGame.Object));
         }
 
         [TestMethod]
         public void WillReturnNullIfThereAreNoWinnersHorizontally()
         {
             Mock<Player> player = new Mock<Player>();
-            MockGame.Setup(x => x.getWinner()).Returns(player.Object);
+            MockGame.Setup(x => x.getWinner()).Returns((PlayerColour?)null);
             MockGame.Setup(x => x.getBoard()).Returns(new List<List<BoardGame>>
                 {
                     new List<BoardGame>{MockGame.Object, MockException.Object , MockException.Object},
