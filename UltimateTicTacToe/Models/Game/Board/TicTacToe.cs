@@ -126,11 +126,14 @@ namespace UltimateTicTacToe.Models.Game
                 }
             }
             TicTacToe result = MemberwiseClone() as TicTacToe;
-            result.boardFilter = new Point2D
+            if (boardFilter != null)
             {
-                X = boardFilter.X,
-                Y = boardFilter.Y
-            };
+                result.boardFilter = new Point2D
+                {
+                    X = boardFilter.X,
+                    Y = boardFilter.Y
+                };
+            }
             result.board = clonedBoard;
             return result;
         }
