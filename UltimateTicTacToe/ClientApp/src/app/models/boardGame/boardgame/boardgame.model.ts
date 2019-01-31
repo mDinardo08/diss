@@ -1,7 +1,7 @@
-import { Player } from "../../player/player.model";
+import { PlayerColour } from "../../player/player.colour.enum";
 
 export class BoardGame {
 
     public board: Array<Array<BoardGame>>;
-    public owner: Player;
+    public owner: PlayerColour;
 }
