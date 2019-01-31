@@ -20,7 +20,7 @@ namespace UltimateTicTacToeTests.Models
             Mock<IWinChecker> mockChecker = new Mock<IWinChecker>(MockBehavior.Strict);
             CompositeGame game = new TicTacToe(mockChecker.Object);
             game.setBoard(new List<List<BoardGame>>());
-            mockChecker.Setup(x => x.checkForWin(game)).Returns((Player)null);
+            mockChecker.Setup(x => x.checkForWin(game)).Returns((PlayerColour?)null);
             game.getWinner();
         }
 
@@ -30,7 +30,7 @@ namespace UltimateTicTacToeTests.Models
             Mock<IWinChecker> mockChecker = new Mock<IWinChecker>(MockBehavior.Strict);
             CompositeGame game = new TicTacToe(mockChecker.Object);
             game.setBoard(new List<List<BoardGame>>());
-            mockChecker.Setup(x => x.checkForWin(game)).Returns((Player)null);
+            mockChecker.Setup(x => x.checkForWin(game)).Returns((PlayerColour?)null);
             try
             {
                 game.getWinner();
@@ -177,11 +177,11 @@ namespace UltimateTicTacToeTests.Models
             Mock<IWinChecker> mockChecker = new Mock<IWinChecker>();
             Mock<Player> mockPlayer = new Mock<Player>();
             mockChecker.Setup(x => x.checkForWin(It.IsAny<BoardGame>()))
-                .Returns(mockPlayer.Object);
+                .Returns(0);
             TicTacToe game = new TicTacToe(mockChecker.Object);
             game.board = new List<List<BoardGame>>();
             game.validateBoard();
-            Assert.AreEqual(game.owner, mockPlayer.Object);
+            Assert.AreEqual(game.owner, (PlayerColour)0);
         }
 
         [TestMethod]
@@ -262,7 +262,7 @@ namespace UltimateTicTacToeTests.Models
         public void WillReturnTrueIfOwnerIsSet()
         {
             TicTacToe game = new TicTacToe(null);
-            game.owner = new Mock<Player>().Object;
+            game.owner = 0;
             Assert.IsTrue(game.isWon());
         }
 
@@ -270,7 +270,7 @@ namespace UltimateTicTacToeTests.Models
         public void WillReturnEmptyListIfGameIsWon()
         {
             TicTacToe game = new TicTacToe(null);
-            game.owner = new Mock<Player>().Object;
+            game.owner = 0;
             List<Move> result = game.getAvailableMoves();
             Assert.IsTrue(result.Count == 0);
         }
@@ -600,7 +600,7 @@ namespace UltimateTicTacToeTests.Models
                     mockGame.Object
                 }
             };
-            game.owner = new Mock<Player>().Object;
+            game.owner = 0;
             bool result = game.isDraw();
             Assert.IsFalse(result);
         }
