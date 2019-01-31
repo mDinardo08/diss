@@ -9,7 +9,7 @@ import { PlayerColour } from "../../models/player/player.colour.enum";
 
 export class GameOverComponent {
 
-    public Winner: Player;
+    public Winner: PlayerColour;
     public colours = PlayerColour;
     @Output() playAgainEvent = new EventEmitter<boolean>();
     hasWinner(): boolean {
