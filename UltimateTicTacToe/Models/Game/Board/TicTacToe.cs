@@ -113,5 +113,10 @@ namespace UltimateTicTacToe.Models.Game
             }
             return result;
         }
+
+        public override object Clone()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

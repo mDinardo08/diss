@@ -35,5 +35,6 @@ namespace UltimateTicTacToe.Models.Game
         }
 
         public abstract void registerMove(Move move);
+        public abstract object Clone();
     }
 }
