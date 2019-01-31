@@ -15,7 +15,7 @@ describe("Game Service tests", () => {
         service.availableMoves = [];
     });
 
-    it("Will assign the current player as the owner of the tile described on the move", () => {
+    it("Will assign the current players colour as the owner of the tile described on the move", () => {
         const board = new Array<Array<BoardGame>>();
         board[0] = new Array<BoardGame>();
         board[0][0] = new BoardGame();
@@ -23,9 +23,11 @@ describe("Game Service tests", () => {
         const move = new Move();
         move.possition = {x: 0, y: 0};
         move.next = new Move();
-        service.curPlayer = new Player();
+        const player = new Player();
+        player.colour = 100;
+        service.curPlayer = player;
         const result = service.makeMoveOnBoard(board, move);
-        expect(result[0][0].owner).toBe(service.curPlayer);
+        expect(result[0][0].owner).toBe(100);
     });
 
     it("Will assign the current player of the owner of a tile across a row", () => {
@@ -37,9 +39,11 @@ describe("Game Service tests", () => {
         const move = new Move();
         move.possition = {x: 0, y: 1};
         move.next = new Move();
-        service.curPlayer = new Player();
+        const player = new Player();
+        player.colour = 0;
+        service.curPlayer = player;
         const result = service.makeMoveOnBoard(board, move);
-        expect(result[0][1].owner).toBe(service.curPlayer);
+        expect(result[0][1].owner).toBe(0);
     });
 
     it("Will assign the current player as the owner of a tile down a column", () => {
@@ -51,9 +55,11 @@ describe("Game Service tests", () => {
         const move = new Move();
         move.next = new Move();
         move.possition = {x: 1, y: 0};
-        service.curPlayer = new Player();
+        const player = new Player();
+        player.colour = 100;
+        service.curPlayer = player;
         const result = service.makeMoveOnBoard(board, move);
-        expect(result[1][0].owner).toBe(service.curPlayer);
+        expect(result[1][0].owner).toBe(100);
     });
 
     it("Will call to make a move with nested move", () => {
