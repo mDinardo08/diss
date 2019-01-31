@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using UltimateTicTacToe.Models.Game;
+using UltimateTicTacToe.Models.Game.Players;
 using UltimateTicTacToe.Models.MCTS;
 
 namespace UltimateTicTacToe.Services
@@ -17,11 +18,11 @@ namespace UltimateTicTacToe.Services
             this.nodeService = nodeService;
         }
 
-        public List<INode> process(BoardGame game)
+        public List<INode> process(BoardGame game, PlayerColour colour)
         {
             DateTime startTime = DateTime.UtcNow;
             TimeSpan duration = TimeSpan.FromSeconds(1.5);
-            INode root = nodeService.createNode(game.Clone() as BoardGame);
+            INode root = nodeService.createNode(game.Clone() as BoardGame, colour);
             while(DateTime.UtcNow - startTime < duration)
             {
                 expansion(traverse(root));

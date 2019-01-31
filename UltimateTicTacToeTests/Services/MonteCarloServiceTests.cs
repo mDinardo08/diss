@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using UltimateTicTacToe.Models.Game;
+using UltimateTicTacToe.Models.Game.Players;
 using UltimateTicTacToe.Models.MCTS;
 using UltimateTicTacToe.Services;
 
@@ -165,10 +166,10 @@ namespace UltimateTicTacToeTests.Services
             mockNode.Setup(x => x.isLeaf()).Returns(true);
             mockNode.Setup(x => x.getVisits()).Returns(0);
             Mock<INodeCreationService> mockService = new Mock<INodeCreationService>();
-            mockService.Setup(x => x.createNode(It.IsAny<BoardGame>()))
+            mockService.Setup(x => x.createNode(It.IsAny<BoardGame>(), It.IsAny<PlayerColour>()))
                 .Returns(mockNode.Object);
             service = new MonteCarloService(mockService.Object);
-            service.process(new Mock<BoardGame>().Object);
+            service.process(new Mock<BoardGame>().Object, 0);
             TimeSpan duration = TimeSpan.FromSeconds(1.5);
             Assert.IsTrue((DateTime.UtcNow - startTime) > duration);
         }
@@ -180,11 +181,11 @@ namespace UltimateTicTacToeTests.Services
             mockNode.Setup(x => x.isLeaf()).Returns(true);
             mockNode.Setup(x => x.getVisits()).Returns(0);
             Mock<INodeCreationService> mockService = new Mock<INodeCreationService>();
-            mockService.Setup(x => x.createNode(It.IsAny<BoardGame>()))
+            mockService.Setup(x => x.createNode(It.IsAny<BoardGame>(), It.IsAny<PlayerColour>()))
                 .Returns(mockNode.Object)
                 .Verifiable();
             service = new MonteCarloService(mockService.Object);
-            service.process(new Mock<BoardGame>().Object);
+            service.process(new Mock<BoardGame>().Object, 0);
             mockService.Verify();
         }
     }
