@@ -622,5 +622,140 @@ namespace UltimateTicTacToeTests.Models
             bool result = game.isDraw();
             Assert.IsTrue(result);
         }
+
+        [TestMethod]
+        public void WillReturnAnObjectWhichIsNotTheSameAsItself()
+        {
+            TicTacToe game = new TicTacToe(null);
+            game.board = new List<List<BoardGame>>();
+            game.boardFilter = new Point2D();
+            Assert.AreNotSame(game, game.Clone());
+        }
+
+        [TestMethod]
+        public void WillReturnAnInstanceOfTicTacToe()
+        {
+            TicTacToe game = new TicTacToe(null);
+            game.board = new List<List<BoardGame>>();
+            game.boardFilter = new Point2D();
+            Assert.IsTrue(game.Clone() is TicTacToe);
+        }
+
+        [TestMethod]
+        public void WillCallCloneOnSubboard()
+        {
+            Mock<BoardGame> mockGame = new Mock<BoardGame>();
+            mockGame.Setup(x => x.Clone())
+                .Returns(null)
+                .Verifiable();
+            TicTacToe game = new TicTacToe(null);
+            game.boardFilter = new Point2D();
+            game.board = new List<List<BoardGame>>
+            {
+                new List<BoardGame>
+                {
+                    mockGame.Object
+                }
+            };
+            game.Clone();
+            mockGame.Verify();
+        }
+
+        [TestMethod]
+        public void WillCallCloneOnSubboardAlongRow()
+        {
+            Mock<BoardGame> mockGame = new Mock<BoardGame>();
+            mockGame.Setup(x => x.Clone())
+                .Returns(null)
+                .Verifiable();
+            TicTacToe game = new TicTacToe(null);
+            game.boardFilter = new Point2D();
+            game.board = new List<List<BoardGame>>
+            {
+                new List<BoardGame>
+                {
+                    mockGame.Object, mockGame.Object
+                }
+            };
+            game.Clone();
+            mockGame.Verify(x => x.Clone(), Times.Exactly(2));
+        }
+
+        [TestMethod]
+        public void WillCallCloneAcrossColumns()
+        {
+            Mock<BoardGame> mockGame = new Mock<BoardGame>();
+            mockGame.Setup(x => x.Clone())
+                .Returns(null)
+                .Verifiable();
+            TicTacToe game = new TicTacToe(null);
+            game.boardFilter = new Point2D();
+            game.board = new List<List<BoardGame>>
+            {
+                new List<BoardGame>
+                {
+                    mockGame.Object
+                },
+                new List<BoardGame>
+                {
+                    mockGame.Object
+                }
+            };
+            game.Clone();
+            mockGame.Verify(x => x.Clone(), Times.Exactly(2));
+        }
+
+        [TestMethod]
+        public void WillAssignANewBoardToTheReturnedObject()
+        {
+            TicTacToe game = new TicTacToe(null);
+            game.board = new List<List<BoardGame>>();
+            game.boardFilter = new Point2D();
+            TicTacToe result = game.Clone() as TicTacToe;
+            Assert.AreNotSame(result.board, game.board);
+        }
+
+        [TestMethod]
+        public void WillAssignTheClonedSubBoardsToItsResultBoard()
+        {
+            Mock<BoardGame> mockGame = new Mock<BoardGame>();
+            Mock<BoardGame> mockCloned = new Mock<BoardGame>();
+            mockGame.Setup(x => x.Clone())
+                .Returns(mockCloned.Object);
+            TicTacToe game = new TicTacToe(null);
+            game.boardFilter = new Point2D();
+            game.board = new List<List<BoardGame>>
+            {
+                new List<BoardGame>
+                {
+                    mockGame.Object
+                }
+            };
+            TicTacToe result = game.Clone() as TicTacToe;
+            Assert.AreSame(mockCloned.Object, result.board[0][0]);
+        }
+
+        [TestMethod]
+        public void OwnerWillNotBeSame()
+        {
+            TicTacToe game = new TicTacToe(null);
+            game.board = new List<List<BoardGame>>();
+            game.boardFilter = new Point2D();
+            PlayerColour colour = (PlayerColour)1000;
+            game.owner = colour;
+            TicTacToe result = game.Clone() as TicTacToe;
+            Assert.AreNotSame(colour, result.owner);
+        }
+
+        [TestMethod]
+        public void BoardFilterWillNotBeSame()
+        {
+            TicTacToe game = new TicTacToe(null);
+            game.board = new List<List<BoardGame>>();
+            Point2D filter = new Point2D();
+            game.boardFilter = filter;
+            TicTacToe result = game.Clone() as TicTacToe;
+            Assert.AreNotSame(filter, result.boardFilter);
+        }
     }
 }

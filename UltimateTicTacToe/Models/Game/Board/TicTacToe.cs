@@ -116,7 +116,23 @@ namespace UltimateTicTacToe.Models.Game
 
         public override object Clone()
         {
-            throw new NotImplementedException();
+            List<List<BoardGame>> clonedBoard = new List<List<BoardGame>>();
+            for (int x = 0; x < board.Count; x++)
+            {
+                clonedBoard.Add(new List<BoardGame>());
+                for (int y = 0; y < board[x].Count; y++)
+                {
+                    clonedBoard[x].Add(board[x][y].Clone() as BoardGame);
+                }
+            }
+            TicTacToe result = MemberwiseClone() as TicTacToe;
+            result.boardFilter = new Point2D
+            {
+                X = boardFilter.X,
+                Y = boardFilter.Y
+            };
+            result.board = clonedBoard;
+            return result;
         }
     }
 }
