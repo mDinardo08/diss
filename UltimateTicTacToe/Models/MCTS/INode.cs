@@ -10,7 +10,6 @@ namespace UltimateTicTacToe.Models.MCTS
         void expand();
         List<INode> getChildren();
         INode getParent();
-        void setParent(INode parent);
         bool isExpanded();
         bool isLeaf();
         void rollOut();

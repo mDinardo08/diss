@@ -15,7 +15,7 @@ namespace UltimateTicTacToe.Services
         {
             DateTime startTime = DateTime.UtcNow;
             TimeSpan duration = TimeSpan.FromSeconds(1.5);
-            INode root = new Node(game);
+            INode root = new Node(game, null, null);
             while(DateTime.UtcNow - startTime < duration)
             {
                 rollout(traverse(root));
