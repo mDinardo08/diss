@@ -62,7 +62,7 @@ namespace UltimateTicTacToeTests.Models
         public void WillDetectDiagonalWinsFromTopLeft()
         {
             Mock<Player> player = new Mock<Player>();
-            MockGame.Setup(x => x.getWinner()).Returns(player.Object);
+            MockGame.Setup(x => x.getWinner()).Returns(0);
             MockGame.Setup(x => x.getBoard()).Returns(new List<List<BoardGame>>
                 {
                     new List<BoardGame>{MockGame.Object, MockException.Object, MockException.Object},
@@ -70,7 +70,7 @@ namespace UltimateTicTacToeTests.Models
                     new List<BoardGame>{MockException.Object, MockException.Object, MockGame.Object}
                 }
             );
-            Assert.AreEqual(player.Object, d.checkForWin(MockGame.Object));
+            Assert.AreEqual((PlayerColour)0, d.checkForWin(MockGame.Object));
         }
 
         [TestMethod]
@@ -79,7 +79,7 @@ namespace UltimateTicTacToeTests.Models
 
             Mock<Player> player = new Mock<Player>();
 
-            MockGame.Setup(x => x.getWinner()).Returns(player.Object);
+            MockGame.Setup(x => x.getWinner()).Returns(0);
             MockGame.Setup(x => x.getBoard()).Returns(new List<List<BoardGame>>
                 {
                     new List<BoardGame>{MockException.Object, MockException.Object, MockGame.Object},
@@ -87,7 +87,7 @@ namespace UltimateTicTacToeTests.Models
                     new List<BoardGame>{MockGame.Object, MockException.Object, MockException.Object}
                 }
             );
-            Assert.AreEqual(player.Object, d.checkForWin(MockGame.Object));
+            Assert.AreEqual((PlayerColour)0, d.checkForWin(MockGame.Object));
         }
     }
 }
