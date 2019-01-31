@@ -28,10 +28,10 @@ namespace UltimateTicTacToeTests.Services
             Mock<BoardGame> mockGame = new Mock<BoardGame>(MockBehavior.Loose);
             Mock<Player> p = new Mock<Player>();
             p.Setup(x => x.getPlayerType()).Returns((PlayerType) 0);
-            mockGame.Setup(x => x.getWinner()).Returns(p.Object);
+            mockGame.Setup(x => x.getWinner()).Returns(0);
             mockGame.Setup(x => x.getBoard()).Returns(new List<List<BoardGame>>());
             BoardGameDTO result = service.processMove(mockGame.Object, p.Object, new List<Player>());
-            Assert.AreEqual(p.Object, result.Winner);
+            Assert.AreEqual((PlayerColour)0, result.Winner);
         }
 
         [TestMethod]
@@ -39,9 +39,13 @@ namespace UltimateTicTacToeTests.Services
         {
             Mock<BoardGame> mockGame = new Mock<BoardGame>(MockBehavior.Loose);
             Mock<Player> p = new Mock<Player>();
-            p.Setup(x => x.makeMove(mockGame.Object)).Returns(new Move()).Verifiable();
-            mockGame.Setup(x => x.getWinner()).Throws(new NoWinnerException());
-            mockGame.SetupSequence(x => x.getWinner()).Throws(new NoWinnerException()).Returns(p.Object);
+            p.Setup(x => x.makeMove(mockGame.Object))
+                .Returns(new Move())
+                .Verifiable();
+            mockGame.Setup(x => x.getWinner())
+                .Throws(new NoWinnerException());
+            mockGame.SetupSequence(x => x.getWinner())
+                .Throws(new NoWinnerException());
             mockGame.Setup(x => x.getBoard()).Returns(new List<List<BoardGame>>());
             BoardGameDTO result = service.processMove(mockGame.Object, p.Object, new List<Player>());
             p.Verify();
@@ -53,10 +57,10 @@ namespace UltimateTicTacToeTests.Services
             Mock<BoardGame> mockGame = new Mock<BoardGame>(MockBehavior.Loose);
             Mock<Player> p = new Mock<Player>();
             p.Setup(x => x.makeMove(mockGame.Object)).Returns(new Move());
-            mockGame.Setup(x => x.getWinner()).Returns(p.Object);
+            mockGame.Setup(x => x.getWinner()).Returns(0);
             mockGame.Setup(x => x.getBoard()).Returns(new List<List<BoardGame>>());
             BoardGameDTO result = service.processMove(mockGame.Object, p.Object, new List<Player>());
-            Assert.IsTrue(result.Winner == p.Object);
+            Assert.IsTrue(result.Winner == 0);
         }
 
         [TestMethod]
@@ -71,7 +75,7 @@ namespace UltimateTicTacToeTests.Services
             next.Setup(x => x.getPlayerType()).Returns((PlayerType)1000);
             next.Setup(x => x.getName()).Returns("hello");
             mockGame.Setup(x => x.getWinner()).Throws(new NoWinnerException());
-            mockGame.SetupSequence(x => x.getWinner()).Throws(new NoWinnerException()).Returns(p.Object);
+            mockGame.SetupSequence(x => x.getWinner()).Throws(new NoWinnerException()).Returns(0);
             mockGame.Setup(x => x.getBoard()).Returns(new List<List<BoardGame>>());
             BoardGameDTO result = service.processMove(mockGame.Object, p.Object, new List<Player>
             {
@@ -121,7 +125,7 @@ namespace UltimateTicTacToeTests.Services
                 {
                     new Tile
                     {
-                        owner = new RandomAi(null)
+                        owner = 0
                     }
                 }
             });
@@ -179,7 +183,7 @@ namespace UltimateTicTacToeTests.Services
             next.Setup(x => x.getName()).Returns("name");
             next.Setup(x => x.getPlayerType()).Returns((PlayerType)1000);
             mockGame.Setup(x => x.getWinner()).Throws(new NoWinnerException());
-            mockGame.SetupSequence(x => x.getWinner()).Throws(new NoWinnerException()).Returns(p.Object);
+            mockGame.SetupSequence(x => x.getWinner()).Throws(new NoWinnerException()).Returns(0);
             mockGame.Setup(x => x.getBoard()).Returns(new List<List<BoardGame>>());
             BoardGameDTO result = service.processMove(mockGame.Object, p.Object, new List<Player>
             {
@@ -200,7 +204,7 @@ namespace UltimateTicTacToeTests.Services
             next.Setup(x => x.getName()).Returns("name");
             next.Setup(x => x.getPlayerType()).Returns(PlayerType.RANDOM);
             mockGame.Setup(x => x.getWinner()).Throws(new NoWinnerException());
-            mockGame.SetupSequence(x => x.getWinner()).Throws(new NoWinnerException()).Returns(p.Object);
+            mockGame.SetupSequence(x => x.getWinner()).Throws(new NoWinnerException()).Returns(0);
             mockGame.Setup(x => x.getBoard()).Returns(new List<List<BoardGame>>());
             BoardGameDTO result = service.processMove(mockGame.Object, p.Object, new List<Player>
             {
