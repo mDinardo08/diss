@@ -72,11 +72,11 @@ namespace UltimateTicTacToeTests.Models
         public void WillSetItselfAsTheOwnerOfTheMove()
         {
             Mock<BoardGame> mockGame = new Mock<BoardGame>(MockBehavior.Loose);
-            mockGame.Setup(x => x.getAvailableMoves()).Returns(new List<Move> { new Move { owner = new RandomAi(null)} });
+            mockGame.Setup(x => x.getAvailableMoves()).Returns(new List<Move> { new Move { owner = 0} });
             Mock<IRandomService> mock = new Mock<IRandomService>(MockBehavior.Loose);
             player = new RandomAi(mock.Object);
-            Move expected = new Move { owner = player };
-            mockGame.Setup(x => x.makeMove(It.Is<Move>(m => m.owner == player))).Verifiable();
+            Move expected = new Move { owner = 0};
+            mockGame.Setup(x => x.makeMove(It.Is<Move>(m => m.owner == 0))).Verifiable();
             player.makeMove(mockGame.Object);
             mockGame.Verify();
         }
