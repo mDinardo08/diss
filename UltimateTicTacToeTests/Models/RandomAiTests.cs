@@ -13,7 +13,7 @@ namespace UltimateTicTacToeTests.Models
     [TestClass]
     public class RandomAiTests
     {
-        Player player;
+        RandomAi player;
 
         [TestInitialize()]
         public void Setup()
@@ -63,8 +63,8 @@ namespace UltimateTicTacToeTests.Models
                 new Move(), move, new Move()
             });
             mockGame.Setup(x => x.makeMove(move));
-            player.makeMove(mockGame.Object);
-            mockGame.Verify(x => x.makeMove(move), Times.Once);
+            Move result = player.makeMove(mockGame.Object);
+            Assert.AreSame(result, move);
         }
 
 
@@ -72,13 +72,13 @@ namespace UltimateTicTacToeTests.Models
         public void WillSetItselfAsTheOwnerOfTheMove()
         {
             Mock<BoardGame> mockGame = new Mock<BoardGame>(MockBehavior.Loose);
+            Mock<Move> mockMove = new Mock<Move>();
             mockGame.Setup(x => x.getAvailableMoves()).Returns(new List<Move> { new Move { owner = 0} });
             Mock<IRandomService> mock = new Mock<IRandomService>(MockBehavior.Loose);
             player = new RandomAi(mock.Object);
-            Move expected = new Move { owner = 0};
-            mockGame.Setup(x => x.makeMove(It.Is<Move>(m => m.owner == 0))).Verifiable();
-            player.makeMove(mockGame.Object);
-            mockGame.Verify();
+            player.colour = (PlayerColour)1000;
+            Move result = player.makeMove(mockGame.Object);
+            Assert.IsTrue(result.owner == player.colour); 
         }
 
         [TestMethod]

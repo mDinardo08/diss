@@ -37,9 +37,12 @@ namespace UltimateTicTacToeTests.Services
         [TestMethod]
         public void WillHaveTheAiMakeAMoveIfGameIsNotOver()
         {
+            Mock<BoardGame> mockCloned = new Mock<BoardGame>();
             Mock<BoardGame> mockGame = new Mock<BoardGame>(MockBehavior.Loose);
+            mockGame.Setup(x => x.Clone())
+                .Returns(mockCloned.Object);
             Mock<Player> p = new Mock<Player>();
-            p.Setup(x => x.makeMove(mockGame.Object))
+            p.Setup(x => x.makeMove(mockCloned.Object))
                 .Returns(new Move())
                 .Verifiable();
             mockGame.Setup(x => x.getWinner())
