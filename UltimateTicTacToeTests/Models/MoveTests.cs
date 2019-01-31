@@ -23,8 +23,8 @@ namespace UltimateTicTacToeTests.Models
         public void WillAsignTheOwnerAsThePlayerPassedIn()
         {
             Mock<Player> player = new Mock<Player>(MockBehavior.Loose);
-            move.setOwner(player.Object);
-            Assert.AreEqual(player.Object, move.owner);
+            move.setOwner(0);
+            Assert.AreEqual((PlayerColour)0, move.owner);
         }
 
         [TestMethod]
@@ -33,8 +33,8 @@ namespace UltimateTicTacToeTests.Models
             Move nextMove = new Move();
             Mock<Player> mockPlayer = new Mock<Player>(MockBehavior.Loose);
             move.next = nextMove;
-            move.setOwner(mockPlayer.Object);
-            Assert.AreEqual(nextMove.owner, mockPlayer.Object);
+            move.setOwner(0);
+            Assert.AreEqual(nextMove.owner, (PlayerColour)0);
         }
     }
 }
