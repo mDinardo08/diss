@@ -6,7 +6,7 @@ namespace UltimateTicTacToe.Models.Game
 {
     public interface BoardGame
     { 
-        PlayerColour getWinner();
+        PlayerColour? getWinner();
         void makeMove(Move move);
         List<Move> getAvailableMoves();
         List<List<BoardGame>> getBoard();
