@@ -25,7 +25,7 @@ namespace UltimateTicTacToe.Models.Game
             registerMove(move);
         }
 
-        public override Player getWinner()
+        public override PlayerColour? getWinner()
         {
             owner = owner == null ? winChecker.checkForWin(this) : owner;
             if (owner == null)

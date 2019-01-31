@@ -12,7 +12,7 @@ namespace UltimateTicTacToe.Models.Game
             return owner == null ? new List<Move> { new Move() } : new List<Move>();
         }
 
-        public override Player getWinner()
+        public override PlayerColour? getWinner()
         {
             return owner;
         }
