@@ -10,15 +10,21 @@ namespace UltimateTicTacToe.Services
     public class MonteCarloService : NodeService
     {
         public INode root;
+        private INodeCreationService nodeService;
+
+        public MonteCarloService(INodeCreationService nodeService)
+        {
+            this.nodeService = nodeService;
+        }
 
         public List<INode> process(BoardGame game)
         {
             DateTime startTime = DateTime.UtcNow;
             TimeSpan duration = TimeSpan.FromSeconds(1.5);
-            INode root = new Node(game, null, null);
+            INode root = nodeService.createNode(game);
             while(DateTime.UtcNow - startTime < duration)
             {
-                rollout(traverse(root));
+                expansion(traverse(root));
             }
             return root.getChildren();
         }
@@ -43,7 +49,7 @@ namespace UltimateTicTacToe.Services
             return cur;
         }
 
-        public void rollout(INode node)
+        public void expansion(INode node)
         {
             if (node.getVisits() == 0)
             {

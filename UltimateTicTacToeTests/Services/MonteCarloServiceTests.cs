@@ -17,7 +17,7 @@ namespace UltimateTicTacToeTests.Services
         [TestInitialize()]
         public void Setup()
         {
-            service = new MonteCarloService();
+            service = new MonteCarloService(null);
         }
 
        [TestMethod]
@@ -105,7 +105,7 @@ namespace UltimateTicTacToeTests.Services
             mockNode.Setup(x => x.getVisits())
                 .Returns(0)
                 .Verifiable();
-            service.rollout(mockNode.Object);
+            service.expansion(mockNode.Object);
             mockNode.Verify();
         }
 
@@ -117,7 +117,7 @@ namespace UltimateTicTacToeTests.Services
                 .Returns(0);
             mockNode.Setup(x => x.rollOut())
                 .Verifiable();
-            service.rollout(mockNode.Object);
+            service.expansion(mockNode.Object);
             mockNode.Verify();
         }
 
@@ -134,7 +134,7 @@ namespace UltimateTicTacToeTests.Services
                 {
                     new Mock<INode>().Object
                 });
-            service.rollout(mockNode.Object);
+            service.expansion(mockNode.Object);
             mockNode.Verify();
         }
 
@@ -153,7 +153,7 @@ namespace UltimateTicTacToeTests.Services
                 {
                     mockInnerNode.Object
                 });
-            service.rollout(mockNode.Object);
+            service.expansion(mockNode.Object);
             mockInnerNode.Verify();
         }
 
@@ -161,9 +161,31 @@ namespace UltimateTicTacToeTests.Services
         public void WillRunForOverOneAndAHalfSeconds()
         {
             DateTime startTime = DateTime.UtcNow;
+            Mock<INode> mockNode = new Mock<INode>();
+            mockNode.Setup(x => x.isLeaf()).Returns(true);
+            mockNode.Setup(x => x.getVisits()).Returns(0);
+            Mock<INodeCreationService> mockService = new Mock<INodeCreationService>();
+            mockService.Setup(x => x.createNode(It.IsAny<BoardGame>()))
+                .Returns(mockNode.Object);
+            service = new MonteCarloService(mockService.Object);
             service.process(new Mock<BoardGame>().Object);
             TimeSpan duration = TimeSpan.FromSeconds(1.5);
             Assert.IsTrue((DateTime.UtcNow - startTime) > duration);
+        }
+
+        [TestMethod]
+        public void WillGetNodeCreationServiceToCreateRootNode()
+        {
+            Mock<INode> mockNode = new Mock<INode>();
+            mockNode.Setup(x => x.isLeaf()).Returns(true);
+            mockNode.Setup(x => x.getVisits()).Returns(0);
+            Mock<INodeCreationService> mockService = new Mock<INodeCreationService>();
+            mockService.Setup(x => x.createNode(It.IsAny<BoardGame>()))
+                .Returns(mockNode.Object)
+                .Verifiable();
+            service = new MonteCarloService(mockService.Object);
+            service.process(new Mock<BoardGame>().Object);
+            mockService.Verify();
         }
     }
 }

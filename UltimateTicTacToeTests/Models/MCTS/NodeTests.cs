@@ -15,14 +15,14 @@ namespace UltimateTicTacToeTests.Models.MCTS
         [TestInitialize]
         public void Setup()
         {
-            node = new Node(null, null, null);
+            node = new Node(null, null, null, null);
         }
 
         [TestMethod]
         public void WillReturnTheParentNode()
         {
             Mock<INode> mockNode = new Mock<INode>();
-            node = new Node(null, mockNode.Object, null);
+            node = new Node(null, mockNode.Object, null, null);
             Assert.AreSame(mockNode.Object, node.getParent());
         }
 
