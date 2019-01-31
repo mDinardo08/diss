@@ -19,7 +19,7 @@ namespace UltimateTicTacToe.Models.Game
 
         public abstract List<Move> getAvailableMoves();
 
-        public abstract PlayerColour getWinner();
+        public abstract PlayerColour? getWinner();
 
         public abstract void makeMove(Move move);
         public abstract void validateBoard();
