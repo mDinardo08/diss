@@ -21,7 +21,7 @@ namespace UltimateTicTacToe.Services
         {
             DateTime startTime = DateTime.UtcNow;
             TimeSpan duration = TimeSpan.FromSeconds(1.5);
-            INode root = nodeService.createNode(game);
+            INode root = nodeService.createNode(game.Clone() as BoardGame);
             while(DateTime.UtcNow - startTime < duration)
             {
                 expansion(traverse(root));
