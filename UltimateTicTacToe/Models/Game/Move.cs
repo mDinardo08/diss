@@ -7,9 +7,9 @@ namespace UltimateTicTacToe.Models.Game
     {
         public Move next;
         public Point2D possition;
-        public Player owner;
+        public PlayerColour? owner;
 
-        public void setOwner(Player player)
+        public void setOwner(PlayerColour player)
         {
             owner = player;
             next?.setOwner(player);
