@@ -53,6 +53,9 @@ export class GameComponent implements OnInit {
             this.gameService.createGame(3, this.gameService.getPlayers());
         } else {
             this.gameStarter = this.modalService.show(GameSetupComponent, {class: "modal-sm"});
+            this.gameStarter.content.opponentSelectedEvent((opp) => {
+                this.startGame(opp);
+            });
         }
         this.gameOver.hide();
     }
