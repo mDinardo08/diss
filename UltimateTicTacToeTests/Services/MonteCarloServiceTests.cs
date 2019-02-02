@@ -159,19 +159,20 @@ namespace UltimateTicTacToeTests.Services
         }
 
         [TestMethod]
-        public void WillRunForOverOneAndAHalfSeconds()
+        public void WillCallRollout2200Times()
         {
             DateTime startTime = DateTime.UtcNow;
             Mock<INode> mockNode = new Mock<INode>();
             mockNode.Setup(x => x.isLeaf()).Returns(true);
             mockNode.Setup(x => x.getVisits()).Returns(0);
+            mockNode.Setup(x => x.rollOut())
+                .Verifiable();
             Mock<INodeCreationService> mockService = new Mock<INodeCreationService>();
             mockService.Setup(x => x.createNode(It.IsAny<BoardGame>(), It.IsAny<PlayerColour>()))
                 .Returns(mockNode.Object);
             service = new MonteCarloService(mockService.Object);
             service.process(new Mock<BoardGame>().Object, 0);
-            TimeSpan duration = TimeSpan.FromSeconds(1.5);
-            Assert.IsTrue((DateTime.UtcNow - startTime) > duration);
+            mockNode.Verify(x => x.rollOut(), Times.Exactly(2200));
         }
 
         [TestMethod]
