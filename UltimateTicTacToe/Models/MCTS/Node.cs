@@ -41,7 +41,8 @@ namespace UltimateTicTacToe.Models.MCTS
                     move.setOwner(colour);
                 }
                 clone.makeMove(move);
-                children.Add(new Node(clone, this, move, colour));
+                INode child = new Node(clone, this, move, colour);
+                children.Add(child);
             }
         }
 
@@ -56,11 +57,7 @@ namespace UltimateTicTacToe.Models.MCTS
             double result;
             if (timesVisited > 0)
             {
-                while (p.getParent() != null)
-                {
-                    p = p.getParent();
-                } 
-                result = (total / timesVisited) + (2*Math.Sqrt(Math.Log(p.getVisits()) / getVisits()));
+                result = (total / timesVisited) + (Math.Sqrt(2) * Math.Sqrt(Math.Log(getParent().getVisits()) / getVisits()));
             } else
             {
                 result = Int64.MaxValue;
@@ -83,8 +80,10 @@ namespace UltimateTicTacToe.Models.MCTS
             Random r = new Random();
             BoardGame clone = game.Clone() as BoardGame;
             PlayerColour moveColour = alternateColour(previousMove.owner);
+            int moveNo = 0;
             while (!clone.isWon() && !clone.isDraw())
             {
+                moveNo++;
                 List<Move> moves = clone.getAvailableMoves();
                 Move decided = moves[r.Next(moves.Count)];
                 decided.setOwner(moveColour);
@@ -101,33 +100,20 @@ namespace UltimateTicTacToe.Models.MCTS
 
         public int value(BoardGame boardGame)
         {
-            List<List<BoardGame>> board = boardGame.getBoard();
             int result = 0;
-            for (int x = 0; x < board.Count; x++)
+            if (boardGame.isWon())
             {
-                for (int y = 0; y < board[x].Count; y++)
+                if(boardGame.getWinner() == colour)
                 {
-                    BoardGame space = board[x][y];
-                    if (board[x][y].isWon())
-                    {
-                        if (space.getWinner() == colour)
-                        {
-                            result += 10;
-                        } else
-                        {
-                            result -= 10;
-                        }
-                    }
+                    result += 1;
+                } else
+                {
+                    result -= 1;
                 }
-            }
-            if (!boardGame.isDraw())
+            } else
             {
-                if (boardGame.getWinner() != colour)
-                {
-                    result *= -1;
-                }
+                result -= 1;
             }
-            total += result;
             return result;
         }
 
@@ -145,7 +131,12 @@ namespace UltimateTicTacToe.Models.MCTS
 
         public double getReward()
         {
-            return total / timesVisited;
+            return (double) total / timesVisited;
+        }
+
+        public Move getMove()
+        {
+            return previousMove;
         }
     }
 }

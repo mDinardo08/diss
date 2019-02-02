@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using UltimateTicTacToe.Models.Game;
 
 namespace UltimateTicTacToe.Models.MCTS
 {
@@ -16,5 +17,6 @@ namespace UltimateTicTacToe.Models.MCTS
         INode getParent();
         void backPropagate(int score);
         double getReward();
+        Move getMove();
     }
 }
