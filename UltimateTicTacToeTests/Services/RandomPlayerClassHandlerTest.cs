@@ -16,7 +16,7 @@ namespace UltimateTicTacToeTests.Services
         [TestInitialize()]
         public void Setup()
         {
-            hand = new RandomPlayerClassHandler(null);
+            hand = new RandomPlayerClassHandler(null, null);
         }
 
         [TestMethod]
@@ -30,7 +30,7 @@ namespace UltimateTicTacToeTests.Services
         public void WillPassRandomServiceToAi()
         {
             Mock<IRandomService> mockService = new Mock<IRandomService>();
-            hand = new RandomPlayerClassHandler(mockService.Object);
+            hand = new RandomPlayerClassHandler(mockService.Object, null);
             RandomAi player = hand.createPlayer(PlayerType.RANDOM) as RandomAi;
             Assert.IsNotNull(player.random);
         }

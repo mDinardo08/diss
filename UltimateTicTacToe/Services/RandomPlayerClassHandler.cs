@@ -8,10 +8,10 @@ namespace UltimateTicTacToe.Services
 {
     public class RandomPlayerClassHandler : AbstractPlayerClassHandler
     {
-        public RandomPlayerClassHandler(IRandomService randomService) : base(randomService)
+        public RandomPlayerClassHandler(IRandomService randomService, NodeService nodeService) : base(randomService, nodeService)
         {
             type = PlayerType.RANDOM;
-            successor = new HumanPlayerClassHandler(randomService);
+            successor = new HumanPlayerClassHandler(randomService, nodeService);
         }
 
         protected override Player buildPlayer()
