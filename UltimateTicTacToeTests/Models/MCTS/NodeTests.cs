@@ -309,97 +309,44 @@ namespace UltimateTicTacToeTests.Models.MCTS
         }
 
         [TestMethod]
-        public void WillAddOneForEverySubBoardBelongingToTheColourPassedIn()
+        public void WillReturnOneIfOwnerColourMatchesWinner()
         {
-            Mock<BoardGame> red = new Mock<BoardGame>();
-            red.Setup(x => x.isWon())
-                .Returns(true);
-            red.Setup(x => x.getWinner())
-                .Returns(PlayerColour.RED);
             Mock<BoardGame> game = new Mock<BoardGame>();
-            game.Setup(x => x.getBoard())
-                .Returns(new List<List<BoardGame>>
-                {
-                    new List<BoardGame>
-                    {
-                        red.Object, red.Object, red.Object
-                    },
-                    new List<BoardGame>
-                    {
-                        red.Object, red.Object, red.Object
-                    }
-                });
             game.Setup(x => x.getWinner())
                 .Returns(PlayerColour.RED);
+            game.Setup(x => x.isWon())
+                .Returns(true);
             node = new Node(null, null, null, PlayerColour.RED);
             int result = node.value(game.Object);
-            Assert.AreEqual(60, result);
+            Assert.AreEqual(1, result);
         }
-
-        [TestMethod]
-        public void WillRemove10IfOppositionWonABoard()
-        {
-            Mock<BoardGame> red = new Mock<BoardGame>();
-            red.Setup(x => x.isWon())
-                .Returns(true);
-            red.Setup(x => x.getWinner())
-                .Returns(PlayerColour.RED);
-            Mock<BoardGame> blue = new Mock<BoardGame>();
-            blue.Setup(x => x.isWon())
-                .Returns(true);
-            blue.Setup(x => x.getWinner())
-                .Returns(PlayerColour.BLUE);
-            Mock<BoardGame> game = new Mock<BoardGame>();
-            game.Setup(x => x.getBoard())
-                .Returns(new List<List<BoardGame>>
-                {
-                    new List<BoardGame>
-                    {
-                        red.Object, red.Object, red.Object
-                    },
-                    new List<BoardGame>
-                    {
-                        red.Object, red.Object, blue.Object
-                    }
-                });
-            game.Setup(x => x.getWinner())
-                .Returns(PlayerColour.RED);
-            node = new Node(null, null, null, PlayerColour.RED);
-            int result = node.value(game.Object);
-            Assert.AreEqual(40, result);
-        }
-
+        
         [TestMethod]
         public void WillReturnANegativeNumberIfGameWasLostOverall()
         {
-            Mock<BoardGame> red = new Mock<BoardGame>();
-            red.Setup(x => x.isWon())
-                .Returns(true);
-            red.Setup(x => x.getWinner())
-                .Returns(PlayerColour.RED);
-            Mock<BoardGame> blue = new Mock<BoardGame>();
-            blue.Setup(x => x.isWon())
-                .Returns(true);
-            blue.Setup(x => x.getWinner())
-                .Returns(PlayerColour.BLUE);
             Mock<BoardGame> game = new Mock<BoardGame>();
-            game.Setup(x => x.getBoard())
-                .Returns(new List<List<BoardGame>>
-                {
-                    new List<BoardGame>
-                    {
-                        red.Object, red.Object, red.Object
-                    },
-                    new List<BoardGame>
-                    {
-                        red.Object, red.Object, blue.Object
-                    }
-                });
             game.Setup(x => x.getWinner())
                 .Returns(PlayerColour.BLUE);
             node = new Node(null, null, null, PlayerColour.RED);
             int result = node.value(game.Object);
-            Assert.AreEqual(-40, result);
+            Assert.AreEqual(-1, result);
+        }
+
+        [TestMethod]
+        public void ChildNodesWillNotContainThisNode()
+        {
+            Mock<BoardGame> mockGame = new Mock<BoardGame>();
+            mockGame.Setup(x => x.Clone())
+                .Returns(new Mock<BoardGame>().Object);
+            mockGame.Setup(x => x.getAvailableMoves())
+                .Returns(new List<Move>
+                {
+                    new Move(),new Move(),new Move(),new Move(),new Move(),new Move(),new Move(),new Move(),new Move()
+                });
+            node = new Node(mockGame.Object, null, null, 0);
+            node.expand();
+            List<INode> result = node.getChildren();
+            Assert.IsFalse(result.Contains(node));
         }
     }
 }
