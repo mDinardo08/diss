@@ -18,10 +18,10 @@ namespace UltimateTicTacToe.Models.Game.WinCheck
             init();
         }
 
-        public Player checkForWin(BoardGame game)
+        public PlayerColour? checkForWin(BoardGame game)
         {
             Point p = check(game);
-            Player result = null;
+            PlayerColour? result = null;
             if (p.X != -1)
             {
                 result = game.getBoard()[p.X][p.Y].getWinner();

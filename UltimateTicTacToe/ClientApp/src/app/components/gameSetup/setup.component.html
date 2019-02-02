@@ -1,0 +1,24 @@
+<div class="modal-header">
+  <h4 class="modal-title pull-left">Player Selection</h4>
+</div>
+<div class="modal-body">
+  <div class="card">
+    <div class="card-body mx-auto">
+      <div>
+        <span>Opponent:</span>
+        <div class="btn-group" dropdown>
+          <button id="button-type" dropdownToggle type="button" class="btn btn-primary dropdown-toggle" aria-controls="dropdown-type">
+            Type <span class="caret"></span>
+          </button>
+          <ul id="dropdown-type" *dropdownMenu class="dropdown-menu" role="menu" aria-labelledby="button-type">
+            <li role="menuitem" *ngFor="let type of types">
+              <a class="dropdown-item" (click)="opponentSelected(type)"href="#">{{type}}</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal-footer">
+</div>

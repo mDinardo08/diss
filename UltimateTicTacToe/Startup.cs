@@ -29,6 +29,8 @@ namespace UltimateTicTacToe
             services.AddTransient<BoardCreationService, UltimateTicTacToeCreationService>();
             services.AddTransient<IPlayerCreationService, PlayerCreationService>();
             services.AddTransient<PlayerClassHandler, RandomPlayerClassHandler>();
+            services.AddTransient<NodeService, MonteCarloService>();
+            services.AddTransient<INodeCreationService, NodeCreationService>();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
             // In production, the Angular files will be served from this directory

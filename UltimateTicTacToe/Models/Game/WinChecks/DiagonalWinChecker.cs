@@ -41,7 +41,7 @@ namespace UltimateTicTacToe.Models.Game.WinCheck
                     BoardGame space = board[i][board.Count - 1 - i];
                     if (space.isWon())
                     {
-                        if (space.getWinner().getColour() != bottomLeft.getWinner().getColour())
+                        if (space.getWinner() != bottomLeft.getWinner())
                         {
                             diagWinner = false;
                         }
@@ -74,7 +74,7 @@ namespace UltimateTicTacToe.Models.Game.WinCheck
                     BoardGame space = board[i][i];
                     if (space.isWon())
                     {
-                        if(space.getWinner().getColour() != topLeft.getWinner().getColour())
+                        if(space.getWinner() != topLeft.getWinner())
                         {
                             diagWinner = false;
                         }

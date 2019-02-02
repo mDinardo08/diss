@@ -21,13 +21,24 @@ describe("Tile Component", () => {
 
     it("Will emit an event on makeMove if available moves is not empty", () => {
         comp.availableMoves.push(new Move());
+        const mockService = jasmine.createSpyObj("GameService", ["getCurrentPlayer"]);
+        const player = new Player();
+        player.colour = 0;
+        mockService.getCurrentPlayer.and.returnValue(player);
+        comp = new TileComponent(mockService);
         spyOn(comp.moveEvent, "emit");
+        comp.availableMoves = [new Move()];
         comp.makeMove(null);
         expect(comp.moveEvent.emit).toHaveBeenCalled();
     });
 
     it("Will emit a new Move", () => {
-        comp.availableMoves.push(new Move());
+        const mockService = jasmine.createSpyObj("GameService", ["getCurrentPlayer"]);
+        const player = new Player();
+        player.colour = 0;
+        mockService.getCurrentPlayer.and.returnValue(player);
+        comp = new TileComponent(mockService);
+        comp.availableMoves = [new Move()];
         spyOn(comp.moveEvent, "emit");
         comp.makeMove(null);
         expect(comp.moveEvent.emit).toHaveBeenCalledWith(jasmine.any(Move));
@@ -37,25 +48,23 @@ describe("Tile Component", () => {
         const mockService = jasmine.createSpyObj("GameService", ["getCurrentPlayer"]);
         const player = new Player();
         player.name = "fake";
+        player.colour = 0;
         mockService.getCurrentPlayer.and.returnValue(player);
         comp = new TileComponent(mockService);
         comp.availableMoves = [new Move()];
         comp.makeMove(null);
-        expect(comp.owner).toBe(player);
+        expect(comp.owner).toBe(0);
     });
 
     it("Will init the colour variable correctly if the owner has colour BLUE", () => {
-        const player = new Player();
-        player.colour = PlayerColour.BLUE;
-        comp.owner = player;
+        comp.owner = PlayerColour.BLUE;
         comp.ngOnInit();
         expect(comp.colour).toBe("#0275d8");
     });
 
     it("Will init the colour correctly if the owner has colour red", () => {
         const player = new Player();
-        player.colour = PlayerColour.RED;
-        comp.owner = player;
+        comp.owner = PlayerColour.RED;
         comp.ngOnInit();
         expect(comp.colour).toBe("#d9534f");
     });

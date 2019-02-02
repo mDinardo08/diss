@@ -17,7 +17,7 @@ export class TileComponent extends AbstractBoardGameComponent implements OnInit 
 
     makeMove($event: any): any {
         if (this.availableMoves.length > 0) {
-            this.owner = this.gameService.getCurrentPlayer();
+            this.owner = this.gameService.getCurrentPlayer().colour;
             this.setColour();
             this.moveEvent.emit(new Move());
         }

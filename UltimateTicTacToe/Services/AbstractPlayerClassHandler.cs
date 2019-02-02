@@ -11,11 +11,12 @@ namespace UltimateTicTacToe.Services
         public PlayerType type;
         public PlayerClassHandler successor;
         public IRandomService randomService;
-        public AbstractPlayerClassHandler(IRandomService randomService)
+        public NodeService nodeService;
+        public AbstractPlayerClassHandler(IRandomService randomService, NodeService nodeService)
         {
             this.randomService = randomService;
+            this.nodeService = nodeService;
         }
-
 
         public Player createPlayer(PlayerType type){
             Player result = null;

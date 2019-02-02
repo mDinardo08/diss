@@ -42,6 +42,7 @@ export class GameService extends AbstractGameService {
         creationDto.size = size;
         creationDto.players = players;
         this.players = players;
+        this.lastMove = null;
         const dto = this.api.post<BoardGameDTO>("Game/createBoard", creationDto);
         dto.subscribe((res) => {
             this.players = res.players;
@@ -62,11 +63,14 @@ export class GameService extends AbstractGameService {
         return this.board;
     }
 
+    getPlayers(): Player[] {
+        return this.players;
+    }
     makeMoveOnBoard(board: Array<Array<BoardGame>>, move: Move): Array<Array<BoardGame>> {
         const result = board;
         const point = move.possition;
         if (move.next.possition === null || move.next.possition === undefined) {
-            result[point.x][point.y].owner = this.curPlayer;
+            result[point.x][point.y].owner = this.curPlayer.colour;
         } else {
             result[point.x][point.y].board = this.makeMoveOnBoard(result[point.x][point.y].board, move.next);
         }
@@ -85,5 +89,9 @@ export class GameService extends AbstractGameService {
             this.lastMove = res.lastMove;
         }
         this.boardUpdatedEvent.emit(this.board);
+        if ((res.winner !== undefined && res.winner !== null) ||
+            this.availableMoves.length === 0) {
+                this.gameOverEvent.emit(res.winner);
+        }
     }
 }

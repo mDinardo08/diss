@@ -47,7 +47,8 @@ namespace UltimateTicTacToe.Services
 
         private void HandleAiMove(Player Ai, BoardGame game, BoardGameDTO result, List<Player> players)
         {
-            Move move = Ai.makeMove(game);
+            Move move = Ai.makeMove(game.Clone() as BoardGame);
+            game.makeMove(move);
             List<List<BoardGame>> board = game.getBoard();
             result.lastMove = move;
             Player next = players.Find(x => !x.Equals(Ai));

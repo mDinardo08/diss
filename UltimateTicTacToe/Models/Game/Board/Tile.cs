@@ -7,12 +7,18 @@ namespace UltimateTicTacToe.Models.Game
     public class Tile : AbstractBoard
     {
         public new List<List<BoardGame>> board = null;
+
+        public override object Clone()
+        {
+            return MemberwiseClone();
+        }
+
         public override List<Move> getAvailableMoves()
         {
             return owner == null ? new List<Move> { new Move() } : new List<Move>();
         }
 
-        public override Player getWinner()
+        public override PlayerColour? getWinner()
         {
             return owner;
         }

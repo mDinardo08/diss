@@ -47,7 +47,7 @@ namespace UltimateTicTacToeTests.Models
         {
             Mock<Player> player = new Mock<Player>();
 
-            MockGame.Setup(x => x.getWinner()).Returns(player.Object);
+            MockGame.Setup(x => x.getWinner()).Returns(0);
             MockGame.Setup(x => x.getBoard()).Returns(new List<List<BoardGame>>
                 {
                     new List<BoardGame>{MockGame.Object, MockException.Object, MockException.Object},
@@ -56,7 +56,7 @@ namespace UltimateTicTacToeTests.Models
                 });
             
             Point p = new Point { X = 0, Y = 0 };
-            Assert.AreEqual(player.Object, v.checkForWin(MockGame.Object));
+            Assert.AreEqual((PlayerColour)0, v.checkForWin(MockGame.Object));
         }
 
         [TestMethod]
@@ -64,7 +64,7 @@ namespace UltimateTicTacToeTests.Models
         {
             Mock<Player> player = new Mock<Player>();
 
-            MockGame.Setup(x => x.getWinner()).Returns(player.Object);
+            MockGame.Setup(x => x.getWinner()).Returns(0);
             MockGame.Setup(x => x.getBoard()).Returns(new List<List<BoardGame>>
                 {
                     new List<BoardGame>{MockException.Object, MockGame.Object, MockException.Object},
@@ -73,7 +73,7 @@ namespace UltimateTicTacToeTests.Models
                 });
 
             Point p = new Point { X = 0, Y = 1 };
-            Assert.AreEqual(player.Object, v.checkForWin(MockGame.Object));
+            Assert.AreEqual((PlayerColour)0, v.checkForWin(MockGame.Object));
         }
 
         [TestMethod]
@@ -81,7 +81,7 @@ namespace UltimateTicTacToeTests.Models
         {
             Mock<Player> player = new Mock<Player>();
 
-            MockGame.Setup(x => x.getWinner()).Returns(player.Object);
+            MockGame.Setup(x => x.getWinner()).Returns(0);
             MockGame.Setup(x => x.getBoard()).Returns(new List<List<BoardGame>>
                 {
                     new List<BoardGame>{MockException.Object, MockException.Object, MockGame.Object},
@@ -90,7 +90,7 @@ namespace UltimateTicTacToeTests.Models
                 });
 
             Point p = new Point { X = 0, Y = 2 };
-            Assert.AreEqual(player.Object, v.checkForWin(MockGame.Object));
+            Assert.AreEqual((PlayerColour)0, v.checkForWin(MockGame.Object));
         }
 
         [TestMethod]
@@ -99,7 +99,7 @@ namespace UltimateTicTacToeTests.Models
 
             Mock<Player> player = new Mock<Player>();
 
-            MockGame.Setup(x => x.getWinner()).Returns(player.Object);
+            MockGame.Setup(x => x.getWinner()).Returns((PlayerColour?)null);
             MockGame.Setup(x => x.getBoard()).Returns(new List<List<BoardGame>>
                 {
                     new List<BoardGame>{MockException.Object, MockException.Object, MockGame.Object},
@@ -119,7 +119,7 @@ namespace UltimateTicTacToeTests.Models
                     new List<BoardGame>{MockException.Object, MockException.Object, MockException.Object }
                 });
             Mock<IWinChecker> mock = new Mock<IWinChecker>(MockBehavior.Strict);
-            mock.Setup(x => x.checkForWin(MockGame.Object)).Returns((Player) null);
+            mock.Setup(x => x.checkForWin(MockGame.Object)).Returns((PlayerColour?) null);
             v.successor = mock.Object;
             v.check = (CompositeGame => new Point { X=-1, Y=-1 });
             v.checkForWin(MockGame.Object);

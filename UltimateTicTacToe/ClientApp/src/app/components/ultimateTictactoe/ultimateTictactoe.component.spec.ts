@@ -106,12 +106,12 @@ describe("Tictactoe component", () => {
     });
 
     it("Will return true if owner is set", () => {
-        comp.owner = new Player();
+        comp.owner = 0;
         expect(comp.hasBorder()).toBe(true);
     });
 
     it("Will return true if owner is not set but all subboards have a owner", () => {
-        const sub = {owner: {colour: 0, type: 0, name: ""}, board: [[]]};
+        const sub = {owner: 0, board: [[]]};
         comp.board = [[sub]];
         expect(comp.hasBorder()).toBe(true);
     });

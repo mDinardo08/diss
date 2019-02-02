@@ -5,6 +5,6 @@ namespace UltimateTicTacToe.Models.Game.WinCheck
 {
     public interface IWinChecker
     {
-        Player checkForWin(BoardGame game);
+        PlayerColour? checkForWin(BoardGame game);
     }
 }

@@ -33,7 +33,7 @@ namespace UltimateTicTacToe.Models.Game.WinCheck
                         BoardGame space = board[row][col];
                         if (space.isWon())
                         {
-                            if (leftMost.getWinner().getColour() != space.getWinner().getColour())
+                            if (leftMost.getWinner() != space.getWinner())
                             {
                                 winningRow = false;
                             }
