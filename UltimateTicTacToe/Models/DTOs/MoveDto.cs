@@ -9,7 +9,7 @@ namespace UltimateTicTacToe.Models.DTOs
 {
     public class MoveDto
     {
-        Move move;
+        public Move move;
         public List<List<JObject>> game;
     }
 }
