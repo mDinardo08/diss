@@ -54,10 +54,14 @@ namespace UltimateTicTacToe.Models.MCTS
         public double getUBC1()
         {
             INode p = parent;
+            while(p.getParent() != null)
+            {
+                p = p.getParent();
+            }
             double result;
             if (timesVisited > 0)
             {
-                result = (total / timesVisited) + (Math.Sqrt(2) * Math.Sqrt(Math.Log(getParent().getVisits()) / getVisits()));
+                result = (total / timesVisited) + (2 * Math.Sqrt(Math.Log(p.getVisits()) / getVisits()));
             } else
             {
                 result = Int64.MaxValue;
@@ -110,9 +114,6 @@ namespace UltimateTicTacToe.Models.MCTS
                 {
                     result -= 1;
                 }
-            } else
-            {
-                result -= 1;
             }
             return result;
         }

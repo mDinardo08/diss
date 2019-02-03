@@ -51,7 +51,7 @@ namespace UltimateTicTacToe.Services
             game.makeMove(move);
             List<List<BoardGame>> board = game.getBoard();
             result.lastMove = move;
-            Player next = players.Find(x => !x.Equals(Ai));
+            Player next = players.Find(x => !x.getColour().Equals(Ai.getColour()));
             result.cur = convertToJObject(next);
             try
             {

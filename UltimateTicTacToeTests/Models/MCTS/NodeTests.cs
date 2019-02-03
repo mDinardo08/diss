@@ -327,6 +327,8 @@ namespace UltimateTicTacToeTests.Models.MCTS
             Mock<BoardGame> game = new Mock<BoardGame>();
             game.Setup(x => x.getWinner())
                 .Returns(PlayerColour.BLUE);
+            game.Setup(x => x.isWon())
+                .Returns(true);
             node = new Node(null, null, null, PlayerColour.RED);
             int result = node.value(game.Object);
             Assert.AreEqual(-1, result);
