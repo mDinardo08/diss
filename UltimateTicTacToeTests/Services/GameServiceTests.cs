@@ -74,9 +74,11 @@ namespace UltimateTicTacToeTests.Services
             p.Setup(x => x.makeMove(mockGame.Object)).Returns(new Move());
             p.Setup(x => x.getPlayerType()).Returns(PlayerType.RANDOM);
             p.Setup(x => x.getName()).Returns("hello");
+            p.Setup(x => x.getColour()).Returns(PlayerColour.RED);
             Mock<Player> next = new Mock<Player>();
             next.Setup(x => x.getPlayerType()).Returns((PlayerType)1000);
             next.Setup(x => x.getName()).Returns("hello");
+            next.Setup(x => x.getColour()).Returns(PlayerColour.BLUE);
             mockGame.Setup(x => x.getWinner()).Throws(new NoWinnerException());
             mockGame.SetupSequence(x => x.getWinner()).Throws(new NoWinnerException()).Returns(0);
             mockGame.Setup(x => x.getBoard()).Returns(new List<List<BoardGame>>());
@@ -182,9 +184,11 @@ namespace UltimateTicTacToeTests.Services
             p.Setup(x => x.makeMove(mockGame.Object)).Returns(new Move());
             p.Setup(x => x.getPlayerType()).Returns(PlayerType.RANDOM);
             p.Setup(x => x.getName()).Returns("name");
+            p.Setup(x => x.getColour()).Returns(PlayerColour.BLUE);
             Mock<Player> next = new Mock<Player>();
             next.Setup(x => x.getName()).Returns("name");
             next.Setup(x => x.getPlayerType()).Returns((PlayerType)1000);
+            next.Setup(x => x.getColour()).Returns(PlayerColour.RED);
             mockGame.Setup(x => x.getWinner()).Throws(new NoWinnerException());
             mockGame.SetupSequence(x => x.getWinner()).Throws(new NoWinnerException()).Returns(0);
             mockGame.Setup(x => x.getBoard()).Returns(new List<List<BoardGame>>());
