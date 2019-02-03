@@ -30,6 +30,7 @@ namespace UltimateTicTacToe.Models.Game.Players
                     max = node.getReward();
                 }
             }
+            Console.WriteLine("Max node value: {0}", max);
             return move;
         }
     }
