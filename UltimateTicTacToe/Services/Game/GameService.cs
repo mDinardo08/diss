@@ -97,5 +97,10 @@ namespace UltimateTicTacToe.Services
             return result;
 
         }
+
+        public RatingDTO rateMove(BoardGame boardGame, Move move)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

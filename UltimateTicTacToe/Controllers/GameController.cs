@@ -28,6 +28,13 @@ namespace UltimateTicTacToe.Controllers
             this.playerCreationService = playerCreationService;
         }
 
+        [HttpPost("RateMove")]
+        public IActionResult rateMove([FromBody] MoveDto moveDto)
+        {
+            BoardGame game = boardCreationService.createBoardGame(moveDto.game);
+            return ExecuteApiAction(() => new ApiResult<RatingDTO> { Model = gameService.rateMove(game, moveDto.move) });
+        }
+
         [HttpPost("makeMove")]
         public IActionResult makeMove([FromBody]BoardGameDTO gameDto)
         {
