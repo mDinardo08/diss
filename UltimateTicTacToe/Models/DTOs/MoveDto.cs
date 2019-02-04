@@ -11,5 +11,6 @@ namespace UltimateTicTacToe.Models.DTOs
     {
         public Move move;
         public List<List<JObject>> game;
+        public int UserId;
     }
 }
