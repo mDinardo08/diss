@@ -19,7 +19,6 @@ namespace UltimateTicTacToeTests.Controllers
     public class GameControllerTests
     {
         GameController cont;
-        Mock<IGameService> mockService;
 
         [TestMethod]
         public void WillPassTheGameToTheBoardGameCreationService()
@@ -209,16 +208,17 @@ namespace UltimateTicTacToeTests.Controllers
         }
 
         [TestMethod]
-        public void WillPassTheGameAndTheMoveToTheGameService()
+        public void WillPassTheGameTheMoveAndThePlayerIdToTheGameService()
         {
             MoveDto moveDto = new MoveDto();
             moveDto.move = new Move();
+            moveDto.UserId = 100;
             Mock<BoardGame> mockGame = new Mock<BoardGame>();
             Mock<IGameService> mockGameService = new Mock<IGameService>();
             Mock<BoardCreationService> mockCreationService = new Mock<BoardCreationService>();
             mockCreationService.Setup(x => x.createBoardGame(It.IsAny<List<List<JObject>>>()))
                 .Returns(mockGame.Object);
-            mockGameService.Setup(x => x.rateMove(mockGame.Object, moveDto.move))
+            mockGameService.Setup(x => x.rateMove(mockGame.Object, moveDto.move, moveDto.UserId))
                 .Returns((RatingDTO)null)
                 .Verifiable();
             cont = new GameController(mockGameService.Object, mockCreationService.Object, null);

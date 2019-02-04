@@ -7,6 +7,7 @@ using UltimateTicTacToe.Models.DTOs;
 using UltimateTicTacToe.Models.Game;
 using UltimateTicTacToe.Models.Game.Players;
 using UltimateTicTacToe.Models.Game.WinCheck;
+using UltimateTicTacToe.Models.MCTS;
 using UltimateTicTacToe.Services;
 
 namespace UltimateTicTacToeTests.Services
@@ -279,6 +280,99 @@ namespace UltimateTicTacToeTests.Services
             mockGame.Setup(x => x.getBoard()).Returns(new List<List<BoardGame>>());
             BoardGameDTO result = service.processMove(mockGame.Object, mockAi.Object, new List<Player>());
             Assert.AreSame(m, result.lastMove);
+        }
+
+        [TestMethod]
+        public void WillCallTheNodeServiceToProcessTheBoard()
+        {
+            Mock<BoardGame> mockGame = new Mock<BoardGame>();
+            Mock<NodeService> mockService = new Mock<NodeService>();
+            mockService.Setup(x => x.process(mockGame.Object, It.IsAny<PlayerColour>()))
+                .Returns(new List<INode>())
+                .Verifiable();
+            service = new GameService(mockService.Object);
+            service.rateMove(mockGame.Object, new Move { owner = PlayerColour.BLUE}, 0);
+            mockService.Verify();
+        }
+
+        [TestMethod]
+        public void WillCallTheNodeServiceWithTheColourOfTheOwnerOnTheMove()
+        {
+            Mock<BoardGame> mockGame = new Mock<BoardGame>();
+            Mock<NodeService> mockService = new Mock<NodeService>();
+            Move move = new Move();
+            move.owner = (PlayerColour)100;
+            mockService.Setup(x => x.process(It.IsAny<BoardGame>(), (PlayerColour)100))
+                .Returns(new List<INode>())
+                .Verifiable();
+            service = new GameService(mockService.Object);
+            service.rateMove(mockGame.Object, move, 0);
+            mockService.Verify();
+        }
+
+        [TestMethod]
+        public void WillCallForTheMoveOfAllNodesReturnedByTheNodeService()
+        {
+            Mock<BoardGame> mockGame = new Mock<BoardGame>();
+            Mock<NodeService> mockService = new Mock<NodeService>();
+            Move move = new Move();
+            move.owner = (PlayerColour)100;
+            Mock<INode> mockNode = new Mock<INode>();
+            mockNode.Setup(x => x.getMove())
+                .Returns(move)
+                .Verifiable();
+            mockService.Setup(x => x.process(It.IsAny<BoardGame>(), (PlayerColour)100))
+                .Returns(new List<INode>
+                {
+                    mockNode.Object,mockNode.Object,mockNode.Object,
+                });
+            service = new GameService(mockService.Object);
+            service.rateMove(mockGame.Object, move, 0);
+            mockNode.Verify(x => x.getMove(), Times.Exactly(3));
+        }
+
+        [TestMethod]
+        public void WillReturnARatingDtoWithRating0IfValueOfNodeWithMatchingMoveIsMinusOne()
+        {
+            Mock<BoardGame> mockGame = new Mock<BoardGame>();
+            Mock<NodeService> mockService = new Mock<NodeService>();
+            Move move = new Move();
+            move.owner = (PlayerColour)100;
+            Mock<INode> mockNode = new Mock<INode>();
+            mockNode.Setup(x => x.getMove())
+                .Returns(move);
+            mockNode.Setup(x => x.getReward())
+                .Returns(-1);
+            mockService.Setup(x => x.process(It.IsAny<BoardGame>(), (PlayerColour)100))
+                .Returns(new List<INode>
+                {
+                    mockNode.Object
+                });
+            service = new GameService(mockService.Object);
+            RatingDTO result = service.rateMove(mockGame.Object, move, 0);
+            Assert.AreEqual(0, result.rating);
+        }
+
+        [TestMethod]
+        public void WillReturnARatingDtoWithRating1IfValueOfNodeWithMatchingMoveIsOne()
+        {
+            Mock<BoardGame> mockGame = new Mock<BoardGame>();
+            Mock<NodeService> mockService = new Mock<NodeService>();
+            Move move = new Move();
+            move.owner = (PlayerColour)100;
+            Mock<INode> mockNode = new Mock<INode>();
+            mockNode.Setup(x => x.getMove())
+                .Returns(move);
+            mockNode.Setup(x => x.getReward())
+                .Returns(1);
+            mockService.Setup(x => x.process(It.IsAny<BoardGame>(), (PlayerColour)100))
+                .Returns(new List<INode>
+                {
+                    mockNode.Object
+                });
+            service = new GameService(mockService.Object);
+            RatingDTO result = service.rateMove(mockGame.Object, move, 0);
+            Assert.AreEqual(1, result.rating);
         }
     }
 }

@@ -5,16 +5,16 @@ using UltimateTicTacToe.Models.DTOs;
 using UltimateTicTacToe.Models.Game;
 using UltimateTicTacToe.Models.Game.Players;
 using UltimateTicTacToe.Models.Game.WinCheck;
+using UltimateTicTacToe.Models.MCTS;
 
 namespace UltimateTicTacToe.Services
 {
     public class GameService : IGameService
     {
-        private IWinChecker winChecker;
-
-        public GameService(IWinChecker winChecker)
+        private NodeService nodeService;
+        public GameService(NodeService nodeService)
         {
-            this.winChecker = winChecker;
+            this.nodeService = nodeService;
         }
 
         public BoardGameDTO processMove(BoardGame game, Player cur, List<Player> players)
@@ -98,9 +98,17 @@ namespace UltimateTicTacToe.Services
 
         }
 
-        public RatingDTO rateMove(BoardGame boardGame, Move move)
+        public RatingDTO rateMove(BoardGame boardGame, Move move, int UserId)
         {
-            throw new System.NotImplementedException();
+            RatingDTO result = new RatingDTO();
+            List<INode> nodes = nodeService.process(boardGame, (PlayerColour) move.owner);
+            foreach (INode node in nodes) {
+                if (node.getMove() == move)
+                {
+                    result.rating = 0.5 * node.getReward() + 0.5;
+                }
+            }
+            return result;
         }
     }
 }
