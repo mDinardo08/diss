@@ -7,7 +7,8 @@ namespace UltimateTicTacToe.Models.DTOs
 {
     public class RatingDTO
     {
-        public double rating;
+        public int UserId;
+        public double latest;
         public double average;
     }
 }
