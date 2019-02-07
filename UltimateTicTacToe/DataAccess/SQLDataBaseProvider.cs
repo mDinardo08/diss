@@ -25,7 +25,7 @@ namespace UltimateTicTacToe.DataAccess
                 connection.Open();
                 SqlCommand command = new SqlCommand(null, connection);
                 command.CommandText = "INSERT INTO RATINGS (UserId, TotalScore, LatestScore, TotalMoves)" +
-                    "VALUES (@UserId, @Total, @Latest, @TotalMoves)";
+                    "VALUES (@UserId, @Total, @Latest, @TotalMoves) ";
                 command.Parameters.Add(userId);
                 command.Parameters.Add(total);
                 command.Parameters.Add(latest);
