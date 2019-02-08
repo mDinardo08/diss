@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System.Collections.Generic;
+using UltimateTicTacToe.DataAccess;
 using UltimateTicTacToe.Models.DTOs;
 using UltimateTicTacToe.Models.Game;
 using UltimateTicTacToe.Models.Game.Players;
@@ -12,9 +13,11 @@ namespace UltimateTicTacToe.Services
     public class GameService : IGameService
     {
         private NodeService nodeService;
-        public GameService(NodeService nodeService)
+        private IDatabaseProvider provider;
+        public GameService(NodeService nodeService, IDatabaseProvider provider)
         {
             this.nodeService = nodeService;
+            this.provider = provider;
         }
 
         public BoardGameDTO processMove(BoardGame game, Player cur, List<Player> players)
@@ -47,10 +50,11 @@ namespace UltimateTicTacToe.Services
 
         private void HandleAiMove(Player Ai, BoardGame game, BoardGameDTO result, List<Player> players)
         {
-            Move move = Ai.makeMove(game.Clone() as BoardGame);
-            game.makeMove(move);
+            List<INode> nodes = nodeService.process(game, Ai.getColour());
+            INode move = Ai.makeMove(game.Clone() as BoardGame, nodes);
+            game.makeMove(move.getMove());
             List<List<BoardGame>> board = game.getBoard();
-            result.lastMove = move;
+            result.lastMove = move.getMove();
             Player next = players.Find(x => !x.getColour().Equals(Ai.getColour()));
             result.cur = convertToJObject(next);
             try
@@ -105,7 +109,7 @@ namespace UltimateTicTacToe.Services
             foreach (INode node in nodes) {
                 if (node.getMove() == move)
                 {
-                    result.rating = 0.5 * node.getReward() + 0.5;
+                    result.latest = 0.5 * node.getReward() + 0.5;
                 }
             }
             return result;

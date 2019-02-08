@@ -17,7 +17,7 @@ namespace UltimateTicTacToe.Services
 
         protected override Player buildPlayer()
         {
-            return new MCTSPlayer(randomService, nodeService);
+            return new MCTSPlayer(randomService);
         }
     }
 }
