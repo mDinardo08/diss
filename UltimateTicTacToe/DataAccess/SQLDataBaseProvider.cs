@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -6,6 +7,7 @@ using System.Data.SqlClient;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using UltimateTicTacToe.DataAccess.DBOs;
 using UltimateTicTacToe.Models.DTOs;
 
 namespace UltimateTicTacToe.DataAccess
@@ -40,54 +42,48 @@ namespace UltimateTicTacToe.DataAccess
         public RatingDTO getUser(int UserId)
         {
             RatingDTO result = new RatingDTO();
-            using (SqlDataReader reader = getUserRow(UserId))
-            {
-                if (reader.Read())
-                {
-                    result.UserId = (int)reader["UserId"];
-                    result.average = ((double)reader["TotalScore"]) / ((int)reader["totalMoves"]);
-                    result.latest = (double)reader["LatestScore"];
-                }
-            }
+            RatingDBO row = getUserRow(UserId);
+            result.UserId = row.UserId;
+            result.average = row.TotalScore / row.TotalMoves;
+            result.latest = row.LatestScore;
             return result;
         }
 
         public RatingDTO updateUser(int UserId, double LatestScore)
-        { 
-            using (SqlDataReader reader = getUserRow(UserId))
+        {
+            RatingDBO row = getUserRow(UserId);
+            using (SqlConnection connection = new SqlConnection(getConnectionString()))
             {
-                if (reader.Read())
-                {
-                    using (SqlConnection connection = new SqlConnection(getConnectionString()))
-                    {
-                        connection.Open();
-                        SqlCommand command = new SqlCommand(null, connection);
-                        double total = ((double)reader["TotalScore"]) + LatestScore;
-                        int moves = (int)reader["TotalMoves"] + 1;
-                        command.CommandText = "UPDATE RATINGS SET LatestScore = "+ LatestScore +", TotalScore = "+ total +", TotalMoves = "+ moves +" WHERE UserId = " +UserId;
-                        command.ExecuteNonQuery();
-                        connection.Close();
-                    }
-                }
+                connection.Open();
+                SqlCommand command = new SqlCommand(null, connection);
+                double total = row.TotalScore + LatestScore;
+                int moves = row.TotalMoves + 1;
+                command.CommandText = "UPDATE RATINGS SET LatestScore = "+ LatestScore +", TotalScore = "+ total +", TotalMoves = "+ moves +" WHERE UserId = " +UserId;
+                command.ExecuteNonQuery();
+                connection.Close();
             }
             return getUser(UserId);
         }
 
-        private SqlDataReader getUserRow(int UserId)
+        private RatingDBO getUserRow(int UserId)
         {
-            SqlDataReader reader;
+            RatingDBO result = new RatingDBO();
             using (SqlConnection connection = new SqlConnection(getConnectionString()))
             {
-                SqlParameter userId = new SqlParameter("@UserId", SqlDbType.Int, UserId);
                 connection.Open();
                 SqlCommand command = new SqlCommand(null, connection);
-                command.CommandText = "SELECT * FROM RATINGS WHERE UserId = @UserId";
-                command.Parameters.Add(userId);
-                command.Prepare();
-                reader = command.ExecuteReader();
+                command.CommandText = "SELECT * FROM RATINGS WHERE UserId = " + UserId;
+                SqlDataReader reader = command.ExecuteReader();
+                if (reader.Read())
+                {
+                    result.LatestScore = (double)reader["LatestScore"];
+                    result.TotalMoves = (int)reader["TotalMoves"];
+                    result.TotalScore = (double)reader["TotalScore"];
+                    result.UserId = (int)reader["UserId"];
+                }
                 connection.Close();
             }
-            return reader;
+            return result;
         }
 
         private int getNumberOfUsers()
@@ -112,9 +108,9 @@ namespace UltimateTicTacToe.DataAccess
         private string getConnectionString()
         {
             string connectionString = "";
-            using (StreamReader sr = new StreamReader("./connectionString.josn"))
+            using (StreamReader sr = new StreamReader("./DataAccess/connectionString.json"))
             {
-                connectionString = JsonConvert.DeserializeObject<string>(sr.ReadToEnd());
+                connectionString = JsonConvert.DeserializeObject<JObject>(sr.ReadToEnd())["connectionString"].Value<string>();
             }
             return connectionString;
         }
