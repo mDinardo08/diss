@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Text;
 using UltimateTicTacToe.Models.Game;
 using UltimateTicTacToe.Models.Game.Players;
+using UltimateTicTacToe.Models.MCTS;
 using UltimateTicTacToe.Services;
 
 namespace UltimateTicTacToeTests.Models
@@ -36,12 +37,15 @@ namespace UltimateTicTacToeTests.Models
             player = new RandomAi(mock.Object);
             Move move = new Move();
             Mock<BoardGame> mockGame = new Mock<BoardGame>(MockBehavior.Strict);
-            mockGame.Setup(x => x.getAvailableMoves()).Returns(new List<Move>
-            {
-                move , new Move(), new Move()
-            });
             mockGame.Setup(x => x.makeMove(move));
-            player.makeMove(mockGame.Object);
+            Mock<INode> mockNode = new Mock<INode>();
+            mockNode.Setup(x => x.getMove())
+                .Returns(new Move());
+            List<INode> nodes = new List<INode>
+            {
+                mockNode.Object, mockNode.Object, mockNode.Object
+            };
+            player.makeMove(mockGame.Object, nodes);
             mock.Verify(m => m.getRandomNumberBetween(0, 3), Times.Once);
         }
 
@@ -57,14 +61,13 @@ namespace UltimateTicTacToeTests.Models
                 X = 1,
                 Y = 1
             };
+            Mock<INode> mockNode = new Mock<INode>();
+            mockNode.Setup(x => x.getMove())
+                .Returns(move);
             Mock<BoardGame> mockGame = new Mock<BoardGame>(MockBehavior.Strict);
-            mockGame.Setup(x => x.getAvailableMoves()).Returns(new List<Move>
-            {
-                new Move(), move, new Move()
-            });
             mockGame.Setup(x => x.makeMove(move));
-            Move result = player.makeMove(mockGame.Object);
-            Assert.AreSame(result, move);
+            INode result = player.makeMove(mockGame.Object, new List<INode> { null, mockNode.Object, null});
+            Assert.AreSame(result.getMove(), move);
         }
 
 
@@ -72,13 +75,15 @@ namespace UltimateTicTacToeTests.Models
         public void WillSetItselfAsTheOwnerOfTheMove()
         {
             Mock<BoardGame> mockGame = new Mock<BoardGame>(MockBehavior.Loose);
-            Mock<Move> mockMove = new Mock<Move>();
-            mockGame.Setup(x => x.getAvailableMoves()).Returns(new List<Move> { new Move { owner = 0} });
             Mock<IRandomService> mock = new Mock<IRandomService>(MockBehavior.Loose);
             player = new RandomAi(mock.Object);
             player.colour = (PlayerColour)1000;
-            Move result = player.makeMove(mockGame.Object);
-            Assert.IsTrue(result.owner == player.colour); 
+            Mock<INode> mockNode = new Mock<INode>();
+            Move move = new Move();
+            mockNode.Setup(x => x.getMove())
+                .Returns(move);
+            INode result = player.makeMove(mockGame.Object, new List<INode> { mockNode.Object });
+            Assert.IsTrue(result.getMove().owner == player.colour); 
         }
 
         [TestMethod]

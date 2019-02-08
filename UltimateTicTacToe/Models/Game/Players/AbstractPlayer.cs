@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using UltimateTicTacToe.Models.MCTS;
 using UltimateTicTacToe.Services;
 
 namespace UltimateTicTacToe.Models.Game.Players
@@ -42,14 +43,13 @@ namespace UltimateTicTacToe.Models.Game.Players
             return this.colour;
         }
 
-        public Move makeMove(BoardGame game)
+        public INode makeMove(BoardGame game, List<INode> nodes)
         {
-            List<Move> possibleMoves = game.getAvailableMoves();
-            Move decided = decideMove(game, possibleMoves);
-            decided.setOwner(getColour());
+            INode decided = decideMove(game, nodes);
+            decided.getMove().setOwner(getColour());
             return decided;
         }
 
-        abstract protected Move decideMove(BoardGame game, List<Move> moves);
+        abstract protected INode decideMove(BoardGame game, List<INode> nodes);
     }
 }

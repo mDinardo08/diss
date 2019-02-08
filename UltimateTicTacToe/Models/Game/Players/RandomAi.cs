@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using UltimateTicTacToe.Models.MCTS;
 using UltimateTicTacToe.Services;
 
 namespace UltimateTicTacToe.Models.Game.Players
@@ -11,7 +12,7 @@ namespace UltimateTicTacToe.Models.Game.Players
         {
         }
 
-        protected override Move decideMove(BoardGame game, List<Move> moves)
+        protected override INode decideMove(BoardGame game, List<INode> moves)
         {
             return moves[random.getRandomNumberBetween(0, moves.Count)];
         }
