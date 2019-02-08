@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using UltimateTicTacToe.DataAccess;
 using UltimateTicTacToe.Models.MCTS;
 using UltimateTicTacToe.Services;
 
@@ -9,11 +10,11 @@ namespace UltimateTicTacToe.Models.Game.Players
 {
     public class MCTSPlayer : AbstractPlayer
     {
-        private NodeService nodeService;
 
-        public MCTSPlayer(IRandomService random) : base(random)
+        public MCTSPlayer(IRandomService random, IDatabaseProvider provider) : base(random, provider)
         { 
             type = PlayerType.MCTS;
+            UserId = (int)type;
         }
 
         protected override INode decideMove(BoardGame game, List<INode> nodes)

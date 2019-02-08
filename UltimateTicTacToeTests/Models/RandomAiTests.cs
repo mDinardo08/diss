@@ -4,6 +4,8 @@ using Moq;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using UltimateTicTacToe.DataAccess;
+using UltimateTicTacToe.Models.DTOs;
 using UltimateTicTacToe.Models.Game;
 using UltimateTicTacToe.Models.Game.Players;
 using UltimateTicTacToe.Models.MCTS;
@@ -19,7 +21,7 @@ namespace UltimateTicTacToeTests.Models
         [TestInitialize()]
         public void Setup()
         {
-            player = new RandomAi(null);
+            player = new RandomAi(null, null);
         }
 
         [TestMethod]
@@ -34,7 +36,7 @@ namespace UltimateTicTacToeTests.Models
         {
             Mock<IRandomService> mock = new Mock<IRandomService>(MockBehavior.Strict);
             mock.Setup(x => x.getRandomNumberBetween(0, 3)).Returns(0);
-            player = new RandomAi(mock.Object);
+            player = new RandomAi(mock.Object, new Mock<IDatabaseProvider>().Object);
             Move move = new Move();
             Mock<BoardGame> mockGame = new Mock<BoardGame>(MockBehavior.Strict);
             mockGame.Setup(x => x.makeMove(move));
@@ -54,7 +56,7 @@ namespace UltimateTicTacToeTests.Models
         {
             Mock<IRandomService> mock = new Mock<IRandomService>(MockBehavior.Strict);
             mock.Setup(x => x.getRandomNumberBetween(0, 3)).Returns(1);
-            player = new RandomAi(mock.Object);
+            player = new RandomAi(mock.Object, new Mock<IDatabaseProvider>().Object);
             Move move = new Move();
             move.possition = new Point2D
             {
@@ -76,7 +78,7 @@ namespace UltimateTicTacToeTests.Models
         {
             Mock<BoardGame> mockGame = new Mock<BoardGame>(MockBehavior.Loose);
             Mock<IRandomService> mock = new Mock<IRandomService>(MockBehavior.Loose);
-            player = new RandomAi(mock.Object);
+            player = new RandomAi(mock.Object, new Mock<IDatabaseProvider>().Object);
             player.colour = (PlayerColour)1000;
             Mock<INode> mockNode = new Mock<INode>();
             Move move = new Move();
@@ -91,6 +93,13 @@ namespace UltimateTicTacToeTests.Models
         {
             (player as AbstractPlayer).type = PlayerType.RANDOM;
             Assert.AreEqual(player.getPlayerType(), PlayerType.RANDOM);
+        }
+
+        [TestMethod]
+        public void WillReturnItsPlayerTypeAsItsUserId()
+        {
+            player = new RandomAi(null, null);
+            Assert.AreEqual(player.getUserId(), (int)PlayerType.RANDOM);
         }
     }
 }

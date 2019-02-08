@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using UltimateTicTacToe.DataAccess;
 using UltimateTicTacToe.Models.MCTS;
 using UltimateTicTacToe.Services;
 
@@ -13,9 +14,12 @@ namespace UltimateTicTacToe.Models.Game.Players
         public IRandomService random;
         public PlayerType type;
         public PlayerColour colour;
-        public AbstractPlayer(IRandomService random)
+        public int UserId;
+        public IDatabaseProvider provider;
+        public AbstractPlayer(IRandomService random, IDatabaseProvider provider)
         {
             this.random = random;
+            this.provider = provider;
         }
 
         public void setName(string name)
@@ -51,5 +55,15 @@ namespace UltimateTicTacToe.Models.Game.Players
         }
 
         abstract protected INode decideMove(BoardGame game, List<INode> nodes);
+
+        public int getUserId()
+        {
+            return UserId;
+        }
+
+        public void setUserId(int UserId)
+        {
+            this.UserId = UserId;
+        }
     }
 }

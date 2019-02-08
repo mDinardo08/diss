@@ -12,5 +12,7 @@ namespace UltimateTicTacToe.Models.Game.Players
         PlayerColour getColour();
         INode makeMove(BoardGame game, List<INode> nodes);
         PlayerType getPlayerType();
+        int getUserId();
+        void setUserId(int UserId);
     }
 }
