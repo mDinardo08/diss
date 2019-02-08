@@ -14,7 +14,7 @@ namespace UltimateTicTacToe.Models.Game.Players
             UserId = (int)type;
         }
 
-        protected override INode decideMove(BoardGame game, List<INode> moves)
+        protected override INode decideMove(BoardGame game, List<INode> moves, int opponentId)
         {
             return moves[random.getRandomNumberBetween(0, moves.Count)];
         }

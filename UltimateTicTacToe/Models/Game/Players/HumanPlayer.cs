@@ -15,7 +15,7 @@ namespace UltimateTicTacToe.Models.Game.Players
             type = PlayerType.HUMAN;
         }
 
-        protected override INode decideMove(BoardGame game, List<INode> moves)
+        protected override INode decideMove(BoardGame game, List<INode> moves, int opponentId)
         {
             throw new NotImplementedException();
         }

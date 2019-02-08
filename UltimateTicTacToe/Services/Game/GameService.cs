@@ -51,12 +51,12 @@ namespace UltimateTicTacToe.Services
         private void HandleAiMove(Player Ai, BoardGame game, BoardGameDTO result, List<Player> players)
         {
             List<INode> nodes = nodeService.process(game, Ai.getColour());
-            INode move = Ai.makeMove(game.Clone() as BoardGame, nodes);
+            Player next = players.Find(x => !x.getColour().Equals(Ai.getColour()));
+            INode move = Ai.makeMove(game.Clone() as BoardGame, nodes, 0);
             provider.updateUser(Ai.getUserId(), move.getReward());
             game.makeMove(move.getMove());
             List<List<BoardGame>> board = game.getBoard();
             result.lastMove = move.getMove();
-            Player next = players.Find(x => !x.getColour().Equals(Ai.getColour()));
             result.cur = convertToJObject(next);
             try
             {
@@ -105,12 +105,12 @@ namespace UltimateTicTacToe.Services
 
         public RatingDTO rateMove(BoardGame boardGame, Move move, int UserId)
         {
-            RatingDTO result = new RatingDTO();
+            RatingDTO result = null;
             List<INode> nodes = nodeService.process(boardGame, (PlayerColour) move.owner);
             foreach (INode node in nodes) {
                 if (node.getMove() == move)
                 {
-                    result.latest = 0.5 * node.getReward() + 0.5;
+                    result = provider.updateUser(UserId, node.getReward());
                 }
             }
             return result;

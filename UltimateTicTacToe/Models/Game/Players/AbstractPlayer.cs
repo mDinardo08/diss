@@ -47,14 +47,14 @@ namespace UltimateTicTacToe.Models.Game.Players
             return this.colour;
         }
 
-        public INode makeMove(BoardGame game, List<INode> nodes)
+        public INode makeMove(BoardGame game, List<INode> nodes, int opponentId)
         {
-            INode decided = decideMove(game, nodes);
+            INode decided = decideMove(game, nodes, opponentId);
             decided.getMove().setOwner(getColour());
             return decided;
         }
 
-        abstract protected INode decideMove(BoardGame game, List<INode> nodes);
+        abstract protected INode decideMove(BoardGame game, List<INode> nodes, int OpponentId);
 
         public int getUserId()
         {

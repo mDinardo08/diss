@@ -17,7 +17,7 @@ namespace UltimateTicTacToe.Models.Game.Players
             UserId = (int)type;
         }
 
-        protected override INode decideMove(BoardGame game, List<INode> nodes)
+        protected override INode decideMove(BoardGame game, List<INode> nodes, int opponentId)
         {
             INode best = null;
             double max = Int32.MinValue;

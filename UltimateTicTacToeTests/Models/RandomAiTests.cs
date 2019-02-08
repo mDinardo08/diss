@@ -47,7 +47,7 @@ namespace UltimateTicTacToeTests.Models
             {
                 mockNode.Object, mockNode.Object, mockNode.Object
             };
-            player.makeMove(mockGame.Object, nodes);
+            player.makeMove(mockGame.Object, nodes, 0);
             mock.Verify(m => m.getRandomNumberBetween(0, 3), Times.Once);
         }
 
@@ -68,7 +68,7 @@ namespace UltimateTicTacToeTests.Models
                 .Returns(move);
             Mock<BoardGame> mockGame = new Mock<BoardGame>(MockBehavior.Strict);
             mockGame.Setup(x => x.makeMove(move));
-            INode result = player.makeMove(mockGame.Object, new List<INode> { null, mockNode.Object, null});
+            INode result = player.makeMove(mockGame.Object, new List<INode> { null, mockNode.Object, null}, 0);
             Assert.AreSame(result.getMove(), move);
         }
 
@@ -84,7 +84,7 @@ namespace UltimateTicTacToeTests.Models
             Move move = new Move();
             mockNode.Setup(x => x.getMove())
                 .Returns(move);
-            INode result = player.makeMove(mockGame.Object, new List<INode> { mockNode.Object });
+            INode result = player.makeMove(mockGame.Object, new List<INode> { mockNode.Object }, 0);
             Assert.IsTrue(result.getMove().owner == player.colour); 
         }
 
