@@ -52,6 +52,7 @@ namespace UltimateTicTacToe.Services
         {
             List<INode> nodes = nodeService.process(game, Ai.getColour());
             INode move = Ai.makeMove(game.Clone() as BoardGame, nodes);
+            provider.updateUser(Ai.getUserId(), move.getReward());
             game.makeMove(move.getMove());
             List<List<BoardGame>> board = game.getBoard();
             result.lastMove = move.getMove();

@@ -421,7 +421,7 @@ namespace UltimateTicTacToeTests.Services
             mockNodeService.Setup(x => x.process(mockGame.Object, (PlayerColour)1000))
                 .Returns(new List<INode>())
                 .Verifiable();
-            service = new GameService(mockNodeService.Object, null);
+            service = new GameService(mockNodeService.Object, new Mock<IDatabaseProvider>().Object);
             service.processMove(mockGame.Object, mockPlayer.Object, new List<Player>());
             mockNodeService.Verify();
         }
@@ -444,9 +444,33 @@ namespace UltimateTicTacToeTests.Services
             mockPlayer.Setup(x => x.makeMove(It.IsAny<BoardGame>(), nodes))
                 .Returns(new Mock<INode>().Object)
                 .Verifiable();
-            service = new GameService(mockNodeService.Object, null);
+            service = new GameService(mockNodeService.Object, new Mock<IDatabaseProvider>().Object);
             service.processMove(mockGame.Object, mockPlayer.Object, new List<Player>());
             mockPlayer.Verify();
+        }
+
+        [TestMethod]
+        public void WillCallTheProviderToUpdateTheAiUserWithTheirLatestScore()
+        {
+            Mock<Player> mockPlayer = new Mock<Player>();
+            mockPlayer.Setup(x => x.getUserId())
+                .Returns((int)PlayerType.HUMAN + 1);
+            mockPlayer.Setup(x => x.getPlayerType())
+                .Returns(PlayerType.HUMAN + 1);
+            Mock<INode> mockNode = new Mock<INode>();
+            mockNode.Setup(x => x.getReward()).Returns(1000);
+            mockPlayer.Setup(x => x.makeMove(It.IsAny<BoardGame>(), It.IsAny<List<INode>>()))
+                .Returns(mockNode.Object);
+            Mock<IDatabaseProvider> mockProvider = new Mock<IDatabaseProvider>();
+            mockProvider.Setup(x => x.updateUser((int)PlayerType.HUMAN + 1, 1000))
+                .Returns((RatingDTO)null)
+                .Verifiable();
+            Mock<BoardGame> mockGame = new Mock<BoardGame>();
+            mockGame.Setup(x => x.getBoard())
+                .Returns(new List<List<BoardGame>>());
+            service = new GameService(new Mock<NodeService>().Object, mockProvider.Object);
+            service.processMove(mockGame.Object, mockPlayer.Object, new List<Player>());
+            mockProvider.Verify();
         }
     }
 }
