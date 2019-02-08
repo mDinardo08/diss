@@ -36,7 +36,10 @@ namespace UltimateTicTacToeTests.Models
         {
             Mock<IRandomService> mock = new Mock<IRandomService>(MockBehavior.Strict);
             mock.Setup(x => x.getRandomNumberBetween(0, 3)).Returns(0);
-            player = new RandomAi(mock.Object, new Mock<IDatabaseProvider>().Object);
+            Mock<IDatabaseProvider> mockProvider = new Mock<IDatabaseProvider>();
+            mockProvider.Setup(x => x.getUser(It.IsAny<int>()))
+                .Returns(new RatingDTO());
+            player = new RandomAi(mock.Object, mockProvider.Object);
             Move move = new Move();
             Mock<BoardGame> mockGame = new Mock<BoardGame>(MockBehavior.Strict);
             mockGame.Setup(x => x.makeMove(move));
@@ -56,7 +59,10 @@ namespace UltimateTicTacToeTests.Models
         {
             Mock<IRandomService> mock = new Mock<IRandomService>(MockBehavior.Strict);
             mock.Setup(x => x.getRandomNumberBetween(0, 3)).Returns(1);
-            player = new RandomAi(mock.Object, new Mock<IDatabaseProvider>().Object);
+            Mock<IDatabaseProvider> mockProvider = new Mock<IDatabaseProvider>();
+            mockProvider.Setup(x => x.getUser(It.IsAny<int>()))
+                .Returns(new RatingDTO());
+            player = new RandomAi(mock.Object, mockProvider.Object);
             Move move = new Move();
             move.possition = new Point2D
             {
@@ -78,7 +84,10 @@ namespace UltimateTicTacToeTests.Models
         {
             Mock<BoardGame> mockGame = new Mock<BoardGame>(MockBehavior.Loose);
             Mock<IRandomService> mock = new Mock<IRandomService>(MockBehavior.Loose);
-            player = new RandomAi(mock.Object, new Mock<IDatabaseProvider>().Object);
+            Mock<IDatabaseProvider> mockProvider = new Mock<IDatabaseProvider>();
+            mockProvider.Setup(x => x.getUser(It.IsAny<int>()))
+                .Returns(new RatingDTO());
+            player = new RandomAi(mock.Object, mockProvider.Object);
             player.colour = (PlayerColour)1000;
             Mock<INode> mockNode = new Mock<INode>();
             Move move = new Move();

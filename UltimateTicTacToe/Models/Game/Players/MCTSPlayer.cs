@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using UltimateTicTacToe.DataAccess;
+using UltimateTicTacToe.Models.DTOs;
 using UltimateTicTacToe.Models.MCTS;
 using UltimateTicTacToe.Services;
 
@@ -17,7 +18,7 @@ namespace UltimateTicTacToe.Models.Game.Players
             UserId = (int)type;
         }
 
-        protected override INode decideMove(BoardGame game, List<INode> nodes, int opponentId)
+        protected override INode decideMove(BoardGame game, List<INode> nodes, RatingDTO opponentRating)
         {
             INode best = null;
             double max = Int32.MinValue;
