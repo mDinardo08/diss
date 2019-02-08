@@ -11,27 +11,24 @@ namespace UltimateTicTacToe.Models.Game.Players
     {
         private NodeService nodeService;
 
-        public MCTSPlayer(IRandomService random, NodeService nodeService) : base(random)
-        {
-            this.nodeService = nodeService;
+        public MCTSPlayer(IRandomService random) : base(random)
+        { 
             type = PlayerType.MCTS;
         }
 
-        protected override Move decideMove(BoardGame game, List<Move> moves)
+        protected override INode decideMove(BoardGame game, List<INode> nodes)
         {
-            List<INode> nodes = nodeService.process(game, this.getColour());
-            Move move = new Move();
+            INode best = null;
             double max = Int32.MinValue;
             foreach (INode node in nodes)
             {
                 if(node.getReward() > max)
                 {
-                    move = node.getMove();
+                    best = node;
                     max = node.getReward();
                 }
             }
-            Console.WriteLine("Max node value: {0}", max);
-            return move;
+            return best;
         }
     }
 }

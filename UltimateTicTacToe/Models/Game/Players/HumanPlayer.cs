@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using UltimateTicTacToe.Models.MCTS;
 using UltimateTicTacToe.Services;
 
 namespace UltimateTicTacToe.Models.Game.Players
@@ -13,7 +14,7 @@ namespace UltimateTicTacToe.Models.Game.Players
             type = PlayerType.HUMAN;
         }
 
-        protected override Move decideMove(BoardGame game, List<Move> moves)
+        protected override INode decideMove(BoardGame game, List<INode> moves)
         {
             throw new NotImplementedException();
         }

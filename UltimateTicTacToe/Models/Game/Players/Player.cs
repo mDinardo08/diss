@@ -1,4 +1,6 @@
 ﻿using Newtonsoft.Json;
+using System.Collections.Generic;
+using UltimateTicTacToe.Models.MCTS;
 
 namespace UltimateTicTacToe.Models.Game.Players
 {
@@ -8,7 +10,7 @@ namespace UltimateTicTacToe.Models.Game.Players
         void setName(string name);
         void setColour(PlayerColour colour);
         PlayerColour getColour();
-        Move makeMove(BoardGame game);
+        INode makeMove(BoardGame game, List<INode> nodes);
         PlayerType getPlayerType();
     }
 }
