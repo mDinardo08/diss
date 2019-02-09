@@ -52,8 +52,15 @@ namespace UltimateTicTacToeTests.Services
                 .Throws(new NoWinnerException());
             mockGame.SetupSequence(x => x.getWinner())
                 .Throws(new NoWinnerException());
+            Mock<Player> next = new Mock<Player>();
+            next.Setup(x => x.getName()).Returns("");
+            next.Setup(x => x.getColour()).Returns(PlayerColour.RED);
+            List<Player> players = new List<Player>
+            {
+                next.Object
+            };
             mockGame.Setup(x => x.getBoard()).Returns(new List<List<BoardGame>>());
-            BoardGameDTO result = service.processMove(mockGame.Object, p.Object, new List<Player>());
+            BoardGameDTO result = service.processMove(mockGame.Object, p.Object, players);
             p.Verify();
         }
 
@@ -67,7 +74,14 @@ namespace UltimateTicTacToeTests.Services
             mockGame.Setup(x => x.Clone()).Returns(mockGame.Object);
             mockGame.Setup(x => x.getWinner()).Returns(0);
             mockGame.Setup(x => x.getBoard()).Returns(new List<List<BoardGame>>());
-            BoardGameDTO result = service.processMove(mockGame.Object, p.Object, new List<Player>());
+            Mock<Player> next = new Mock<Player>();
+            next.Setup(x => x.getName()).Returns("");
+            next.Setup(x => x.getColour()).Returns(PlayerColour.RED);
+            List<Player> players = new List<Player>
+            {
+                next.Object
+            };
+            BoardGameDTO result = service.processMove(mockGame.Object, p.Object, players);
             Assert.IsTrue(result.Winner == 0);
         }
 
@@ -110,7 +124,14 @@ namespace UltimateTicTacToeTests.Services
             p.Setup(x => x.makeMove(mockGame.Object, null, 0))
                 .Returns(mockNode.Object);
             mockGame.Setup(x => x.getBoard()).Returns(new List<List<BoardGame>>());
-            BoardGameDTO result = service.processMove(mockGame.Object, p.Object, new List<Player>());
+            Mock<Player> next = new Mock<Player>();
+            next.Setup(x => x.getName()).Returns("");
+            next.Setup(x => x.getColour()).Returns(PlayerColour.RED);
+            List<Player> players = new List<Player>
+            {
+                next.Object
+            };
+            BoardGameDTO result = service.processMove(mockGame.Object, p.Object, players);
             Assert.IsTrue(result.game.Count is 0);
         }
 
@@ -130,7 +151,14 @@ namespace UltimateTicTacToeTests.Services
                     new Tile()
                 }
             });
-            BoardGameDTO result = service.processMove(mockGame.Object, p.Object, new List<Player>());
+            Mock<Player> next = new Mock<Player>();
+            next.Setup(x => x.getName()).Returns("");
+            next.Setup(x => x.getColour()).Returns(PlayerColour.RED);
+            List<Player> players = new List<Player>
+            {
+                next.Object
+            };
+            BoardGameDTO result = service.processMove(mockGame.Object, p.Object, players);
             Assert.IsTrue(result.game[0].Count is 1);
         }
 
@@ -152,7 +180,14 @@ namespace UltimateTicTacToeTests.Services
                     }
                 }
             });
-            BoardGameDTO result = service.processMove(mockGame.Object, p.Object, new List<Player>());
+            Mock<Player> next = new Mock<Player>();
+            next.Setup(x => x.getName()).Returns("");
+            next.Setup(x => x.getColour()).Returns(PlayerColour.RED);
+            List<Player> players = new List<Player>
+            {
+                next.Object
+            };
+            BoardGameDTO result = service.processMove(mockGame.Object, p.Object, players);
             Assert.IsNotNull(result.game[0][0]["owner"]);
         }
 
@@ -171,7 +206,14 @@ namespace UltimateTicTacToeTests.Services
                 }
             });
             mockGame.Setup(x => x.Clone()).Returns(mockGame.Object);
-            BoardGameDTO result = service.processMove(mockGame.Object, p.Object, new List<Player>());
+            Mock<Player> next = new Mock<Player>();
+            next.Setup(x => x.getName()).Returns("");
+            next.Setup(x => x.getColour()).Returns(PlayerColour.RED);
+            List<Player> players = new List<Player>
+            {
+                next.Object
+            };
+            BoardGameDTO result = service.processMove(mockGame.Object, p.Object, players);
             Assert.IsTrue(result.game[0].Count is 2);
         }
 
@@ -194,7 +236,14 @@ namespace UltimateTicTacToeTests.Services
                     new Tile()
                 }
             });
-            BoardGameDTO result = service.processMove(mockGame.Object, p.Object, new List<Player>());
+            Mock<Player> next = new Mock<Player>();
+            next.Setup(x => x.getName()).Returns("");
+            next.Setup(x => x.getColour()).Returns(PlayerColour.RED);
+            List<Player> players = new List<Player>
+            {
+                next.Object
+            };
+            BoardGameDTO result = service.processMove(mockGame.Object, p.Object, players);
             Assert.IsTrue(result.game.Count is 2);
         }
 
@@ -235,6 +284,7 @@ namespace UltimateTicTacToeTests.Services
             Mock<Player> next = new Mock<Player>();
             next.Setup(x => x.getName()).Returns("name");
             next.Setup(x => x.getPlayerType()).Returns(PlayerType.RANDOM);
+            next.Setup(x => x.getColour()).Returns(PlayerColour.RED);
             mockGame.Setup(x => x.getWinner()).Throws(new NoWinnerException());
             mockGame.SetupSequence(x => x.getWinner()).Throws(new NoWinnerException()).Returns(0);
             mockGame.Setup(x => x.getBoard()).Returns(new List<List<BoardGame>>());
@@ -307,7 +357,14 @@ namespace UltimateTicTacToeTests.Services
             mockGame.Setup(x => x.Clone()).Returns(mockGame.Object);
             mockGame.Setup(x => x.getWinner()).Throws(new NoWinnerException());
             mockGame.Setup(x => x.getBoard()).Returns(new List<List<BoardGame>>());
-            BoardGameDTO result = service.processMove(mockGame.Object, mockAi.Object, new List<Player>());
+            Mock<Player> next = new Mock<Player>();
+            next.Setup(x => x.getName()).Returns("");
+            next.Setup(x => x.getColour()).Returns(PlayerColour.RED);
+            List<Player> players = new List<Player>
+            {
+                next.Object
+            };
+            BoardGameDTO result = service.processMove(mockGame.Object, mockAi.Object, players);
             Assert.AreSame(m, result.lastMove);
         }
 
@@ -403,8 +460,15 @@ namespace UltimateTicTacToeTests.Services
             mockNodeService.Setup(x => x.process(mockGame.Object, (PlayerColour)1000))
                 .Returns(new List<INode>())
                 .Verifiable();
+            Mock<Player> next = new Mock<Player>();
+            next.Setup(x => x.getName()).Returns("");
+            next.Setup(x => x.getColour()).Returns(PlayerColour.RED);
+            List<Player> players = new List<Player>
+            {
+                next.Object
+            };
             service = new GameService(mockNodeService.Object, new Mock<IDatabaseProvider>().Object);
-            service.processMove(mockGame.Object, mockPlayer.Object, new List<Player>());
+            service.processMove(mockGame.Object, mockPlayer.Object, players);
             mockNodeService.Verify();
         }
 
@@ -426,8 +490,15 @@ namespace UltimateTicTacToeTests.Services
             mockPlayer.Setup(x => x.makeMove(It.IsAny<BoardGame>(), nodes, 0))
                 .Returns(new Mock<INode>().Object)
                 .Verifiable();
+            Mock<Player> next = new Mock<Player>();
+            next.Setup(x => x.getName()).Returns("");
+            next.Setup(x => x.getColour()).Returns(PlayerColour.RED);
+            List<Player> players = new List<Player>
+            {
+                next.Object
+            };
             service = new GameService(mockNodeService.Object, new Mock<IDatabaseProvider>().Object);
-            service.processMove(mockGame.Object, mockPlayer.Object, new List<Player>());
+            service.processMove(mockGame.Object, mockPlayer.Object, players);
             mockPlayer.Verify();
         }
 
@@ -450,8 +521,15 @@ namespace UltimateTicTacToeTests.Services
             Mock<BoardGame> mockGame = new Mock<BoardGame>();
             mockGame.Setup(x => x.getBoard())
                 .Returns(new List<List<BoardGame>>());
+            Mock<Player> next = new Mock<Player>();
+            next.Setup(x => x.getName()).Returns("");
+            next.Setup(x => x.getColour()).Returns(PlayerColour.RED);
+            List<Player> players = new List<Player>
+            {
+                next.Object
+            };
             service = new GameService(new Mock<NodeService>().Object, mockProvider.Object);
-            service.processMove(mockGame.Object, mockPlayer.Object, new List<Player>());
+            service.processMove(mockGame.Object, mockPlayer.Object, players);
             mockProvider.Verify();
         }
     }

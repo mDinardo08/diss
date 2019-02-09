@@ -52,7 +52,7 @@ namespace UltimateTicTacToe.Services
         {
             List<INode> nodes = nodeService.process(game, Ai.getColour());
             Player next = players.Find(x => !x.getColour().Equals(Ai.getColour()));
-            INode move = Ai.makeMove(game.Clone() as BoardGame, nodes, 0);
+            INode move = Ai.makeMove(game.Clone() as BoardGame, nodes, next.getUserId());
             provider.updateUser(Ai.getUserId(), move.getReward());
             game.makeMove(move.getMove());
             List<List<BoardGame>> board = game.getBoard();
@@ -84,6 +84,7 @@ namespace UltimateTicTacToe.Services
                 jPlayer.Add("type", JToken.FromObject(player.getPlayerType()));
                 jPlayer.Add("name", JToken.FromObject(player.getName()));
                 jPlayer.Add("colour", JToken.FromObject(player.getColour()));
+                jPlayer.Add("UserId", JToken.FromObject(player.getUserId()));
             }
             return jPlayer;
         }
