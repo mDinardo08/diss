@@ -96,5 +96,17 @@ namespace UltimateTicTacToeTests.Models
             }, 0);
             Assert.AreSame(node.Object, result);
         }
+
+        [TestMethod]
+        public void WillSetTypeToGoodDad()
+        {
+            Assert.IsTrue(player.getPlayerType() == PlayerType.GOODDAD);
+        }
+
+        [TestMethod]
+        public void WillSetUserIdToIntValueOfGoodDad()
+        {
+            Assert.IsTrue(player.getUserId() == (int)PlayerType.GOODDAD);
+        }
     }
 }
