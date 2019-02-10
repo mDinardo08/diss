@@ -14,6 +14,37 @@ namespace UltimateTicTacToe.DataAccess
 {
     class SQLDataBaseProvider : IDatabaseProvider
     {
+        public void saveGameResult(int Player1, int Player2, int Winner)
+        {
+            int gameCount = getNoGames(Player1, Player2);
+            using (SqlConnection connection = new SqlConnection(getConnectionString()))
+            {
+                connection.Open();
+                SqlCommand command = new SqlCommand(null, connection);
+                command.CommandText = "Insert into Games (GameNo, PlayerOne, PlayerTwo, Winner) Values ("+gameCount+","+ Player1 +","+Player2 +","+ Winner + ")";
+                command.ExecuteNonQuery();
+                connection.Close();
+            }
+        }
+
+        private int getNoGames(int Player1, int Player2)
+        {
+            string stmt = "SELECT COUNT(*) FROM GAMES WHERE" +
+                " (PlayerOne = " + Player1 + " OR PlayeOne = " + Player2 +")" +
+                " AND (PlayerTwo = "+ Player1+ " OR PlayerTwo = "+ Player2 + ")";
+            int count = 0;
+            using (SqlConnection connection = new SqlConnection(getConnectionString()))
+            {
+                using (SqlCommand cmdCount = new SqlCommand(stmt, connection))
+                {
+                    connection.Open();
+                    count = (int)cmdCount.ExecuteScalar();
+                    connection.Close();
+                }
+            }
+            return count;
+        }
+
          public int createUser()
         {
             int UId;

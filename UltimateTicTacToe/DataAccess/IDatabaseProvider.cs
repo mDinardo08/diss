@@ -12,5 +12,6 @@ namespace UltimateTicTacToe.DataAccess
         RatingDTO getUser(int UserId);
         int createUser();
         RatingDTO updateUser(int UserId, double LatestScore);
+        void saveGameResult(int Player1, int Player2, int Winner);
     }
 }
