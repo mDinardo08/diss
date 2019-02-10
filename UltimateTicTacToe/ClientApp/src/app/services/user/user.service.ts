@@ -1,22 +1,29 @@
 import { ApiService } from "../api/api.service";
 import { Output, EventEmitter } from "@angular/core";
 import { RatingDTO } from "../../models/DTOs/RatingDTO";
+import { ToastrService } from "ngx-toastr";
 
 export class UserService {
     @Output() userUpdatedEvent = new EventEmitter<RatingDTO>();
 
-    constructor(private api: ApiService) {
+    constructor(private api: ApiService, private toastr: ToastrService) {
     }
 
     createUser(): void {
         this.api.post("User/createUser", null).subscribe((res: RatingDTO) => {
+            this.toastr.success("Logged in as " + res.UserId);
             this.userUpdatedEvent.emit(res);
+        }, (err) => {
+            this.toastr.error("Something went wrong");
         });
     }
 
     login(userId: number): void {
         this.api.post("User/login", userId).subscribe((res: RatingDTO) => {
+            this.toastr.success("Logged in as " + res.UserId);
             this.userUpdatedEvent.emit(res);
+        }, (err) => {
+            this.toastr.error("Something went wrong");
         });
     }
 

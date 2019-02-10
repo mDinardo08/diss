@@ -7,13 +7,13 @@ describe("User service", () => {
     let service: UserService;
 
     beforeEach(() => {
-        service = new UserService(null);
+        service = new UserService(null, null);
     });
 
     it("Will call the api to post to the correct end point to create user", () => {
         const api = jasmine.createSpyObj("ApiService", ["post"]);
         api.post.and.returnValue(Observable.of());
-        service = new UserService(api);
+        service = new UserService(api, null);
         service.createUser();
         expect(api.post).toHaveBeenCalledWith("User/createUser", null);
     });
@@ -23,7 +23,7 @@ describe("User service", () => {
         const obsv = Observable.of(dto);
         const api = jasmine.createSpyObj("ApiService", ["post"]);
         api.post.and.returnValue(obsv);
-        service = new UserService(api);
+        service = new UserService(api, jasmine.createSpyObj("ToastrService", ["success"]));
         spyOn(service.userUpdatedEvent, "emit");
         service.createUser();
         expect(service.userUpdatedEvent.emit).toHaveBeenCalledWith(dto);
@@ -32,7 +32,7 @@ describe("User service", () => {
     it("Will call to post the user id to the correct endpoint", () => {
         const api = jasmine.createSpyObj("ApiService", ["post"]);
         api.post.and.returnValue(Observable.of());
-        service = new UserService(api);
+        service = new UserService(api, null);
         service.login(4);
         expect(api.post).toHaveBeenCalledWith("User/login", 4);
     });
@@ -42,10 +42,9 @@ describe("User service", () => {
         const obsv = Observable.of(dto);
         const api = jasmine.createSpyObj("ApiService", ["post"]);
         api.post.and.returnValue(obsv);
-        service = new UserService(api);
+        service = new UserService(api, jasmine.createSpyObj("ToastrService", ["success"]));
         spyOn(service.userUpdatedEvent, "emit");
         service.login(0);
         expect(service.userUpdatedEvent.emit).toHaveBeenCalledWith(dto);
-
     });
 });
