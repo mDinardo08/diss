@@ -8,6 +8,8 @@ import { AppComponent } from "./app.component";
 import * as Services from "./services";
 import { ModalModule } from "ngx-bootstrap/modal";
 import { BsDropdownModule } from "ngx-bootstrap/dropdown";
+import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
+import { ToastrModule } from "ngx-toastr";
 @NgModule({
   declarations: [
     AppComponent,
@@ -27,6 +29,8 @@ import { BsDropdownModule } from "ngx-bootstrap/dropdown";
     RouterModule.forRoot([
       { path: "", component: Components.GameComponent, pathMatch: "full" }
     ])
+    BrowserAnimationsModule, // required animations module
+    ToastrModule.forRoot()
   ],
   entryComponents: [Components.GameSetupComponent, Components.GameOverComponent],
   providers: [Services.ApiService, { provide: Services.AbstractGameService, useClass: Services.GameService }],
