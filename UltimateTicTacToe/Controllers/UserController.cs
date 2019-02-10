@@ -19,7 +19,7 @@ namespace UltimateTicTacToe.Controllers
             this.userService = userService;
         }
 
-        [HttpPost("Login")]
+        [HttpPost("login")]
         public IActionResult login([FromBody] int UserId)
         {
             return ExecuteApiAction(() => new ApiResult<RatingDTO> { Model = userService.getUser(UserId) });

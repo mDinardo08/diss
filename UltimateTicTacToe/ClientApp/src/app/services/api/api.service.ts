@@ -21,7 +21,7 @@ export class ApiService {
         return this.http.get<T>(this.getURL() + endPoint);
     }
 
-    post<T>(endPoint: string, data: object): Observable<T> {
+    post<T>(endPoint: string, data: any): Observable<T> {
         return this.http.post<T>(this.getURL() + endPoint, data, this.getOptions());
     }
 
