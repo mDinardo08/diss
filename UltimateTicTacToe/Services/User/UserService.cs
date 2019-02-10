@@ -7,7 +7,7 @@ using UltimateTicTacToe.Models.DTOs;
 
 namespace UltimateTicTacToe.Services.User
 {
-    public class UserService
+    public class UserService: IUserService
     {
         private IDatabaseProvider provider;
 
