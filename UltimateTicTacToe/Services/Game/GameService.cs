@@ -35,6 +35,7 @@ namespace UltimateTicTacToe.Services
                     if (game.isWon())
                     {
                         result.Winner = game.getWinner();
+                        SaveGame(players, result.Winner);
                     }
                 }
                 else
@@ -61,6 +62,8 @@ namespace UltimateTicTacToe.Services
             try
             {
                 result.Winner = game.getWinner();
+                SaveGame(players, result.Winner);
+
             }
             catch (NoWinnerException) { }
 
@@ -115,6 +118,14 @@ namespace UltimateTicTacToe.Services
                 }
             }
             return result;
+        }
+
+        private void SaveGame(List<Player> players, PlayerColour? Winner)
+        {
+            if (players.TrueForAll(x => x.getUserId() < 0))
+            {
+                provider.saveGameResult(players[0].getUserId(), players[1].getUserId(), players.Find(x => x.getColour() == Winner).getUserId());
+            }
         }
     }
 }
