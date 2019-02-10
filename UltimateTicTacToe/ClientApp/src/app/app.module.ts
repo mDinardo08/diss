@@ -28,7 +28,7 @@ import { ToastrModule } from "ngx-toastr";
     FormsModule,
     RouterModule.forRoot([
       { path: "", component: Components.GameComponent, pathMatch: "full" }
-    ])
+    ]),
     BrowserAnimationsModule, // required animations module
     ToastrModule.forRoot()
   ],
