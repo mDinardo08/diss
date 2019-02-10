@@ -9,6 +9,7 @@ import { BsModalService } from "ngx-bootstrap/modal/bs-modal.service";
 import { GameSetupComponent } from "../gameSetup/setup.component";
 import { ModalOptions, BsModalRef } from "ngx-bootstrap/modal";
 import { GameOverComponent } from "../gameOver/gameover.component";
+import { UserService } from "../../services";
 
 @Component({
     selector: "game",
@@ -18,7 +19,7 @@ import { GameOverComponent } from "../gameOver/gameover.component";
 
 export class GameComponent implements OnInit {
 
-    constructor(private gameService: AbstractGameService, private modalService: BsModalService) {}
+    constructor(private gameService: AbstractGameService, private modalService: BsModalService, private userService: UserService) {}
 
     public game: BoardGame;
     public availableMoves: Array<Move>;
@@ -70,6 +71,7 @@ export class GameComponent implements OnInit {
         human.type = PlayerType.HUMAN;
         human.colour = PlayerColour.BLUE;
         human.name = "";
+        human.UserId = this.userService.getUserId();
         this.gameService.createGame(3, [human, opponent]);
         this.gameStarter.hide();
     }

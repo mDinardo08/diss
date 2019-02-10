@@ -30,8 +30,8 @@ export class UserService {
         });
     }
 
-    getUser(): RatingDTO {
-        return this.User;
+    getUserId(): number {
+        return this.User === null || this.User === undefined ? -1 : this.User.UserId;
     }
 
 
