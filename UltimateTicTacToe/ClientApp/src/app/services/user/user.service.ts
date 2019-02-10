@@ -1,8 +1,9 @@
 import { ApiService } from "../api/api.service";
-import { Output, EventEmitter } from "@angular/core";
+import { Output, EventEmitter, Injectable } from "@angular/core";
 import { RatingDTO } from "../../models/DTOs/RatingDTO";
 import { ToastrService } from "ngx-toastr";
 
+@Injectable()
 export class UserService {
     @Output() userUpdatedEvent = new EventEmitter<RatingDTO>();
 
