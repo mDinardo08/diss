@@ -43,31 +43,43 @@ namespace UltimateTicTacToe.DataAccess
         {
             RatingDTO result = new RatingDTO();
             RatingDBO row = getUserRow(UserId);
-            result.UserId = row.UserId;
-            result.average = row.TotalScore / row.TotalMoves;
-            result.latest = row.LatestScore;
+            if (row != null)
+            {
+                result.UserId = row.UserId;
+                result.average = row.TotalScore / row.TotalMoves;
+                result.latest = row.LatestScore;
+            } else
+            {
+                throw new Exception();
+            }
             return result;
         }
 
         public RatingDTO updateUser(int UserId, double LatestScore)
         {
             RatingDBO row = getUserRow(UserId);
-            using (SqlConnection connection = new SqlConnection(getConnectionString()))
+            if (row != null)
             {
-                connection.Open();
-                SqlCommand command = new SqlCommand(null, connection);
-                double total = row.TotalScore + LatestScore;
-                int moves = row.TotalMoves + 1;
-                command.CommandText = "UPDATE RATINGS SET LatestScore = "+ LatestScore +", TotalScore = "+ total +", TotalMoves = "+ moves +" WHERE UserId = " +UserId;
-                command.ExecuteNonQuery();
-                connection.Close();
+                using (SqlConnection connection = new SqlConnection(getConnectionString()))
+                {
+                    connection.Open();
+                    SqlCommand command = new SqlCommand(null, connection);
+                    double total = row.TotalScore + LatestScore;
+                    int moves = row.TotalMoves + 1;
+                    command.CommandText = "UPDATE RATINGS SET LatestScore = " + LatestScore + ", TotalScore = " + total + ", TotalMoves = " + moves + " WHERE UserId = " + UserId;
+                    command.ExecuteNonQuery();
+                    connection.Close();
+                }
+            } else
+            {
+                throw new Exception();
             }
             return getUser(UserId);
         }
 
         private RatingDBO getUserRow(int UserId)
         {
-            RatingDBO result = new RatingDBO();
+            RatingDBO result = null;
             using (SqlConnection connection = new SqlConnection(getConnectionString()))
             {
                 connection.Open();

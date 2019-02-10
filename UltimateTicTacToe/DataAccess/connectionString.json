@@ -1,3 +1,3 @@
 ﻿{
-  "connectionString": ""
+  "connectionString": "Server=tcp:ultimatetictactoe.database.windows.net,1433;Initial Catalog=UltimateTicTacToeDB;Persist Security Info=False;User ID=ypb14146;Password=Hardwhite1;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"
 }
