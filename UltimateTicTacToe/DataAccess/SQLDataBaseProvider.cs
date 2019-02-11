@@ -72,23 +72,22 @@ namespace UltimateTicTacToe.DataAccess
 
         public RatingDTO getUser(int UserId)
         {
-            RatingDTO result = new RatingDTO();
+            RatingDTO result = null;
             RatingDBO row = getUserRow(UserId);
             if (row != null)
             {
+                result = new RatingDTO();
                 result.UserId = row.UserId;
                 result.average = row.TotalScore / row.TotalMoves;
                 result.latest = row.LatestScore;
-            } else
-            {
-                throw new Exception();
-            }
+            } 
             return result;
         }
 
         public RatingDTO updateUser(int UserId, double LatestScore)
         {
             RatingDBO row = getUserRow(UserId);
+            RatingDTO result = null;
             if (row != null)
             {
                 using (SqlConnection connection = new SqlConnection(getConnectionString()))
@@ -101,11 +100,9 @@ namespace UltimateTicTacToe.DataAccess
                     command.ExecuteNonQuery();
                     connection.Close();
                 }
-            } else
-            {
-                throw new Exception();
+                result = getUser(UserId);
             }
-            return getUser(UserId);
+            return result;
         }
 
         private RatingDBO getUserRow(int UserId)
@@ -119,6 +116,7 @@ namespace UltimateTicTacToe.DataAccess
                 SqlDataReader reader = command.ExecuteReader();
                 if (reader.Read())
                 {
+                    result = new RatingDBO();
                     result.LatestScore = (double)reader["LatestScore"];
                     result.TotalMoves = (int)reader["TotalMoves"];
                     result.TotalScore = (double)reader["TotalScore"];

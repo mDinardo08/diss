@@ -1,4 +1,4 @@
 export enum PlayerType {
 
-    RANDOM, MCTS, HUMAN
+    RANDOM, MCTS, GOODDAD, HUMAN
 }
