@@ -18,5 +18,6 @@ namespace UltimateTicTacToe.Models.MCTS
         void backPropagate(int score);
         double getReward();
         Move getMove();
+        BoardGame getGame();
     }
 }

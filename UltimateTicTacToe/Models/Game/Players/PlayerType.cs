@@ -7,6 +7,6 @@ namespace UltimateTicTacToe.Models.Game.Players
 {
     public enum PlayerType
     {
-        RANDOM, MCTS, GOODDAD, HUMAN
+        RANDOM, MCTS, GOODDAD, MINEFIELD, HUMAN
     }
 }

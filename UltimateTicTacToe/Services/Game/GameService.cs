@@ -27,6 +27,7 @@ namespace UltimateTicTacToe.Services
             if (game.isWon())
             {
                 result.Winner = game.getWinner();
+                SaveGame(players, game.getWinner());
             }else
             {
                 if (cur.getPlayerType() != PlayerType.HUMAN)
