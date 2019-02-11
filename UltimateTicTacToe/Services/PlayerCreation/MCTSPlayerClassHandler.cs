@@ -13,6 +13,7 @@ namespace UltimateTicTacToe.Services
         public MCTSPlayerClassHandler(IRandomService randomService, IDatabaseProvider provider) : base(randomService, provider)
         {
             type = PlayerType.MCTS;
+            successor = new GoodDadPlayerClassHandler(randomService, provider);
         }
 
         protected override Player buildPlayer()
