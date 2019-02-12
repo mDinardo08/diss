@@ -15,7 +15,7 @@ namespace UltimateTicTacToe.Models.Game.Players
         public IRandomService random;
         public PlayerType type;
         public PlayerColour colour;
-        public int UserId;
+        public int userId;
         public IDatabaseProvider provider;
         public AbstractPlayer(IRandomService random, IDatabaseProvider provider)
         {
@@ -61,12 +61,12 @@ namespace UltimateTicTacToe.Models.Game.Players
 
         public int getUserId()
         {
-            return UserId;
+            return userId;
         }
 
         public void setUserId(int UserId)
         {
-            this.UserId = UserId;
+            this.userId = UserId;
         }
     }
 }

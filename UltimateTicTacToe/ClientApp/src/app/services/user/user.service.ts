@@ -12,7 +12,7 @@ export class UserService {
 
     createUser(): void {
         this.api.post("User/createUser", null).subscribe((res: RatingDTO) => {
-            this.toastr.success("Logged in as " + res.UserId);
+            this.toastr.success("Logged in as " + res.userId);
             this.User = res;
             this.userUpdatedEvent.emit(res);
         }, (err) => {
@@ -22,7 +22,7 @@ export class UserService {
 
     login(userId: number): void {
         this.api.post("User/login", userId).subscribe((res: RatingDTO) => {
-            this.toastr.success("Logged in as " + res.UserId);
+            this.toastr.success("Logged in as " + res.userId);
             this.User = res;
             this.userUpdatedEvent.emit(res);
         }, (err) => {
@@ -31,7 +31,7 @@ export class UserService {
     }
 
     getUserId(): number {
-        return this.User === null || this.User === undefined ? -1 : this.User.UserId;
+        return this.User === null || this.User === undefined ? -1 : this.User.userId;
     }
 
 

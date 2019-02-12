@@ -6,5 +6,5 @@ export class Player {
     public type: PlayerType;
     public name: string;
     public colour: PlayerColour;
-    public UserId: number;
+    public userId: number;
 }

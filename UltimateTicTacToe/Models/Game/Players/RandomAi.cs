@@ -12,7 +12,7 @@ namespace UltimateTicTacToe.Models.Game.Players
 
         public RandomAi(IRandomService random, IDatabaseProvider provider) : base(random, provider)
         {
-            UserId = (int)type;
+            userId = (int)type;
         }
 
         protected override INode decideMove(BoardGame game, List<INode> moves, RatingDTO opponentRating)

@@ -1,6 +1,7 @@
 import { Component } from "@angular/core";
 import { AbstractBoardGameComponent } from "../abstractBoardGame/abstractBoardGame.component";
 import { Move } from "../../models/move/move.model";
+import { AbstractGameService } from "../../services";
 
 @Component({
     selector: "ultimateTictactoe",
@@ -9,9 +10,15 @@ import { Move } from "../../models/move/move.model";
 })
 
 export class TictactoeComponent extends AbstractBoardGameComponent {
+
+    constructor(private gameService: AbstractGameService) {
+        super();
+    }
+
     moveMade($event: Move, x: number, y: number): void {
         const move = new Move();
         move.next = $event;
+        move.owner = this.gameService.getCurrentPlayer().colour;
         move.possition = {
             x: x,
             y: y

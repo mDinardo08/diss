@@ -1,6 +1,6 @@
 export class RatingDTO {
 
-    public UserId: number;
+    public userId: number;
     public latest: number;
     public average: number;
 }

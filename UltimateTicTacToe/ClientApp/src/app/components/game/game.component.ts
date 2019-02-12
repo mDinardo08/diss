@@ -71,7 +71,7 @@ export class GameComponent implements OnInit {
         human.type = PlayerType.HUMAN;
         human.colour = PlayerColour.BLUE;
         human.name = "";
-        human.UserId = this.userService.getUserId();
+        human.userId = this.userService.getUserId();
         this.gameService.createGame(3, [human, opponent]);
         this.gameStarter.hide();
     }

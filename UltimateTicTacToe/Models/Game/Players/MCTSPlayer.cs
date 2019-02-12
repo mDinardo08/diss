@@ -15,7 +15,7 @@ namespace UltimateTicTacToe.Models.Game.Players
         public MCTSPlayer(IRandomService random, IDatabaseProvider provider) : base(random, provider)
         { 
             type = PlayerType.MCTS;
-            UserId = (int)type;
+            userId = (int)type;
         }
 
         protected override INode decideMove(BoardGame game, List<INode> nodes, RatingDTO opponentRating)

@@ -51,19 +51,10 @@ namespace UltimateTicTacToe.DataAccess
             using (SqlConnection connection = new SqlConnection(getConnectionString()))
             {
                 UId = getNumberOfUsers();
-                SqlParameter userId = new SqlParameter("@UserId", SqlDbType.Int, UId);
-                SqlParameter total = new SqlParameter("@TotalScore", SqlDbType.Float, 0);
-                SqlParameter moves = new SqlParameter("@TotalMoves", SqlDbType.Int, 0);
-                SqlParameter latest = new SqlParameter("@Latest", SqlDbType.Float, 0);
                 connection.Open();
                 SqlCommand command = new SqlCommand(null, connection);
                 command.CommandText = "INSERT INTO RATINGS (UserId, TotalScore, LatestScore, TotalMoves)" +
-                    "VALUES (@UserId, @Total, @Latest, @TotalMoves) ";
-                command.Parameters.Add(userId);
-                command.Parameters.Add(total);
-                command.Parameters.Add(latest);
-                command.Parameters.Add(moves);
-                command.Prepare();
+                    "VALUES ( "+ UId + ", " + 0 + ", " + 0 + ", " + 0 + ") ";
                 command.ExecuteNonQuery();
                 connection.Close();
             }

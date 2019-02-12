@@ -14,7 +14,7 @@ namespace UltimateTicTacToe.Models.Game.Players
         public GoodDad(IRandomService random, IDatabaseProvider provider) : base(random, provider)
         {
             type = PlayerType.GOODDAD;
-            UserId = (int)PlayerType.GOODDAD;
+            userId = (int)PlayerType.GOODDAD;
         }
 
         protected override INode decideMove(BoardGame game, List<INode> nodes, RatingDTO opponentRating)

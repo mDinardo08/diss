@@ -15,7 +15,7 @@ describe("Game Component", () => {
     beforeEach(() => {
         mockService = jasmine.createSpyObj("GameService", ["createGame", "makeMove"]);
         mockBs = jasmine.createSpyObj("BsModalService", ["show"]);
-        comp = new GameComponent(mockService, mockBs);
+        comp = new GameComponent(mockService, mockBs, null);
     });
 
     it("Will call the game service with the board ", () => {

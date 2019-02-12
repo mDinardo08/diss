@@ -21,7 +21,7 @@ export class UserComponent implements OnInit {
     }
 
     public login() {
-        if (this.UserId < 5) {
+        if (this.UserId < 3) {
             this.toast.error("Invalid Id");
         } else {
             this.userService.login(this.UserId);

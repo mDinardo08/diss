@@ -22,7 +22,7 @@ export class GameSetupComponent implements OnInit {
         opponent.colour = PlayerColour.RED;
         opponent.type = PlayerType[typeName];
         opponent.name = "";
-        opponent.UserId = PlayerType[typeName];
+        opponent.userId = PlayerType[typeName];
         this.opponentSelectedEvent.emit(opponent);
     }
 }

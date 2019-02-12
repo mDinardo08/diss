@@ -88,7 +88,7 @@ namespace UltimateTicTacToe.Services
                 jPlayer.Add("type", JToken.FromObject(player.getPlayerType()));
                 jPlayer.Add("name", JToken.FromObject(player.getName()));
                 jPlayer.Add("colour", JToken.FromObject(player.getColour()));
-                jPlayer.Add("UserId", JToken.FromObject(player.getUserId()));
+                jPlayer.Add("userId", JToken.FromObject(player.getUserId()));
             }
             return jPlayer;
         }
@@ -111,15 +111,19 @@ namespace UltimateTicTacToe.Services
         public RatingDTO rateMove(BoardGame boardGame, Move move, int UserId)
         {
             RatingDTO result = null;
-            List<INode> nodes = nodeService.process(boardGame, (PlayerColour) move.owner);
-            foreach (INode node in nodes) {
-                if (node.getMove() == move)
+            boardGame.registerMove(move);
+            boardGame.validateBoard();
+            List<INode> nodes = nodeService.process(boardGame, (PlayerColour)move.owner);
+            foreach (INode node in nodes)
+            {
+                if (node.getMove().Equals(move))
                 {
                     result = provider.updateUser(UserId, node.getReward());
                 }
             }
             return result;
         }
+        
 
         private void SaveGame(List<Player> players, PlayerColour? Winner)
         {

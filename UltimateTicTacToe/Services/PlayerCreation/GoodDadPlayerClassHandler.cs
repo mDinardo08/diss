@@ -12,6 +12,7 @@ namespace UltimateTicTacToe.Services
         public GoodDadPlayerClassHandler(IRandomService randomService, IDatabaseProvider provider) : base(randomService, provider)
         {
             type = PlayerType.GOODDAD;
+            successor = new MineFieldPlayerClassHandler(randomService, provider);
         }
 
         protected override Player buildPlayer()

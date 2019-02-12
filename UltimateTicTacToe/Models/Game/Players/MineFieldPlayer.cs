@@ -13,6 +13,8 @@ namespace UltimateTicTacToe.Models.Game.Players
     {
         public MineFieldPlayer(IRandomService random, IDatabaseProvider provider) : base(random, provider)
         {
+            type = PlayerType.MINEFIELD;
+            userId = (int)type;
         }
 
         protected override INode decideMove(BoardGame game, List<INode> nodes, RatingDTO opponentRating)
@@ -39,7 +41,7 @@ namespace UltimateTicTacToe.Models.Game.Players
         {
             int score = 0;
             List<List<BoardGame>> board = game.getBoard();
-            if (move.next != null)
+            if (move.next.possition != null)
             {
                 BoardGame subBoard = board[move.possition.X][move.possition.Y];
                 score = getScore(subBoard, move.next);
@@ -55,7 +57,7 @@ namespace UltimateTicTacToe.Models.Game.Players
             int score = 0;
             for (int x = move.possition.X - 1; x <= move.possition.X + 1; x++)
             {
-                for (int y = move.possition.Y - 1; x <= move.possition.Y + 1; y++)
+                for (int y = move.possition.Y - 1; y <= move.possition.Y + 1; y++)
                 {
                     if (x != move.possition.X && y != move.possition.Y)
                     {
