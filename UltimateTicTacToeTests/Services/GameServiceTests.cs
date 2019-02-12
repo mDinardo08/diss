@@ -30,10 +30,11 @@ namespace UltimateTicTacToeTests.Services
             Mock<BoardGame> mockGame = new Mock<BoardGame>(MockBehavior.Loose);
             Mock<Player> p = new Mock<Player>();
             p.Setup(x => x.getPlayerType()).Returns((PlayerType) 0);
+            p.Setup(x => x.getName()).Returns("");
             mockGame.Setup(x => x.isWon()).Returns(true);
             mockGame.Setup(x => x.getWinner()).Returns(0);
             mockGame.Setup(x => x.getBoard()).Returns(new List<List<BoardGame>>());
-            BoardGameDTO result = service.processMove(mockGame.Object, p.Object, new List<Player>());
+            BoardGameDTO result = service.processMove(mockGame.Object, p.Object, new List<Player> {p.Object, p.Object });
             Assert.AreEqual((PlayerColour)0, result.Winner);
         }
 
