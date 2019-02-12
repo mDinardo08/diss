@@ -48,7 +48,7 @@ namespace UltimateTicTacToeTests.Services
             player.Add("type", 1000);
             player.Add("name", "");
             player.Add("colour", 1000);
-            player.Add("UserId", 0);
+            player.Add("userId", 0);
             Mock<PlayerClassHandler> mockHandler = new Mock<PlayerClassHandler>(MockBehavior.Strict);
             mockHandler.Setup(x => x.createPlayer((PlayerType)1000))
                 .Returns(new Mock<Player>().Object)
@@ -65,7 +65,7 @@ namespace UltimateTicTacToeTests.Services
             player.Add("type", 1000);
             player.Add("name", "");
             player.Add("colour", 1000);
-            player.Add("UserId", 0);
+            player.Add("userId", 0);
             Mock<Player> mockPlayer = new Mock<Player>();
             Mock<PlayerClassHandler> mockHandler = new Mock<PlayerClassHandler>(MockBehavior.Strict);
             mockHandler.Setup(x => x.createPlayer((PlayerType)1000)).Returns(mockPlayer.Object).Verifiable();
@@ -89,7 +89,7 @@ namespace UltimateTicTacToeTests.Services
             jObj.Add("type", 1000);
             jObj.Add("name", "");
             jObj.Add("colour", 100);
-            jObj.Add("UserId", 0);
+            jObj.Add("userId", 0);
             jObjects.Add(jObj);
             Mock<PlayerClassHandler> mockHandler = new Mock<PlayerClassHandler>();
             mockHandler.Setup(x => x.createPlayer((PlayerType)1000))
@@ -108,7 +108,7 @@ namespace UltimateTicTacToeTests.Services
             jObj.Add("type", 1000);
             jObj.Add("name", "");
             jObj.Add("colour", 100);
-            jObj.Add("UserId", 0);
+            jObj.Add("userId", 0);
             jObjects.Add(jObj);
             jObjects.Add(jObj);
             Mock<PlayerClassHandler> mockHandler = new Mock<PlayerClassHandler>();
@@ -127,7 +127,7 @@ namespace UltimateTicTacToeTests.Services
             player.Add("type", 1000);
             player.Add("name", "some silly name");
             player.Add("colour", 100);
-            player.Add("UserId", 0);
+            player.Add("userId", 0);
             Mock<PlayerClassHandler> mockHandler = new Mock<PlayerClassHandler>();
             Mock<Player> mockPlayer = new Mock<Player>(MockBehavior.Loose);
             mockPlayer.Setup(x => x.setName("some silly name")).Verifiable();
@@ -144,7 +144,7 @@ namespace UltimateTicTacToeTests.Services
             player.Add("type", 1000);
             player.Add("name", "some silly name");
             player.Add("colour", 10);
-            player.Add("UserId", 0);
+            player.Add("userId", 0);
             List<JObject> players = new List<JObject>
             {
                 player
@@ -165,7 +165,7 @@ namespace UltimateTicTacToeTests.Services
             player.Add("type", 1000);
             player.Add("name", "");
             player.Add("colour", 100);
-            player.Add("UserId", 0);
+            player.Add("userId", 0);
             List<JObject> players = new List<JObject>
             {
                 player
@@ -186,7 +186,7 @@ namespace UltimateTicTacToeTests.Services
             player.Add("type", 1000);
             player.Add("colour", 1000);
             player.Add("name", "some silly name");
-            player.Add("UserId", 0);
+            player.Add("userId", 0);
             Mock<PlayerClassHandler> mockHandler = new Mock<PlayerClassHandler>();
             Mock<Player> mockPlayer = new Mock<Player>(MockBehavior.Strict);
             mockPlayer.Setup(x => x.setName("some silly name"));
