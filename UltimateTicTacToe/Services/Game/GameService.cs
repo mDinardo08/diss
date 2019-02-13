@@ -127,7 +127,7 @@ namespace UltimateTicTacToe.Services
 
         private void SaveGame(List<Player> players, PlayerColour? Winner)
         {
-            if (players.TrueForAll(x => x.getUserId() < 0))
+            if (players.TrueForAll(x => x.getUserId() >= 0))
             {
                 provider.saveGameResult(players[0].getUserId(), players[1].getUserId(), players.Find(x => x.getColour() == Winner).getUserId());
             }

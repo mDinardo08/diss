@@ -11,11 +11,12 @@ import { ToasterService } from "angular2-toaster";
 export class UserComponent implements OnInit {
 
     UserId: number;
-
+    overlayVisable = false;
     constructor(private userService: UserService, private router: Router, private toast: ToasterService) {}
 
     ngOnInit() {
         this.userService.userUpdatedEvent.subscribe((res) => {
+            this.overlayVisable = false;
             this.router.navigate(["game"]);
         });
     }
@@ -25,6 +26,7 @@ export class UserComponent implements OnInit {
             this.toast.pop("error", "Invalid Id");
         } else {
             this.userService.login(this.UserId);
+            this.overlayVisable = true;
         }
     }
 
