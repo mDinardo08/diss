@@ -4,11 +4,11 @@
 <div class="modal-body">
   <div class="card">
     <div class="card-body mx-auto">
-      <div>
+      <div style="white-space: nowrap">
         <span>Opponent:</span>
         <div class="btn-group" dropdown>
           <button id="button-type" dropdownToggle type="button" class="btn btn-primary dropdown-toggle" aria-controls="dropdown-type">
-            Type <span class="caret"></span>
+            Type: {{type}} <span class="caret"></span>
           </button>
           <ul id="dropdown-type" *dropdownMenu class="dropdown-menu" role="menu" aria-labelledby="button-type">
             <li role="menuitem" *ngFor="let type of types">
@@ -16,13 +16,16 @@
             </li>
           </ul>
         </div>
-        <div class="form-check">
-          <input [(ngModel)]="opponentFirst"  type="checkbox" class="form-check-input" id="exampleCheck1">
-          <label class="form-check-label" for="exampleCheck1">Opponent goes first?</label>
-        </div>
+      </div>
+      <div class="form-check">
+        <input [(ngModel)]="opponentFirst" type="checkbox" class="form-check-input" id="exampleCheck1">
+        <label class="form-check-label" for="exampleCheck1">Opponent goes first?</label>
       </div>
     </div>
   </div>
 </div>
 <div class="modal-footer">
+  <div style="margin-left: auto; margin-right: auto">
+    <button class="btn btn-primary" (click)="play()">Play</button>
+  </div>
 </div>

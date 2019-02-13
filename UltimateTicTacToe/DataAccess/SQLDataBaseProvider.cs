@@ -30,7 +30,7 @@ namespace UltimateTicTacToe.DataAccess
         private int getNoGames(int Player1, int Player2)
         {
             string stmt = "SELECT COUNT(*) FROM GAMES WHERE" +
-                " (PlayerOne = " + Player1 + " OR PlayeOne = " + Player2 +")" +
+                " (PlayerOne = " + Player1 + " OR PlayerOne = " + Player2 +")" +
                 " AND (PlayerTwo = "+ Player1+ " OR PlayerTwo = "+ Player2 + ")";
             int count = 0;
             using (SqlConnection connection = new SqlConnection(getConnectionString()))

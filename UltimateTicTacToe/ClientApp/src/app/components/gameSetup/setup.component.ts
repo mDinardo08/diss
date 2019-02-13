@@ -12,6 +12,8 @@ import { UserService } from "../../services";
 export class GameSetupComponent implements OnInit {
     types = Object.keys(PlayerType);
     opponentFirst = false;
+    players: Array<Player>;
+    type: string;
     @Output() opponentSelectedEvent = new EventEmitter<Array<Player>>();
 
     constructor (private userService: UserService) {}
@@ -21,6 +23,7 @@ export class GameSetupComponent implements OnInit {
     }
 
     opponentSelected(typeName: string): void {
+        this.type = typeName;
         const opponent = new Player();
         opponent.colour = PlayerColour.RED;
         opponent.type = PlayerType[typeName];
@@ -31,14 +34,19 @@ export class GameSetupComponent implements OnInit {
         human.colour = PlayerColour.BLUE;
         human.name = "";
         human.userId = this.userService.getUserId();
-        const players = new Array<Player>();
+        this.players = new Array<Player>();
         if (this.opponentFirst) {
-            players.push(opponent);
-            players.push(human);
+            this.players.push(opponent);
+            this.players.push(human);
         } else {
-            players.push(human);
-            players.push(opponent);
+            this.players.push(human);
+            this.players.push(opponent);
         }
-        this.opponentSelectedEvent.emit(players);
+    }
+
+    play(): void {
+        if (this.players !== null && this.players !== undefined) {
+            this.opponentSelectedEvent.emit(this.players);
+        }
     }
 }
