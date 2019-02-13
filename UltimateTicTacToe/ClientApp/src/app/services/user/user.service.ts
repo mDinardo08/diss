@@ -26,7 +26,7 @@ export class UserService {
             this.User = res;
             this.userUpdatedEvent.emit(res);
         }, (err) => {
-            this.toastr.pop("error", "Something went wrong");
+            this.toastr.pop("error", "Invalid User id");
         });
     }
 

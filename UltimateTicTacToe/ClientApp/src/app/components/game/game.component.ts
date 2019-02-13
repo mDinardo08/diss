@@ -46,7 +46,7 @@ export class GameComponent implements OnInit, AfterViewInit {
         this.lastMove = new Move();
         const config: ModalOptions = { class: "modal-sm" };
         this.gameStarter = this.modalService.show(GameSetupComponent, config);
-        this.gameStarter.content.opponentSelectedEvent.subscribe((opp) => {
+        this.gameStarter.content.opponentSelectedEvent.subscribe((opp: Array<Player>) => {
             this.startGame(opp);
         });
         this.gameService.gameOverEvent.subscribe((winner) => {
@@ -66,8 +66,8 @@ export class GameComponent implements OnInit, AfterViewInit {
             this.gameService.createGame(3, this.gameService.getPlayers());
         } else {
             this.gameStarter = this.modalService.show(GameSetupComponent, {class: "modal-sm"});
-            this.gameStarter.content.opponentSelectedEvent.subscribe((opp) => {
-                this.startGame(opp);
+            this.gameStarter.content.opponentSelectedEvent.subscribe((players) => {
+                this.startGame(players);
             });
         }
         this.gameOver.hide();
@@ -78,13 +78,8 @@ export class GameComponent implements OnInit, AfterViewInit {
         this.gameService.makeMove($event);
     }
 
-    private startGame(opponent: Player): void {
-        const human = new Player();
-        human.type = PlayerType.HUMAN;
-        human.colour = PlayerColour.BLUE;
-        human.name = "";
-        human.userId = this.userService.getUserId();
-        this.gameService.createGame(3, [human, opponent]);
+    private startGame(players: Array<Player>): void {
+        this.gameService.createGame(3, players);
         this.gameStarter.hide();
     }
 
