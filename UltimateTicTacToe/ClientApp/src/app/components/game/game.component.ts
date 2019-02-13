@@ -34,7 +34,7 @@ export class GameComponent implements OnInit, AfterViewInit {
     public ngAfterViewInit(): void {
         const  user = this.userService.getUserId();
         if (user === -1) {
-            this.toast.pop("warning", "not logged in");
+            this.toast.pop("warning", "not logged in: Some Ai may not perform optimally");
         } else {
             this.toast.pop("success", "Logged in as " + this.userService.getUserId());
         }
