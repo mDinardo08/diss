@@ -43,7 +43,7 @@ describe("Game Component", () => {
         mockService.boardUpdatedEvent = mockEmittor;
         mockService.gameOverEvent = notCalledEmittor;
         mockBs.show.and.returnValue({content: {opponentSelectedEvent: notCalledEmittor}});
-        comp = new GameComponent(mockService, mockBs, null);
+        comp = new GameComponent(mockService, mockBs, null, null);
         comp.ngOnInit();
         expect(mockService.boardUpdatedEvent.subscribe).toHaveBeenCalled();
     });
