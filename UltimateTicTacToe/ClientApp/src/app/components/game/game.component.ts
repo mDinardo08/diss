@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, AfterViewInit } from "@angular/core";
 import { BoardGame } from "../../models/boardGame/boardgame/boardgame.model";
 import { Move } from "../../models/move/move.model";
 import { AbstractGameService } from "../../services/game/game.service.abstract";
@@ -10,6 +10,7 @@ import { GameSetupComponent } from "../gameSetup/setup.component";
 import { ModalOptions, BsModalRef } from "ngx-bootstrap/modal";
 import { GameOverComponent } from "../gameOver/gameover.component";
 import { UserService } from "../../services";
+import { ToasterService } from "angular2-toaster";
 
 @Component({
     selector: "game",
@@ -17,9 +18,10 @@ import { UserService } from "../../services";
     styleUrls: ["./game.component.styles.css"]
 })
 
-export class GameComponent implements OnInit {
+export class GameComponent implements OnInit, AfterViewInit {
 
-    constructor(private gameService: AbstractGameService, private modalService: BsModalService, private userService: UserService) {}
+    constructor(private gameService: AbstractGameService, private modalService: BsModalService, private userService: UserService,
+         private toast: ToasterService) {}
 
     public game: BoardGame;
     public availableMoves: Array<Move>;
@@ -28,6 +30,16 @@ export class GameComponent implements OnInit {
     public gameStarter: BsModalRef;
     public gameOver: BsModalRef;
     public players: Array<Player>;
+
+    public ngAfterViewInit(): void {
+        const  user = this.userService.getUserId();
+        if (user === -1) {
+            this.toast.pop("warning", "not logged in");
+        } else {
+            this.toast.pop("success", "Logged in as " + this.userService.getUserId());
+        }
+    }
+
     public ngOnInit(): void {
         this.game = new BoardGame();
         this.availableMoves = new Array<Move>();

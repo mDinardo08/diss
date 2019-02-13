@@ -9,7 +9,7 @@ import * as Services from "./services";
 import { ModalModule } from "ngx-bootstrap/modal";
 import { BsDropdownModule } from "ngx-bootstrap/dropdown";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
-import { ToastrModule, ToastrService } from "ngx-toastr";
+import {ToasterModule, ToasterService} from "angular2-toaster";
 import { RoutingModule } from "./routing.module";
 @NgModule({
   declarations: [
@@ -24,7 +24,7 @@ import { RoutingModule } from "./routing.module";
   ],
   imports: [
     BrowserAnimationsModule, // required animations module
-    ToastrModule.forRoot(),
+    ToasterModule.forRoot(),
     BsDropdownModule.forRoot(),
     ModalModule.forRoot(),
     BrowserModule.withServerTransition({ appId: "ng-cli-universal" }),

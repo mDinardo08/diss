@@ -1,7 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { UserService } from "../../services/user/user.service";
 import { Router } from "@angular/router";
-import { ToastrService } from "ngx-toastr";
+import { ToasterService } from "angular2-toaster";
 
 @Component({
     templateUrl: "./user.component.html",
@@ -12,7 +12,7 @@ export class UserComponent implements OnInit {
 
     UserId: number;
 
-    constructor(private userService: UserService, private router: Router, private toast: ToastrService) {}
+    constructor(private userService: UserService, private router: Router, private toast: ToasterService) {}
 
     ngOnInit() {
         this.userService.userUpdatedEvent.subscribe((res) => {
@@ -22,7 +22,7 @@ export class UserComponent implements OnInit {
 
     public login() {
         if (this.UserId < 3) {
-            this.toast.error("Invalid Id");
+            this.toast.pop("error", "Invalid Id");
         } else {
             this.userService.login(this.UserId);
         }
