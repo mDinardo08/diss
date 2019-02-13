@@ -3,7 +3,7 @@ import { RouterModule, Routes } from "@angular/router";
 import * as Components from "./components";
 
 const appRoutes: Routes = [
-  { path: "", redirectTo: "game", pathMatch: "full" },
+  { path: "", redirectTo: "login", pathMatch: "full" },
   { path: "game", component: Components.GameComponent},
   { path: "login", component: Components.UserComponent}
 ];
