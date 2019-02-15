@@ -14,7 +14,7 @@ namespace UltimateTicTacToe.DataAccess
 {
     class SQLDataBaseProvider : IDatabaseProvider
     {
-        public void saveGameResult(int Player1, int Player2, int Winner)
+        public void saveGameResult(int Player1, int Player2, int? Winner)
         {
             int gameCount = getNoGames(Player1, Player2);
             using (SqlConnection connection = new SqlConnection(getConnectionString()))

@@ -80,7 +80,7 @@ namespace UltimateTicTacToeTests.Services
             next.Setup(x => x.getColour()).Returns(PlayerColour.RED);
             List<Player> players = new List<Player>
             {
-                next.Object
+                next.Object, next.Object
             };
             BoardGameDTO result = service.processMove(mockGame.Object, p.Object, players);
             Assert.IsTrue(result.Winner == 0);
@@ -466,7 +466,7 @@ namespace UltimateTicTacToeTests.Services
             next.Setup(x => x.getColour()).Returns(PlayerColour.RED);
             List<Player> players = new List<Player>
             {
-                next.Object
+                next.Object, next.Object
             };
             service = new GameService(mockNodeService.Object, new Mock<IDatabaseProvider>().Object);
             service.processMove(mockGame.Object, mockPlayer.Object, players);
@@ -496,7 +496,7 @@ namespace UltimateTicTacToeTests.Services
             next.Setup(x => x.getColour()).Returns(PlayerColour.RED);
             List<Player> players = new List<Player>
             {
-                next.Object
+                next.Object, next.Object
             };
             service = new GameService(mockNodeService.Object, new Mock<IDatabaseProvider>().Object);
             service.processMove(mockGame.Object, mockPlayer.Object, players);
@@ -527,7 +527,7 @@ namespace UltimateTicTacToeTests.Services
             next.Setup(x => x.getColour()).Returns(PlayerColour.RED);
             List<Player> players = new List<Player>
             {
-                next.Object
+                next.Object, next.Object
             };
             service = new GameService(new Mock<NodeService>().Object, mockProvider.Object);
             service.processMove(mockGame.Object, mockPlayer.Object, players);

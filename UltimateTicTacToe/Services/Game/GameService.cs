@@ -129,7 +129,7 @@ namespace UltimateTicTacToe.Services
         {
             if (players.TrueForAll(x => x.getUserId() >= 0))
             {
-                provider.saveGameResult(players[0].getUserId(), players[1].getUserId(), players.Find(x => x.getColour() == Winner).getUserId());
+                provider.saveGameResult(players[0].getUserId(), players[1].getUserId(), players.Find(x => x.getColour() == Winner)?.getUserId());
             }
         }
     }
