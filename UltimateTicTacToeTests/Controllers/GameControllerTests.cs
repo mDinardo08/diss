@@ -218,7 +218,7 @@ namespace UltimateTicTacToeTests.Controllers
             Mock<BoardCreationService> mockCreationService = new Mock<BoardCreationService>();
             mockCreationService.Setup(x => x.createBoardGame(It.IsAny<List<List<JObject>>>()))
                 .Returns(mockGame.Object);
-            mockGameService.Setup(x => x.rateMove(mockGame.Object, moveDto.move, moveDto.UserId))
+            mockGameService.Setup(x => x.rateMove(mockGame.Object, moveDto.move, moveDto.UserId, null))
                 .Returns((RatingDTO)null)
                 .Verifiable();
             cont = new GameController(mockGameService.Object, mockCreationService.Object, null);

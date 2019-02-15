@@ -378,7 +378,7 @@ namespace UltimateTicTacToeTests.Services
                 .Returns(new List<INode>())
                 .Verifiable();
             service = new GameService(mockService.Object, new Mock<IDatabaseProvider>().Object);
-            service.rateMove(mockGame.Object, new Move { owner = PlayerColour.BLUE}, 0);
+            service.rateMove(mockGame.Object, new Move { owner = PlayerColour.BLUE}, 0, null);
             mockService.Verify();
         }
 
@@ -393,7 +393,7 @@ namespace UltimateTicTacToeTests.Services
                 .Returns(new List<INode>())
                 .Verifiable();
             service = new GameService(mockService.Object, new Mock<IDatabaseProvider>().Object);
-            service.rateMove(mockGame.Object, move, 0);
+            service.rateMove(mockGame.Object, move, 0, null);
             mockService.Verify();
         }
 
@@ -414,7 +414,7 @@ namespace UltimateTicTacToeTests.Services
                     mockNode.Object,mockNode.Object,mockNode.Object,
                 });
             service = new GameService(mockService.Object, new Mock<IDatabaseProvider>().Object);
-            service.rateMove(mockGame.Object, move, 0);
+            service.rateMove(mockGame.Object, move, 0, null);
             mockNode.Verify(x => x.getMove(), Times.Exactly(3));
         }
 
@@ -440,7 +440,7 @@ namespace UltimateTicTacToeTests.Services
             mockProvider.Setup(x => x.updateUser(0, -1))
                 .Returns(returned);
             service = new GameService(mockService.Object, mockProvider.Object);
-            RatingDTO result = service.rateMove(mockGame.Object, move, 0);
+            RatingDTO result = service.rateMove(mockGame.Object, move, 0, null);
             Assert.AreSame(returned, result);
         }
 
