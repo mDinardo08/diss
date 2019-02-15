@@ -23,7 +23,7 @@ describe("User service", () => {
         const obsv = Observable.of(dto);
         const api = jasmine.createSpyObj("ApiService", ["post"]);
         api.post.and.returnValue(obsv);
-        service = new UserService(api, jasmine.createSpyObj("ToastrService", ["success"]));
+        service = new UserService(api, jasmine.createSpyObj("ToasterService", ["pop"]));
         spyOn(service.userUpdatedEvent, "emit");
         service.createUser();
         expect(service.userUpdatedEvent.emit).toHaveBeenCalledWith(dto);
@@ -42,7 +42,7 @@ describe("User service", () => {
         const obsv = Observable.of(dto);
         const api = jasmine.createSpyObj("ApiService", ["post"]);
         api.post.and.returnValue(obsv);
-        service = new UserService(api, jasmine.createSpyObj("ToastrService", ["success"]));
+        service = new UserService(api, jasmine.createSpyObj("ToasterService", ["pop"]));
         spyOn(service.userUpdatedEvent, "emit");
         service.login(0);
         expect(service.userUpdatedEvent.emit).toHaveBeenCalledWith(dto);
