@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using UltimateTicTacToe.DataAccess;
+using UltimateTicTacToe.Models.DTOs;
 using UltimateTicTacToe.Models.MCTS;
 using UltimateTicTacToe.Services;
 
@@ -9,28 +11,26 @@ namespace UltimateTicTacToe.Models.Game.Players
 {
     public class MCTSPlayer : AbstractPlayer
     {
-        private NodeService nodeService;
 
-        public MCTSPlayer(IRandomService random, NodeService nodeService) : base(random)
-        {
-            this.nodeService = nodeService;
+        public MCTSPlayer(IRandomService random, IDatabaseProvider provider) : base(random, provider)
+        { 
             type = PlayerType.MCTS;
+            userId = (int)type;
         }
 
-        protected override Move decideMove(BoardGame game, List<Move> moves)
+        protected override INode decideMove(BoardGame game, List<INode> nodes, RatingDTO opponentRating)
         {
-            List<INode> nodes = nodeService.process(game, this.getColour());
-            Move move = new Move();
+            INode best = null;
             double max = Int32.MinValue;
             foreach (INode node in nodes)
             {
                 if(node.getReward() > max)
                 {
-                    move = node.getMove();
+                    best = node;
                     max = node.getReward();
                 }
             }
-            return move;
+            return best;
         }
     }
 }

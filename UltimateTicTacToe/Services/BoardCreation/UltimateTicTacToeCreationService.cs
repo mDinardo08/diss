@@ -20,7 +20,7 @@ namespace UltimateTicTacToe.Services
 
         public BoardGame createBoardGame(BoardGameDTO gameDto)
         {
-            BoardGame result = createTicTacToe(gameDto.game);
+            BoardGame result = createBoardGame(gameDto.game);
             result.validateBoard();
             result.registerMove(gameDto.lastMove);
             return result;
@@ -58,7 +58,7 @@ namespace UltimateTicTacToe.Services
             return result;
         }
 
-        private TicTacToe createTicTacToe(List<List<JObject>> JObjectBoard)
+        public BoardGame createBoardGame(List<List<JObject>> JObjectBoard)
         {
             TicTacToe result = new TicTacToe(this.winChecker);
             List<List<BoardGame>> board = new List<List<BoardGame>>();
@@ -74,7 +74,7 @@ namespace UltimateTicTacToe.Services
                     }
                     else
                     {
-                        TicTacToe innerGame = createTicTacToe(space["board"].ToObject<List<List<JObject>>>());
+                        TicTacToe innerGame = createBoardGame(space["board"].ToObject<List<List<JObject>>>()) as TicTacToe;
                         innerGame.owner = space["owner"].ToObject<PlayerColour?>();
                         board[row].Add(innerGame);
                     }

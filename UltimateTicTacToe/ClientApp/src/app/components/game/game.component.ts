@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, AfterViewInit } from "@angular/core";
 import { BoardGame } from "../../models/boardGame/boardgame/boardgame.model";
 import { Move } from "../../models/move/move.model";
 import { AbstractGameService } from "../../services/game/game.service.abstract";
@@ -9,6 +9,8 @@ import { BsModalService } from "ngx-bootstrap/modal/bs-modal.service";
 import { GameSetupComponent } from "../gameSetup/setup.component";
 import { ModalOptions, BsModalRef } from "ngx-bootstrap/modal";
 import { GameOverComponent } from "../gameOver/gameover.component";
+import { UserService } from "../../services";
+import { ToasterService } from "angular2-toaster";
 
 @Component({
     selector: "game",
@@ -16,9 +18,10 @@ import { GameOverComponent } from "../gameOver/gameover.component";
     styleUrls: ["./game.component.styles.css"]
 })
 
-export class GameComponent implements OnInit {
+export class GameComponent implements OnInit, AfterViewInit {
 
-    constructor(private gameService: AbstractGameService, private modalService: BsModalService) {}
+    constructor(private gameService: AbstractGameService, private modalService: BsModalService, private userService: UserService,
+         private toast: ToasterService) {}
 
     public game: BoardGame;
     public availableMoves: Array<Move>;
@@ -27,13 +30,23 @@ export class GameComponent implements OnInit {
     public gameStarter: BsModalRef;
     public gameOver: BsModalRef;
     public players: Array<Player>;
+
+    public ngAfterViewInit(): void {
+        const  user = this.userService.getUserId();
+        if (user === -1) {
+            this.toast.pop("warning", "not logged in: Some Ai may not perform optimally");
+        } else {
+            this.toast.pop("success", "Logged in as " + this.userService.getUserId());
+        }
+    }
+
     public ngOnInit(): void {
         this.game = new BoardGame();
         this.availableMoves = new Array<Move>();
         this.lastMove = new Move();
         const config: ModalOptions = { class: "modal-sm" };
         this.gameStarter = this.modalService.show(GameSetupComponent, config);
-        this.gameStarter.content.opponentSelectedEvent.subscribe((opp) => {
+        this.gameStarter.content.opponentSelectedEvent.subscribe((opp: Array<Player>) => {
             this.startGame(opp);
         });
         this.gameService.gameOverEvent.subscribe((winner) => {
@@ -53,8 +66,8 @@ export class GameComponent implements OnInit {
             this.gameService.createGame(3, this.gameService.getPlayers());
         } else {
             this.gameStarter = this.modalService.show(GameSetupComponent, {class: "modal-sm"});
-            this.gameStarter.content.opponentSelectedEvent.subscribe((opp) => {
-                this.startGame(opp);
+            this.gameStarter.content.opponentSelectedEvent.subscribe((players) => {
+                this.startGame(players);
             });
         }
         this.gameOver.hide();
@@ -65,12 +78,8 @@ export class GameComponent implements OnInit {
         this.gameService.makeMove($event);
     }
 
-    private startGame(opponent: Player): void {
-        const human = new Player();
-        human.type = PlayerType.HUMAN;
-        human.colour = PlayerColour.BLUE;
-        human.name = "";
-        this.gameService.createGame(3, [human, opponent]);
+    private startGame(players: Array<Player>): void {
+        this.gameService.createGame(3, players);
         this.gameStarter.hide();
     }
 

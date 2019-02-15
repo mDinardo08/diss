@@ -8,7 +8,9 @@ describe("Tictactoe component", () => {
     let comp: TictactoeComponent;
 
     beforeEach(() => {
-        comp = new TictactoeComponent();
+        const service = jasmine.createSpyObj("AbstractGameService", ["getCurrentPlayer"]);
+        service.getCurrentPlayer.and.returnValue(new Player());
+        comp = new TictactoeComponent(service);
     });
 
     it("Will emit a move event when it recieves one", () => {
@@ -32,6 +34,7 @@ describe("Tictactoe component", () => {
         event.possition = {
             x: null, y: null
         };
+        event.owner = undefined;
         expect(comp.moveEvent.emit).toHaveBeenCalledWith(event);
     });
 
@@ -42,6 +45,7 @@ describe("Tictactoe component", () => {
         const event = new Move();
         event.possition = {x: 0, y: null};
         event.next = null;
+        event.owner = undefined;
         expect(comp.moveEvent.emit).toHaveBeenCalledWith(event);
     });
 
@@ -52,6 +56,7 @@ describe("Tictactoe component", () => {
         const event = new Move();
         event.possition = {x: null, y: 0};
         event.next = null;
+        event.owner = undefined;
         expect(comp.moveEvent.emit).toHaveBeenCalledWith(event);
     });
 

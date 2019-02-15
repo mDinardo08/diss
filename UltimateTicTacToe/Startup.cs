@@ -5,9 +5,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SpaServices.AngularCli;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using UltimateTicTacToe.DataAccess;
 using UltimateTicTacToe.Models.Game;
 using UltimateTicTacToe.Models.Game.WinCheck;
 using UltimateTicTacToe.Services;
+using UltimateTicTacToe.Services.User;
 
 namespace UltimateTicTacToe
 {
@@ -31,6 +33,8 @@ namespace UltimateTicTacToe
             services.AddTransient<PlayerClassHandler, RandomPlayerClassHandler>();
             services.AddTransient<NodeService, MonteCarloService>();
             services.AddTransient<INodeCreationService, NodeCreationService>();
+            services.AddSingleton<IDatabaseProvider, SQLDataBaseProvider>();
+            services.AddTransient<IUserService, UserService>();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
             // In production, the Angular files will be served from this directory

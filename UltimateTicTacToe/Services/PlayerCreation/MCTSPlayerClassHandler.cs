@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using UltimateTicTacToe.DataAccess;
 using UltimateTicTacToe.Models.Game.Players;
 
 namespace UltimateTicTacToe.Services
@@ -9,15 +10,15 @@ namespace UltimateTicTacToe.Services
     public class MCTSPlayerClassHandler : AbstractPlayerClassHandler
     {
 
-        public MCTSPlayerClassHandler(IRandomService randomService, NodeService nodeService) : base(randomService, nodeService)
+        public MCTSPlayerClassHandler(IRandomService randomService, IDatabaseProvider provider) : base(randomService, provider)
         {
-            this.nodeService = nodeService;
             type = PlayerType.MCTS;
+            successor = new GoodDadPlayerClassHandler(randomService, provider);
         }
 
         protected override Player buildPlayer()
         {
-            return new MCTSPlayer(randomService, nodeService);
+            return new MCTSPlayer(randomService, provider);
         }
     }
 }

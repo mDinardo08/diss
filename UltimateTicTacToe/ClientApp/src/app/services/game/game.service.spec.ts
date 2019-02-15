@@ -92,6 +92,7 @@ describe("Game Service tests", () => {
         service.availableMoves = [];
         spyOn(service, "makeMoveOnBoard").and.returnValue(new Array<Array<BoardGame>>());
         spyOn(service, "getNextPlayer").and.returnValue(new Player());
+        service.curPlayer = new Player();
         service.makeMove(null);
         expect(mockApi.post).toHaveBeenCalled();
     });
@@ -109,6 +110,7 @@ describe("Game Service tests", () => {
         dto.cur = new Player();
         dto.lastMove = null;
         dto.players = undefined;
+        service.curPlayer = new Player();
         service.makeMove(null);
         expect(mockApi.post).toHaveBeenCalledWith("Game/makeMove", dto);
     });
@@ -122,12 +124,14 @@ describe("Game Service tests", () => {
         spyOn(service, "makeMoveOnBoard").and.returnValue(new Array<Array<BoardGame>>());
         spyOn(service, "getNextPlayer").and.returnValue(new Player());
         const move = new Move();
+        service.curPlayer = new Player();
         service.makeMove(move);
         const dto = new BoardGameDTO();
         dto.game = new Array<Array<BoardGame>>();
         dto.cur = new Player();
         dto.lastMove = move;
         dto.players = undefined;
+        service.curPlayer = new Player();
         service.makeMove(null);
         expect(mockApi.post).toHaveBeenCalledWith("Game/makeMove", dto);
     });
@@ -228,6 +232,7 @@ describe("Game Service tests", () => {
         service = new GameService(mockApi);
         service.players = [];
         spyOn(service, "makeMoveOnBoard").and.returnValue(new Array<Array<BoardGame>>());
+        service.curPlayer = new Player();
         service.makeMove(null);
         expect(service.board).toBe(dto.game);
 
@@ -243,6 +248,7 @@ describe("Game Service tests", () => {
         spyOn(service.boardUpdatedEvent, "emit");
         spyOn(service, "makeMoveOnBoard").and.returnValue(null);
         spyOn(service, "getNextPlayer").and.returnValue(null);
+        service.curPlayer = new Player();
         service.makeMove(null);
         expect(service.boardUpdatedEvent.emit).toHaveBeenCalledWith(dto.game);
     });
@@ -268,6 +274,7 @@ describe("Game Service tests", () => {
         service = new GameService(mockApi);
         spyOn(service, "makeMoveOnBoard").and.returnValue(null);
         spyOn(service, "getNextPlayer").and.returnValue(null);
+        service.curPlayer = new Player();
         service.makeMove(null);
         expect(service.getAvailableMoves()).toBe(dto.availableMoves);
     });
@@ -279,6 +286,7 @@ describe("Game Service tests", () => {
         spyOn(service, "makeMoveOnBoard").and.returnValue(null);
         spyOn(service, "getNextPlayer").and.returnValue(null);
         const move = new Move();
+        service.curPlayer = new Player();
         service.makeMove(move);
         expect(service.lastMove).toBe(move);
     });
@@ -292,6 +300,7 @@ describe("Game Service tests", () => {
         service = new GameService(mockApi);
         spyOn(service, "makeMoveOnBoard").and.returnValue(null);
         spyOn(service, "getNextPlayer").and.returnValue(null);
+        service.curPlayer = new Player();
         service.makeMove(null);
         expect(service.lastMove).toBe(dto.lastMove);
     });
@@ -302,6 +311,7 @@ describe("Game Service tests", () => {
         service = new GameService(mockApi);
         spyOn(service, "makeMoveOnBoard").and.returnValue(null);
         spyOn(service, "getNextPlayer").and.returnValue(null);
+        service.curPlayer = new Player();
         service.makeMove(new Move());
         expect(service.lastMove).not.toBeNull();
     });

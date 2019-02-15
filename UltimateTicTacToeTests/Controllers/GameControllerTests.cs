@@ -19,7 +19,6 @@ namespace UltimateTicTacToeTests.Controllers
     public class GameControllerTests
     {
         GameController cont;
-        Mock<IGameService> mockService;
 
         [TestMethod]
         public void WillPassTheGameToTheBoardGameCreationService()
@@ -193,6 +192,38 @@ namespace UltimateTicTacToeTests.Controllers
             cont = new GameController(gameService.Object, boardCreationService.Object, playerCreationService.Object);
             cont.makeMove(dto);
             gameService.Verify();
+        }
+
+        [TestMethod]
+        public void WillPassTheGameToTheBoardCreationService()
+        {
+            MoveDto moveDto = new MoveDto();
+            List<List<JObject>> game = new List<List<JObject>>();
+            moveDto.game = game;
+            Mock<BoardCreationService> mockCreationService = new Mock<BoardCreationService>();
+            mockCreationService.Setup(x => x.createBoardGame(game)).Verifiable();
+            cont = new GameController(new Mock<IGameService>().Object, mockCreationService.Object, null);
+            cont.rateMove(moveDto);
+            mockCreationService.Verify();
+        }
+
+        [TestMethod]
+        public void WillPassTheGameTheMoveAndThePlayerIdToTheGameService()
+        {
+            MoveDto moveDto = new MoveDto();
+            moveDto.move = new Move();
+            moveDto.UserId = 100;
+            Mock<BoardGame> mockGame = new Mock<BoardGame>();
+            Mock<IGameService> mockGameService = new Mock<IGameService>();
+            Mock<BoardCreationService> mockCreationService = new Mock<BoardCreationService>();
+            mockCreationService.Setup(x => x.createBoardGame(It.IsAny<List<List<JObject>>>()))
+                .Returns(mockGame.Object);
+            mockGameService.Setup(x => x.rateMove(mockGame.Object, moveDto.move, moveDto.UserId, null))
+                .Returns((RatingDTO)null)
+                .Verifiable();
+            cont = new GameController(mockGameService.Object, mockCreationService.Object, null);
+            cont.rateMove(moveDto);
+            mockGameService.Verify();
         }
     }
 }

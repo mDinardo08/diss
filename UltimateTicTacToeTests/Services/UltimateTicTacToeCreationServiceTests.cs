@@ -176,7 +176,7 @@ namespace UltimateTicTacToeTests.Services
         {
             Mock<IPlayerCreationService> mockService = new Mock<IPlayerCreationService>(MockBehavior.Loose);
             Tile tile = new Tile();
-            Player p = new RandomAi(null);
+            Player p = new RandomAi(null, null);
             tile.owner = 0;
             mockService.Setup(x => x.createPlayer(It.IsAny<JObject>())).Returns(p);
             service = new UltimateTicTacToeCreationService(new Mock<IWinChecker>().Object);

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using UltimateTicTacToe.DataAccess;
 using UltimateTicTacToe.Models.Game.Players;
 
 namespace UltimateTicTacToe.Services
@@ -11,11 +12,11 @@ namespace UltimateTicTacToe.Services
         public PlayerType type;
         public PlayerClassHandler successor;
         public IRandomService randomService;
-        public NodeService nodeService;
-        public AbstractPlayerClassHandler(IRandomService randomService, NodeService nodeService)
+        public IDatabaseProvider provider;
+        public AbstractPlayerClassHandler(IRandomService randomService, IDatabaseProvider provider)
         {
             this.randomService = randomService;
-            this.nodeService = nodeService;
+            this.provider = provider;
         }
 
         public Player createPlayer(PlayerType type){

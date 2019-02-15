@@ -159,7 +159,7 @@ namespace UltimateTicTacToeTests.Services
         }
 
         [TestMethod]
-        public void WillCallRollout2200Times()
+        public void WillCallRollout3000Times()
         {
             DateTime startTime = DateTime.UtcNow;
             Mock<INode> mockNode = new Mock<INode>();
@@ -172,7 +172,7 @@ namespace UltimateTicTacToeTests.Services
                 .Returns(mockNode.Object);
             service = new MonteCarloService(mockService.Object);
             service.process(new Mock<BoardGame>().Object, 0);
-            mockNode.Verify(x => x.rollOut(), Times.Exactly(2200));
+            mockNode.Verify(x => x.rollOut(), Times.Exactly(3000));
         }
 
         [TestMethod]

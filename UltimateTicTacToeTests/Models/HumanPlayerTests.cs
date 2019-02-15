@@ -13,7 +13,7 @@ namespace UltimateTicTacToeTests.Models
         [TestMethod]
         public void WillReturnPlayerTypeHuman()
         {
-            Player player = new HumanPlayer(null);
+            Player player = new HumanPlayer(null, null);
             Assert.AreEqual(PlayerType.HUMAN, player.getPlayerType());
         }
     }

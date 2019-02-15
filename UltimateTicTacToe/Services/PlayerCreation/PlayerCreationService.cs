@@ -40,6 +40,7 @@ namespace UltimateTicTacToe.Services
             Player result = createPlayer((PlayerType)player["type"].ToObject<int>());
             result.setName(player["name"].ToString());
             result.setColour((PlayerColour)player["colour"].ToObject<int>());
+            result.setUserId(player["userId"].ToObject<int>());
             return result;
         }
     }

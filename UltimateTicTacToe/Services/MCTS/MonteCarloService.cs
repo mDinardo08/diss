@@ -24,7 +24,7 @@ namespace UltimateTicTacToe.Services
             TimeSpan duration = TimeSpan.FromSeconds(2);
             INode root = nodeService.createNode(game.Clone() as BoardGame, colour);
             root.expand();
-            for(int i = 0; i < 2200; i++)
+            for(int i = 0; i < 3000; i++)
             {
                 expansion(traverse(root));
             }

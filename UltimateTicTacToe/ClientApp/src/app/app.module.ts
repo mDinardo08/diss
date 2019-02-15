@@ -8,6 +8,9 @@ import { AppComponent } from "./app.component";
 import * as Services from "./services";
 import { ModalModule } from "ngx-bootstrap/modal";
 import { BsDropdownModule } from "ngx-bootstrap/dropdown";
+import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
+import {ToasterModule, ToasterService} from "angular2-toaster";
+import { RoutingModule } from "./routing.module";
 @NgModule({
   declarations: [
     AppComponent,
@@ -16,20 +19,21 @@ import { BsDropdownModule } from "ngx-bootstrap/dropdown";
     Components.TictactoeComponent,
     Components.TileComponent,
     Components.GameSetupComponent,
-    Components.GameOverComponent
+    Components.GameOverComponent,
+    Components.UserComponent
   ],
   imports: [
+    BrowserAnimationsModule, // required animations module
+    ToasterModule.forRoot(),
     BsDropdownModule.forRoot(),
     ModalModule.forRoot(),
     BrowserModule.withServerTransition({ appId: "ng-cli-universal" }),
     HttpClientModule,
     FormsModule,
-    RouterModule.forRoot([
-      { path: "", component: Components.GameComponent, pathMatch: "full" }
-    ])
+    RoutingModule
   ],
   entryComponents: [Components.GameSetupComponent, Components.GameOverComponent],
-  providers: [Services.ApiService, { provide: Services.AbstractGameService, useClass: Services.GameService }],
+  providers: [Services.ApiService, { provide: Services.AbstractGameService, useClass: Services.GameService }, Services.UserService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

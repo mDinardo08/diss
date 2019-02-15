@@ -7,6 +7,8 @@ import { BoardCreationDTO } from "../../models/DTOs/BoardCreationDTO";
 import { Player } from "../../models/player/player.model";
 import { Move } from "../../models/move/move.model";
 import { AbstractGameService } from "./game.service.abstract";
+import { RatingDTO } from "../../models/DTOs/RatingDTO";
+import { MoveDTO } from "../../models/DTOs/MoveDTO";
 
 @Injectable()
 export class GameService extends AbstractGameService {
@@ -25,12 +27,20 @@ export class GameService extends AbstractGameService {
     }
 
     makeMove(move: Move): void {
+        const moveDto = new MoveDTO();
+        moveDto.game = this.board;
+        moveDto.lastMove = this.lastMove;
+        moveDto.move = move;
+        moveDto.UserId = this.curPlayer.userId;
+        this.api.post<RatingDTO>("Game/RateMove", moveDto).subscribe((res) => {
+            console.log(res);
+        });
         const Dto = new BoardGameDTO();
         Dto.game = this.makeMoveOnBoard(this.board, move);
         this.lastMove = move;
         Dto.lastMove = move;
         Dto.players = this.players;
-        Dto.cur = this.getNextPlayer()  ;
+        Dto.cur = this.getNextPlayer();
         const result = this.api.post<BoardGameDTO>("Game/makeMove", Dto);
         result.subscribe((res) => {
             this.boardUpdated(res);

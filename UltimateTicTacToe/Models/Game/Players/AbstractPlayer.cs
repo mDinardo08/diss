@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using UltimateTicTacToe.DataAccess;
+using UltimateTicTacToe.Models.DTOs;
+using UltimateTicTacToe.Models.MCTS;
 using UltimateTicTacToe.Services;
 
 namespace UltimateTicTacToe.Models.Game.Players
@@ -12,9 +15,12 @@ namespace UltimateTicTacToe.Models.Game.Players
         public IRandomService random;
         public PlayerType type;
         public PlayerColour colour;
-        public AbstractPlayer(IRandomService random)
+        public int userId;
+        public IDatabaseProvider provider;
+        public AbstractPlayer(IRandomService random, IDatabaseProvider provider)
         {
             this.random = random;
+            this.provider = provider;
         }
 
         public void setName(string name)
@@ -42,14 +48,25 @@ namespace UltimateTicTacToe.Models.Game.Players
             return this.colour;
         }
 
-        public Move makeMove(BoardGame game)
+        public INode makeMove(BoardGame game, List<INode> nodes, int opponentId)
         {
-            List<Move> possibleMoves = game.getAvailableMoves();
-            Move decided = decideMove(game, possibleMoves);
-            decided.setOwner(getColour());
+            RatingDTO rating = provider.getUser(opponentId) ?? new RatingDTO();
+            rating.UserId = -1;
+            INode decided = decideMove(game, nodes, rating);
+            decided.getMove().setOwner(getColour());
             return decided;
         }
 
-        abstract protected Move decideMove(BoardGame game, List<Move> moves);
+        abstract protected INode decideMove(BoardGame game, List<INode> nodes, RatingDTO opponentRating);
+
+        public int getUserId()
+        {
+            return userId;
+        }
+
+        public void setUserId(int UserId)
+        {
+            this.userId = UserId;
+        }
     }
 }

@@ -1,20 +1,23 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System.Collections.Generic;
+using UltimateTicTacToe.DataAccess;
 using UltimateTicTacToe.Models.DTOs;
 using UltimateTicTacToe.Models.Game;
 using UltimateTicTacToe.Models.Game.Players;
 using UltimateTicTacToe.Models.Game.WinCheck;
+using UltimateTicTacToe.Models.MCTS;
 
 namespace UltimateTicTacToe.Services
 {
     public class GameService : IGameService
     {
-        private IWinChecker winChecker;
-
-        public GameService(IWinChecker winChecker)
+        private NodeService nodeService;
+        private IDatabaseProvider provider;
+        public GameService(NodeService nodeService, IDatabaseProvider provider)
         {
-            this.winChecker = winChecker;
+            this.nodeService = nodeService;
+            this.provider = provider;
         }
 
         public BoardGameDTO processMove(BoardGame game, Player cur, List<Player> players)
@@ -24,6 +27,7 @@ namespace UltimateTicTacToe.Services
             if (game.isWon())
             {
                 result.Winner = game.getWinner();
+                SaveGame(players, game.getWinner());
             }else
             {
                 if (cur.getPlayerType() != PlayerType.HUMAN)
@@ -32,6 +36,7 @@ namespace UltimateTicTacToe.Services
                     if (game.isWon())
                     {
                         result.Winner = game.getWinner();
+                        SaveGame(players, result.Winner);
                     }
                 }
                 else
@@ -47,15 +52,19 @@ namespace UltimateTicTacToe.Services
 
         private void HandleAiMove(Player Ai, BoardGame game, BoardGameDTO result, List<Player> players)
         {
-            Move move = Ai.makeMove(game.Clone() as BoardGame);
-            game.makeMove(move);
-            List<List<BoardGame>> board = game.getBoard();
-            result.lastMove = move;
+            List<INode> nodes = nodeService.process(game, Ai.getColour());
             Player next = players.Find(x => !x.getColour().Equals(Ai.getColour()));
+            INode move = Ai.makeMove(game.Clone() as BoardGame, nodes, next.getUserId());
+            provider.updateUser(Ai.getUserId(), move.getReward());
+            game.makeMove(move.getMove());
+            List<List<BoardGame>> board = game.getBoard();
+            result.lastMove = move.getMove();
             result.cur = convertToJObject(next);
             try
             {
                 result.Winner = game.getWinner();
+                SaveGame(players, result.Winner);
+
             }
             catch (NoWinnerException) { }
 
@@ -79,6 +88,7 @@ namespace UltimateTicTacToe.Services
                 jPlayer.Add("type", JToken.FromObject(player.getPlayerType()));
                 jPlayer.Add("name", JToken.FromObject(player.getName()));
                 jPlayer.Add("colour", JToken.FromObject(player.getColour()));
+                jPlayer.Add("userId", JToken.FromObject(player.getUserId()));
             }
             return jPlayer;
         }
@@ -96,6 +106,31 @@ namespace UltimateTicTacToe.Services
             }
             return result;
 
+        }
+
+        public RatingDTO rateMove(BoardGame boardGame, Move move, int UserId, Move lastMove)
+        {
+            RatingDTO result = null;
+            boardGame.registerMove(lastMove);
+            boardGame.validateBoard();
+            List<INode> nodes = nodeService.process(boardGame, (PlayerColour)move.owner);
+            foreach (INode node in nodes)
+            {
+                if (node.getMove().Equals(move))
+                {
+                    result = provider.updateUser(UserId, node.getReward());
+                }
+            }
+            return result;
+        }
+        
+
+        private void SaveGame(List<Player> players, PlayerColour? Winner)
+        {
+            if (players.TrueForAll(x => x.getUserId() >= 0))
+            {
+                provider.saveGameResult(players[0].getUserId(), players[1].getUserId(), players.Find(x => x.getColour() == Winner)?.getUserId());
+            }
         }
     }
 }

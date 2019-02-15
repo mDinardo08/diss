@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -11,5 +12,6 @@ namespace UltimateTicTacToe.Services
     {
         BoardGame createBoardGame(BoardGameDTO gameDto);
         BoardGame createBoardGame(int size);
+        BoardGame createBoardGame(List<List<JObject>> game);
     }
 }

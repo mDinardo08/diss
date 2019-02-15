@@ -139,5 +139,10 @@ namespace UltimateTicTacToe.Models.MCTS
         {
             return previousMove;
         }
+
+        public BoardGame getGame()
+        {
+            return game;
+        }
     }
 }
