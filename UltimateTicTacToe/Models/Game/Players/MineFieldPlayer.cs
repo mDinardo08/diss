@@ -62,26 +62,59 @@ namespace UltimateTicTacToe.Models.Game.Players
         private int evaluateMove(Move move, List<List<BoardGame>> board)
         {
             int score = 0;
-            for (int x = move.possition.X - 1; x <= move.possition.X + 1; x++)
+            Point2D pos = move.possition;
+            for (int col = 0; col < board.Count; col++)
             {
-                for (int y = move.possition.Y - 1; y <= move.possition.Y + 1; y++)
+                if (col != pos.Y)
                 {
-                    if (x != move.possition.X || y != move.possition.Y)
+                    BoardGame subBoard = board[pos.X][col];
+                    score += getScoreForSubBoard(subBoard);
+                }
+            }
+            for (int row = 0; row < board.Count; row++)
+            {
+                if (row != pos.X)
+                {
+                    BoardGame subBoard = board[row][pos.Y];
+                    score += getScoreForSubBoard(subBoard);
+                }
+            }
+            if (pos.X == pos.Y)
+            {
+                for (int i = 0; i < board.Count; i++)
+                {
+                    BoardGame subBoard = board[i][i];
+                    if (i != pos.X)
                     {
-                        if (x >= 0 && x < board.Count && y >= 0 && y < board.Count)
-                        {
-                            if (board[x][y].isWon())
-                            {
-                                if (board[x][y].getWinner() == colour)
-                                {
-                                    score++;
-                                } else
-                                {
-                                    score--;
-                                }
-                            }
-                        }
+                        score += getScoreForSubBoard(subBoard);
                     }
+                }
+            }
+            if (2-pos.X == pos.Y)
+            {
+                for (int i = 0; i < board.Count; i++)
+                {
+                    BoardGame subBoard = board[2-i][i];
+                    if (i != pos.Y)
+                    {
+                        score += getScoreForSubBoard(subBoard);
+                    }
+                }
+            }
+            return score;
+        }
+
+        private int getScoreForSubBoard(BoardGame subBoard)
+        {
+            int score = 0;
+            if (subBoard.isWon())
+            {
+                if (subBoard.getWinner() == colour)
+                {
+                    score++;
+                } else
+                {
+                    score--;
                 }
             }
             return score;
