@@ -8,6 +8,6 @@ namespace UltimateTicTacToe.Services
     public interface IGameService
     {
         BoardGameDTO processMove(BoardGame game, Player cur, List<Player> players);
-        RatingDTO rateMove(BoardGame boardGame, Move move, int UserId);
+        RatingDTO rateMove(BoardGame boardGame, Move move, int UserId, Move lastMove);
     }
 }

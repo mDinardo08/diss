@@ -35,17 +35,15 @@ export class GameSetupComponent implements OnInit {
         human.name = "";
         human.userId = this.userService.getUserId();
         this.players = new Array<Player>();
-        if (this.opponentFirst) {
-            this.players.push(opponent);
-            this.players.push(human);
-        } else {
-            this.players.push(human);
-            this.players.push(opponent);
-        }
+        this.players.push(human);
+        this.players.push(opponent);
     }
 
     play(): void {
         if (this.players !== null && this.players !== undefined) {
+            if (this.opponentFirst) {
+                this.players = this.players.reverse();
+            }
             this.opponentSelectedEvent.emit(this.players);
         }
     }

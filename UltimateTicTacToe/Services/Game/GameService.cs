@@ -108,10 +108,10 @@ namespace UltimateTicTacToe.Services
 
         }
 
-        public RatingDTO rateMove(BoardGame boardGame, Move move, int UserId)
+        public RatingDTO rateMove(BoardGame boardGame, Move move, int UserId, Move lastMove)
         {
             RatingDTO result = null;
-            boardGame.registerMove(move);
+            boardGame.registerMove(lastMove);
             boardGame.validateBoard();
             List<INode> nodes = nodeService.process(boardGame, (PlayerColour)move.owner);
             foreach (INode node in nodes)

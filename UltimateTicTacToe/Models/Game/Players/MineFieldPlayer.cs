@@ -48,6 +48,13 @@ namespace UltimateTicTacToe.Models.Game.Players
             } else
             {
                 score = evaluateMove(move, board);
+                if (game.isWon())
+                {
+                    if (game.getWinner() == colour)
+                    {
+                        score += 3;
+                    }
+                }
             }
             return score;
         }
@@ -59,15 +66,18 @@ namespace UltimateTicTacToe.Models.Game.Players
             {
                 for (int y = move.possition.Y - 1; y <= move.possition.Y + 1; y++)
                 {
-                    if (x != move.possition.X && y != move.possition.Y)
+                    if (x != move.possition.X || y != move.possition.Y)
                     {
-                        if (x > 0 && x < board.Count && y > 0 && y < board.Count)
+                        if (x >= 0 && x < board.Count && y >= 0 && y < board.Count)
                         {
                             if (board[x][y].isWon())
                             {
                                 if (board[x][y].getWinner() == colour)
                                 {
                                     score++;
+                                } else
+                                {
+                                    score--;
                                 }
                             }
                         }

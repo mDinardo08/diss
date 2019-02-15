@@ -29,6 +29,7 @@ export class GameService extends AbstractGameService {
     makeMove(move: Move): void {
         const moveDto = new MoveDTO();
         moveDto.game = this.board;
+        moveDto.lastMove = this.lastMove;
         moveDto.move = move;
         moveDto.UserId = this.curPlayer.userId;
         this.api.post<RatingDTO>("Game/RateMove", moveDto).subscribe((res) => {

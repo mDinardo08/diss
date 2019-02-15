@@ -32,7 +32,7 @@ namespace UltimateTicTacToe.Controllers
         public IActionResult rateMove([FromBody] MoveDto moveDto)
         {
             BoardGame game = boardCreationService.createBoardGame(moveDto.game);
-            return ExecuteApiAction(() => new ApiResult<RatingDTO> { Model = gameService.rateMove(game, moveDto.move, moveDto.UserId) });
+            return ExecuteApiAction(() => new ApiResult<RatingDTO> { Model = gameService.rateMove(game, moveDto.move, moveDto.UserId, moveDto.lastMove) });
         }
 
         [HttpPost("makeMove")]

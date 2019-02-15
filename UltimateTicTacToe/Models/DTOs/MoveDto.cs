@@ -9,8 +9,9 @@ namespace UltimateTicTacToe.Models.DTOs
 {
     public class MoveDto
     {
-        public Move move;
+        public Move lastMove;
         public List<List<JObject>> game;
         public int UserId;
+        public Move move;
     }
 }

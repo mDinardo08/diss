@@ -22,7 +22,7 @@ namespace UltimateTicTacToe.Models.Game
 
         public override void registerMove(Move move)
         {
-            if (move.next.possition != null)
+            if (move?.next.possition != null)
             {
                 boardFilter = move.next.possition;
                 getSector(boardFilter).registerMove(move.next);
