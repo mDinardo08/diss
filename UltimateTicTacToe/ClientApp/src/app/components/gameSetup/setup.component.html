@@ -2,25 +2,44 @@
   <h4 class="modal-title pull-left">Player Selection</h4>
 </div>
 <div class="modal-body">
-  <div class="card">
-    <div class="card-body mx-auto">
-      <div style="white-space: nowrap">
-        <span>Opponent:</span>
-        <div class="btn-group" dropdown>
-          <button id="button-type" dropdownToggle type="button" class="btn btn-primary dropdown-toggle" aria-controls="dropdown-type">
-            Type: {{type}} <span class="caret"></span>
-          </button>
-          <ul id="dropdown-type" *dropdownMenu class="dropdown-menu" role="menu" aria-labelledby="button-type">
-            <li role="menuitem" *ngFor="let type of types">
-              <a class="dropdown-item" (click)="opponentSelected(type)">{{type}}</a>
-            </li>
-          </ul>
+  <div class="row">
+    <div class="col">
+        <div class="card">
+          <div class="card-body mx-auto">
+            <div style="white-space: nowrap">
+              <span>Player 1:</span>
+              <div class="btn-group" dropdown>
+                <button id="button-type" dropdownToggle type="button" class="btn btn-primary dropdown-toggle" aria-controls="dropdown-type">
+                  Type: {{type1}} <span class="caret"></span>
+                </button>
+                <ul id="dropdown-type" *dropdownMenu class="dropdown-menu" role="menu" aria-labelledby="button-type">
+                  <li role="menuitem" *ngFor="let type of types">
+                    <a class="dropdown-item" (click)="player1Selected(type)">{{type}}</a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
         </div>
-      </div>
-      <div class="form-check">
-        <input [(ngModel)]="opponentFirst" type="checkbox" class="form-check-input" id="exampleCheck1">
-        <label class="form-check-label" for="exampleCheck1">Opponent goes first?</label>
-      </div>
+    </div>
+    <div class="col">
+        <div class="card">
+          <div class="card-body mx-auto">
+            <div style="white-space: nowrap">
+              <span>Player 2:</span>
+              <div class="btn-group" dropdown>
+                <button id="button-type" dropdownToggle type="button" class="btn btn-primary dropdown-toggle" aria-controls="dropdown-type">
+                  Type: {{type2}} <span class="caret"></span>
+                </button>
+                <ul id="dropdown-type" *dropdownMenu class="dropdown-menu" role="menu" aria-labelledby="button-type">
+                  <li role="menuitem" *ngFor="let type of types">
+                    <a class="dropdown-item" (click)="player2Selected(type)">{{type}}</a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
     </div>
   </div>
 </div>

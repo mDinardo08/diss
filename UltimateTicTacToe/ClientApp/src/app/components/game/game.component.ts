@@ -65,7 +65,7 @@ export class GameComponent implements OnInit, AfterViewInit {
             this.overlayVisable = true;
             this.gameService.createGame(3, this.gameService.getPlayers());
         } else {
-            this.gameStarter = this.modalService.show(GameSetupComponent, {class: "modal-sm"});
+            this.gameStarter = this.modalService.show(GameSetupComponent);
             this.gameStarter.content.opponentSelectedEvent.subscribe((players) => {
                 this.startGame(players);
             });
