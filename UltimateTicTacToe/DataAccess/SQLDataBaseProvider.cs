@@ -66,7 +66,7 @@ namespace UltimateTicTacToe.DataAccess
             if (row != null)
             {
                 result = new RatingDTO();
-                result.UserId = row.UserId;
+                result.userId = row.UserId;
                 result.average = row.TotalScore / row.TotalMoves;
                 result.latest = row.LatestScore;
             } 
