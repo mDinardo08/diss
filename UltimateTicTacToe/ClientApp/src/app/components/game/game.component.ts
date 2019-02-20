@@ -30,6 +30,7 @@ export class GameComponent implements OnInit, AfterViewInit {
     public gameStarter: BsModalRef;
     public gameOver: BsModalRef;
     public players: Array<Player>;
+    public noGames: number;
 
     public ngAfterViewInit(): void {
         const  user = this.userService.getUserId();
@@ -50,11 +51,16 @@ export class GameComponent implements OnInit, AfterViewInit {
             this.startGame(opp);
         });
         this.gameService.gameOverEvent.subscribe((winner) => {
-            this.gameOver = this.modalService.show(GameOverComponent);
-            this.gameOver.content.Winner = winner;
-            this.gameOver.content.playAgainEvent.subscribe((playAgain) => {
+            this.noGames--;
+            if (this.noGames > 0) {
+                this.gameService.createGame(3, this.gameService.getPlayers().reverse());
+            } else {
+                this.gameOver = this.modalService.show(GameOverComponent);
+                this.gameOver.content.Winner = winner;
+                this.gameOver.content.playAgainEvent.subscribe((playAgain) => {
                 this.playAgain(playAgain);
             });
+            }
         });
         this.gameService.boardUpdatedEvent.subscribe((res: Array<Array<BoardGame>>) => {
             this.boardUpdated();
@@ -79,6 +85,7 @@ export class GameComponent implements OnInit, AfterViewInit {
     }
 
     private startGame(players: Array<Player>): void {
+        this.noGames = this.gameStarter.content.getNoGames();
         this.gameService.createGame(3, players);
         this.gameStarter.hide();
     }
