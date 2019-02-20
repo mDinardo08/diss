@@ -66,7 +66,7 @@ export class GameService extends AbstractGameService {
         const result = board;
         const point = move.possition;
         if (move.next.possition === null || move.next.possition === undefined) {
-            result[point.x][point.y].owner = this.curPlayer.colour;
+            result[point.x][point.y].owner = move.owner;
         } else {
             result[point.x][point.y].board = this.makeMoveOnBoard(result[point.x][point.y].board, move.next);
         }
@@ -79,15 +79,16 @@ export class GameService extends AbstractGameService {
 
     boardUpdated(res: BoardGameDTO): void {
         this.curPlayer = res.cur;
+        console.log("Player was: " + this.getNextPlayer().name + this.getNextPlayer().colour + "move was rated: " + res.lastMoveRating);
         this.board = res.game;
         this.availableMoves = res.availableMoves;
         if (res.lastMove !== undefined && res.lastMove !== null) {
             this.lastMove = res.lastMove;
         }
+        this.boardUpdatedEvent.emit(this.board);
         if (this.curPlayer.type !== PlayerType.HUMAN) {
             this.handleMove(this.lastMove);
         }
-        this.boardUpdatedEvent.emit(this.board);
         if ((res.winner !== undefined && res.winner !== null) ||
             this.availableMoves.length === 0) {
             this.gameOverEvent.emit(res.winner);
@@ -121,7 +122,6 @@ export class GameService extends AbstractGameService {
         Dto.cur = this.curPlayer.type === PlayerType.HUMAN ? this.getNextPlayer() : this.curPlayer;
         const result = this.api.post<BoardGameDTO>("Game/makeMove", Dto);
         result.subscribe((res) => {
-            console.log("Player was: " + this.getNextPlayer() + "move was rated" + res.lastMoveRating);
             this.boardUpdated(res);
         });
     }

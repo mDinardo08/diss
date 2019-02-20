@@ -63,7 +63,7 @@ export class GameComponent implements OnInit, AfterViewInit {
             }
         });
         this.gameService.boardUpdatedEvent.subscribe((res: Array<Array<BoardGame>>) => {
-            this.boardUpdated();
+            this.boardUpdated(res);
         });
     }
     playAgain(playAgain: boolean): void {
@@ -90,8 +90,8 @@ export class GameComponent implements OnInit, AfterViewInit {
         this.gameStarter.hide();
     }
 
-    private boardUpdated(): void {
-        this.game.board = this.gameService.getBoard();
+    private boardUpdated(res: Array<Array<BoardGame>>): void {
+        this.game.board = res;
         this.availableMoves = this.gameService.getAvailableMoves();
         this.lastMove = this.gameService.getLastMove();
         this.overlayVisable = false;
