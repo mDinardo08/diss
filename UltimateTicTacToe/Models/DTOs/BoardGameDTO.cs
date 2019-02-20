@@ -14,5 +14,6 @@ namespace UltimateTicTacToe.Models.DTOs
         public JObject cur;
         public Move lastMove;
         public List<Move> availableMoves;
+        public double lastMoveRating;
     }
 }

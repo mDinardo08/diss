@@ -121,6 +121,7 @@ export class GameService extends AbstractGameService {
         Dto.cur = this.curPlayer.type === PlayerType.HUMAN ? this.getNextPlayer() : this.curPlayer;
         const result = this.api.post<BoardGameDTO>("Game/makeMove", Dto);
         result.subscribe((res) => {
+            console.log("Player was: " + this.getNextPlayer() + "move was rated" + res.lastMoveRating);
             this.boardUpdated(res);
         });
     }
