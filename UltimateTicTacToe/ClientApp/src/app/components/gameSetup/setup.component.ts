@@ -3,6 +3,7 @@ import { PlayerColour } from "../../models/player/player.colour.enum";
 import { PlayerType } from "../../models/player/player.type.enum";
 import { Player } from "../../models/player/player.model";
 import { UserService } from "../../services";
+import { NgOnChangesFeature } from "@angular/core/src/render3";
 
 @Component({
     templateUrl: "./setup.component.html",
@@ -15,11 +16,13 @@ export class GameSetupComponent implements OnInit {
     players: Array<Player>;
     type1: string;
     type2: string;
+    noGames: number;
     @Output() opponentSelectedEvent = new EventEmitter<Array<Player>>();
 
     constructor (private userService: UserService) {}
 
     ngOnInit() {
+        this.noGames = 1;
         this.types = this.types.slice(this.types.length / 2, this.types.length);
         this.players = new Array<Player>(2);
     }
@@ -56,7 +59,11 @@ export class GameSetupComponent implements OnInit {
         }
     }
 
-    playersAreValid(): boolean {
+    getNoGames(): number {
+        return this.noGames;
+    }
+
+    private playersAreValid(): boolean {
         let noPlayers = 0;
         this.players.forEach(x => {
             noPlayers++;

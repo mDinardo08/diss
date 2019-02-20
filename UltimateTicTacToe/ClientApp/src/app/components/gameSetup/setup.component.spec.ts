@@ -111,4 +111,15 @@ describe("Game Setup", () => {
         comp.play();
         expect(comp.opponentSelectedEvent.emit).not.toHaveBeenCalled();
     });
+
+    it("Will set the number of games to one by default", () => {
+        comp.ngOnInit();
+        expect(comp.getNoGames()).toBe(1);
+    });
+
+    it("Will return the number of games to be played", () => {
+        comp.ngOnInit();
+        comp.noGames = 10;
+        expect(comp.getNoGames()).toBe(10);
+    });
 });
