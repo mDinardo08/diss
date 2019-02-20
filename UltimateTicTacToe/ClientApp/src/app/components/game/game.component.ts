@@ -45,8 +45,7 @@ export class GameComponent implements OnInit, AfterViewInit {
         this.game = new BoardGame();
         this.availableMoves = new Array<Move>();
         this.lastMove = new Move();
-        const config: ModalOptions = { class: "modal-sm" };
-        this.gameStarter = this.modalService.show(GameSetupComponent, config);
+        this.gameStarter = this.modalService.show(GameSetupComponent);
         this.gameStarter.content.opponentSelectedEvent.subscribe((opp: Array<Player>) => {
             this.startGame(opp);
         });
