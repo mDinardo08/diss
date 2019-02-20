@@ -107,7 +107,7 @@ export class GameService extends AbstractGameService {
         moveDto.lastMove = this.lastMove;
         moveDto.move = move;
         moveDto.UserId = this.curPlayer.userId;
-        this.api.post<RatingDTO>("Game/RateMove", moveDto).subscribe((res) => {
+        this.api.post<RatingDTO>("Game/rateMove", moveDto).subscribe((res) => {
             console.log(res);
         });
     }

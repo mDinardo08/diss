@@ -28,7 +28,7 @@ namespace UltimateTicTacToe.Controllers
             this.playerCreationService = playerCreationService;
         }
 
-        [HttpPost("RateMove")]
+        [HttpPost("rateMove")]
         public IActionResult rateMove([FromBody] MoveDto moveDto)
         {
             BoardGame game = boardCreationService.createBoardGame(moveDto.game);
