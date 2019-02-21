@@ -79,7 +79,8 @@ export class GameService extends AbstractGameService {
 
     boardUpdated(res: BoardGameDTO): void {
         this.curPlayer = res.cur;
-        console.log("Player was: " + this.getNextPlayer().name + this.getNextPlayer().colour + "move was rated: " + res.lastMoveRating);
+        console.log("Player was: " + this.getNextPlayer().name + " player: " + this.players.findIndex(x => x === this.getNextPlayer()) +
+         " move was rated: " + res.lastMoveRating);
         this.board = res.game;
         this.availableMoves = res.availableMoves;
         if (res.lastMove !== undefined && res.lastMove !== null) {
@@ -91,7 +92,8 @@ export class GameService extends AbstractGameService {
         }
         if ((res.winner !== undefined && res.winner !== null) ||
             this.availableMoves.length === 0) {
-            this.gameOverEvent.emit(res.winner);
+                console.log("Game Over Winner is :" + this.players.find(x => x.colour === res.winner).name);
+                this.gameOverEvent.emit(res.winner);
         }
     }
 
