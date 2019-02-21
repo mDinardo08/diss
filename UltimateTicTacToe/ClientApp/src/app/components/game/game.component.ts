@@ -45,14 +45,15 @@ export class GameComponent implements OnInit, AfterViewInit {
         this.game = new BoardGame();
         this.availableMoves = new Array<Move>();
         this.lastMove = new Move();
-        this.gameStarter = this.modalService.show(GameSetupComponent);
+        this.gameStarter = this.modalService.show(GameSetupComponent, {class: "modal-lg"});
         this.gameStarter.content.opponentSelectedEvent.subscribe((opp: Array<Player>) => {
             this.startGame(opp);
         });
         this.gameService.gameOverEvent.subscribe((winner) => {
             this.noGames--;
             if (this.noGames > 0) {
-                this.gameService.createGame(3, this.gameService.getPlayers().reverse());
+                const players = this.gameService.getPlayers().reverse();
+                this.gameService.createGame(3, players);
             } else {
                 this.gameOver = this.modalService.show(GameOverComponent);
                 this.gameOver.content.Winner = winner;
@@ -70,7 +71,7 @@ export class GameComponent implements OnInit, AfterViewInit {
             this.overlayVisable = true;
             this.gameService.createGame(3, this.gameService.getPlayers());
         } else {
-            this.gameStarter = this.modalService.show(GameSetupComponent);
+            this.gameStarter = this.modalService.show(GameSetupComponent, {class: "modal-lg"});
             this.gameStarter.content.opponentSelectedEvent.subscribe((players) => {
                 this.startGame(players);
             });
