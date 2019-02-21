@@ -80,20 +80,21 @@ export class GameService extends AbstractGameService {
     boardUpdated(res: BoardGameDTO): void {
         this.curPlayer = res.cur;
         console.log("Player was: " + this.getNextPlayer().name + " player: " + this.players.findIndex(x => x === this.getNextPlayer()) +
-         " move was rated: " + res.lastMoveRating);
+            " move was rated: " + res.lastMoveRating);
         this.board = res.game;
         this.availableMoves = res.availableMoves;
         if (res.lastMove !== undefined && res.lastMove !== null) {
             this.lastMove = res.lastMove;
         }
-        this.boardUpdatedEvent.emit(this.board);
-        if (this.curPlayer.type !== PlayerType.HUMAN) {
-            this.handleMove(this.lastMove);
-        }
         if ((res.winner !== undefined && res.winner !== null) ||
             this.availableMoves.length === 0) {
-                console.log("Game Over Winner is :" + this.players.find(x => x.colour === res.winner).name);
-                this.gameOverEvent.emit(res.winner);
+            console.log("Game Over Winner is :" + this.players.find(x => x.colour === res.winner).name);
+            this.gameOverEvent.emit(res.winner);
+        } else {
+            this.boardUpdatedEvent.emit(this.board);
+            if (this.curPlayer.type !== PlayerType.HUMAN) {
+                this.handleMove(this.lastMove);
+            }
         }
     }
 

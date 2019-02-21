@@ -61,13 +61,6 @@ namespace UltimateTicTacToe.Services
             result.lastMove = move.getMove();
             result.cur = convertToJObject(next);
             result.lastMoveRating = move.getReward();
-            try
-            {
-                result.Winner = game.getWinner();
-                SaveGame(players, result.Winner);
-
-            }
-            catch (NoWinnerException) { }
 
         }
     
