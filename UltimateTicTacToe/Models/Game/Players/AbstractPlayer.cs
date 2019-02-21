@@ -51,7 +51,7 @@ namespace UltimateTicTacToe.Models.Game.Players
         public INode makeMove(BoardGame game, List<INode> nodes, int opponentId)
         {
             RatingDTO rating = provider.getUser(opponentId) ?? new RatingDTO();
-            rating.UserId = -1;
+            rating.userId = -1;
             INode decided = decideMove(game, nodes, rating);
             decided.getMove().setOwner(getColour());
             return decided;

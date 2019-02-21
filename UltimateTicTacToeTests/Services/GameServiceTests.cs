@@ -73,6 +73,7 @@ namespace UltimateTicTacToeTests.Services
             p.Setup(x => x.makeMove(mockGame.Object, null, 0))
                 .Returns(new Mock<INode>().Object);
             mockGame.Setup(x => x.Clone()).Returns(mockGame.Object);
+            mockGame.SetupSequence(x => x.isWon()).Returns(false).Returns(true);
             mockGame.Setup(x => x.getWinner()).Returns(0);
             mockGame.Setup(x => x.getBoard()).Returns(new List<List<BoardGame>>());
             Mock<Player> next = new Mock<Player>();

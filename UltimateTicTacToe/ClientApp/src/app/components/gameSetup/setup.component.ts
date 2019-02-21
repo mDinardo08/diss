@@ -3,6 +3,7 @@ import { PlayerColour } from "../../models/player/player.colour.enum";
 import { PlayerType } from "../../models/player/player.type.enum";
 import { Player } from "../../models/player/player.model";
 import { UserService } from "../../services";
+import { NgOnChangesFeature } from "@angular/core/src/render3";
 
 @Component({
     templateUrl: "./setup.component.html",
@@ -13,38 +14,60 @@ export class GameSetupComponent implements OnInit {
     types = Object.keys(PlayerType);
     opponentFirst = false;
     players: Array<Player>;
-    type: string;
+    type1: string;
+    type2: string;
+    noGames: number;
     @Output() opponentSelectedEvent = new EventEmitter<Array<Player>>();
 
     constructor (private userService: UserService) {}
 
     ngOnInit() {
+        this.noGames = 1;
         this.types = this.types.slice(this.types.length / 2, this.types.length);
+        this.players = new Array<Player>(2);
     }
 
-    opponentSelected(typeName: string): void {
-        this.type = typeName;
-        const opponent = new Player();
-        opponent.colour = PlayerColour.RED;
-        opponent.type = PlayerType[typeName];
-        opponent.name = "";
-        opponent.userId = PlayerType[typeName];
-        const human = new Player();
-        human.type = PlayerType.HUMAN;
-        human.colour = PlayerColour.BLUE;
-        human.name = "";
-        human.userId = this.userService.getUserId();
-        this.players = new Array<Player>();
-        this.players.push(human);
-        this.players.push(opponent);
+    player1Selected(typeName: string): void {
+        this.type1 = typeName;
+        const player = this.createPlayer(typeName);
+        player.colour = PlayerColour.BLUE;
+        this.players[0] = player;
+    }
+
+    player2Selected(typeName: string): void {
+        this.type2 = typeName;
+        const player = this.createPlayer(typeName);
+        player.colour = PlayerColour.RED;
+        this.players[1] = player;
+    }
+
+    private createPlayer(typeName: string): Player {
+        const player = new Player();
+        player.type = PlayerType[typeName];
+        player.name = typeName;
+        if (player.type === PlayerType.HUMAN) {
+            player.userId = this.userService.getUserId();
+        } else {
+            player.userId = player.type;
+        }
+        return player;
     }
 
     play(): void {
-        if (this.players !== null && this.players !== undefined) {
-            if (this.opponentFirst) {
-                this.players = this.players.reverse();
-            }
+        if (this.playersAreValid()) {
             this.opponentSelectedEvent.emit(this.players);
         }
+    }
+
+    getNoGames(): number {
+        return this.noGames;
+    }
+
+    private playersAreValid(): boolean {
+        let noPlayers = 0;
+        this.players.forEach(x => {
+            noPlayers++;
+        });
+        return noPlayers === 2;
     }
 }

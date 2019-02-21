@@ -9,6 +9,7 @@ import { Move } from "../../models/move/move.model";
 import { AbstractGameService } from "./game.service.abstract";
 import { RatingDTO } from "../../models/DTOs/RatingDTO";
 import { MoveDTO } from "../../models/DTOs/MoveDTO";
+import { PlayerType } from "../../models/player/player.type.enum";
 
 @Injectable()
 export class GameService extends AbstractGameService {
@@ -27,24 +28,9 @@ export class GameService extends AbstractGameService {
     }
 
     makeMove(move: Move): void {
-        const moveDto = new MoveDTO();
-        moveDto.game = this.board;
-        moveDto.lastMove = this.lastMove;
-        moveDto.move = move;
-        moveDto.UserId = this.curPlayer.userId;
-        this.api.post<RatingDTO>("Game/RateMove", moveDto).subscribe((res) => {
-            console.log(res);
-        });
-        const Dto = new BoardGameDTO();
-        Dto.game = this.makeMoveOnBoard(this.board, move);
-        this.lastMove = move;
-        Dto.lastMove = move;
-        Dto.players = this.players;
-        Dto.cur = this.getNextPlayer();
-        const result = this.api.post<BoardGameDTO>("Game/makeMove", Dto);
-        result.subscribe((res) => {
-            this.boardUpdated(res);
-        });
+        if (this.curPlayer.type === PlayerType.HUMAN) {
+            this.handleMove(move);
+        }
     }
 
     createGame(size: number, players: Array<Player>): Observable<BoardGameDTO> {
@@ -80,7 +66,7 @@ export class GameService extends AbstractGameService {
         const result = board;
         const point = move.possition;
         if (move.next.possition === null || move.next.possition === undefined) {
-            result[point.x][point.y].owner = this.curPlayer.colour;
+            result[point.x][point.y].owner = move.owner;
         } else {
             result[point.x][point.y].board = this.makeMoveOnBoard(result[point.x][point.y].board, move.next);
         }
@@ -93,15 +79,53 @@ export class GameService extends AbstractGameService {
 
     boardUpdated(res: BoardGameDTO): void {
         this.curPlayer = res.cur;
+        console.log("Player was: " + this.getNextPlayer().name + " player: " + this.players.findIndex(x => x === this.getNextPlayer()) +
+            " move was rated: " + res.lastMoveRating);
         this.board = res.game;
         this.availableMoves = res.availableMoves;
         if (res.lastMove !== undefined && res.lastMove !== null) {
             this.lastMove = res.lastMove;
         }
-        this.boardUpdatedEvent.emit(this.board);
         if ((res.winner !== undefined && res.winner !== null) ||
             this.availableMoves.length === 0) {
-                this.gameOverEvent.emit(res.winner);
+            console.log("Game Over Winner is :" + this.players.find(x => x.colour === res.winner).name);
+            this.gameOverEvent.emit(res.winner);
+        } else {
+            this.boardUpdatedEvent.emit(this.board);
+            if (this.curPlayer.type !== PlayerType.HUMAN) {
+                this.handleMove(this.lastMove);
+            }
         }
+    }
+
+    handleMove(move: Move): void {
+        if (this.curPlayer.type === PlayerType.HUMAN) {
+            this.rateMove(move);
+        }
+        this.sendMoveToServer(move);
+    }
+
+    rateMove(move: Move): void {
+        const moveDto = new MoveDTO();
+        moveDto.game = this.board;
+        moveDto.lastMove = this.lastMove;
+        moveDto.move = move;
+        moveDto.UserId = this.curPlayer.userId;
+        this.api.post<RatingDTO>("Game/rateMove", moveDto).subscribe((res) => {
+            console.log(res);
+        });
+    }
+
+    sendMoveToServer(move: Move): void {
+        const Dto = new BoardGameDTO();
+        Dto.game = this.makeMoveOnBoard(this.board, move);
+        this.lastMove = move;
+        Dto.lastMove = move;
+        Dto.players = this.players;
+        Dto.cur = this.curPlayer.type === PlayerType.HUMAN ? this.getNextPlayer() : this.curPlayer;
+        const result = this.api.post<BoardGameDTO>("Game/makeMove", Dto);
+        result.subscribe((res) => {
+            this.boardUpdated(res);
+        });
     }
 }

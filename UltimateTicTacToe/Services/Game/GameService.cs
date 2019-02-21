@@ -60,13 +60,7 @@ namespace UltimateTicTacToe.Services
             List<List<BoardGame>> board = game.getBoard();
             result.lastMove = move.getMove();
             result.cur = convertToJObject(next);
-            try
-            {
-                result.Winner = game.getWinner();
-                SaveGame(players, result.Winner);
-
-            }
-            catch (NoWinnerException) { }
+            result.lastMoveRating = move.getReward();
 
         }
     
