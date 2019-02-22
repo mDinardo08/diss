@@ -88,7 +88,12 @@ export class GameService extends AbstractGameService {
         }
         if ((res.winner !== undefined && res.winner !== null) ||
             this.availableMoves.length === 0) {
-            console.log("Game Over Winner is :" + this.players.find(x => x.colour === res.winner).name);
+            const winner = this.players.find(x => x.colour === res.winner);
+            if (winner !== undefined) {
+                console.log("Game Over Winner is :" + winner.name);
+            } else {
+                console.log("Game Over it was a tie");
+            }
             this.gameOverEvent.emit(res.winner);
         } else {
             this.boardUpdatedEvent.emit(this.board);
