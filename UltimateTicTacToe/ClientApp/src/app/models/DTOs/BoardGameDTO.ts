@@ -11,4 +11,6 @@ export class BoardGameDTO {
     public lastMove: Move;
     public availableMoves: Array<Move>;
     public lastMoveRating: number;
+    public highOption: number;
+    public lowOption: number;
 }
