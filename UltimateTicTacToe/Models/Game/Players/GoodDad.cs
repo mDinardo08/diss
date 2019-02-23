@@ -21,7 +21,7 @@ namespace UltimateTicTacToe.Models.Game.Players
         {
             double diff = int.MaxValue;
             INode best = nodes[0];
-            double targetScore = 0.6 * opponentRating.average + 0.4 * opponentRating.latest;
+            double targetScore = 0.8 * opponentRating.average + 0.2 * opponentRating.latest;
             foreach (INode node in nodes)
             {
                 double nodeDiff = Math.Abs(targetScore - node.getReward());
