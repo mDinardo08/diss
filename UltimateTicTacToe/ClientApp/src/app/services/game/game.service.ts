@@ -19,6 +19,9 @@ export class GameService extends AbstractGameService {
     board: Array<Array<BoardGame>>;
     availableMoves: Array<Move>;
     lastMove: Move;
+    playerRatings: Array<Array<number>>;
+    playerLowOptions: Array<Array<number>>;
+    playerHighOptions: Array<Array<number>>;
     constructor(private api: ApiService) {
         super();
     }
@@ -34,6 +37,14 @@ export class GameService extends AbstractGameService {
     }
 
     createGame(size: number, players: Array<Player>): Observable<BoardGameDTO> {
+        this.playerRatings = new Array<Array<number>>();
+        this.playerHighOptions = new Array<Array<number>>();
+        this.playerLowOptions = new Array<Array<number>>();
+        players.forEach(player => {
+            this.playerRatings.push(new Array<number>());
+            this.playerHighOptions.push(new Array<number>());
+            this.playerLowOptions.push(new Array<number>());
+        });
         const creationDto = new BoardCreationDTO();
         creationDto.size = size;
         creationDto.players = players;
@@ -79,8 +90,8 @@ export class GameService extends AbstractGameService {
 
     boardUpdated(res: BoardGameDTO): void {
         this.curPlayer = res.cur;
-        console.log("Player was: " + this.getNextPlayer().name + " player: " + this.players.findIndex(x => x === this.getNextPlayer()) +
-            " move was rated: " + res.lastMoveRating);
+        //console.log("Player was: " + this.getNextPlayer().name + " player: " + this.players.findIndex(x => x === this.getNextPlayer()) +
+        //    " move was rated: " + res.lastMoveRating);
         this.board = res.game;
         this.availableMoves = res.availableMoves;
         if (res.lastMove !== undefined && res.lastMove !== null) {
@@ -94,10 +105,37 @@ export class GameService extends AbstractGameService {
             } else {
                 console.log("Game Over it was a tie");
             }
+            const curIndex = this.players.findIndex(x => x.colour !== this.curPlayer.colour);
+            this.playerRatings[curIndex].push(res.lastMoveRating);
+            for (let x = 0; x < this.playerRatings.length; x++) {
+                console.log("Player: " + this.players[x].name);
+                console.log("scores: ");
+                let results = "";
+                this.playerRatings[x].forEach(rating => {
+                    results += rating + ", ";
+                });
+                console.log(results);
+                console.log("Highest possible scores: ");
+                results = "";
+                this.playerHighOptions[x].forEach(option => {
+                    results += option + ", ";
+                });
+                console.log(results);
+                console.log("Lowest possible scores: ");
+                results = "";
+                this.playerLowOptions[x].forEach(option => {
+                    results += option + ", ";
+                });
+                console.log(results);
+            }
             this.gameOverEvent.emit(res.winner);
         } else {
             this.boardUpdatedEvent.emit(this.board);
             if (this.curPlayer.type !== PlayerType.HUMAN) {
+                const curIndex = this.players.findIndex(x => x.colour !== this.curPlayer.colour);
+                this.playerRatings[curIndex].push(res.lastMoveRating);
+                this.playerHighOptions[curIndex].push(res.highOption);
+                this.playerLowOptions[curIndex].push(res.lowOption);
                 this.handleMove(this.lastMove);
             }
         }
@@ -118,6 +156,10 @@ export class GameService extends AbstractGameService {
         moveDto.UserId = this.curPlayer.userId;
         this.api.post<RatingDTO>("Game/rateMove", moveDto).subscribe((res) => {
             console.log(res);
+            const curIndex = this.players.findIndex(x => x.userId === res.userId);
+            this.playerRatings[curIndex].push(res.latest);
+                this.playerHighOptions[curIndex].push(res.highOption);
+                this.playerLowOptions[curIndex].push(res.lowOption);
         });
     }
 
