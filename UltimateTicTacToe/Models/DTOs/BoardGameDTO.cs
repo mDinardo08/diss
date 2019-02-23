@@ -15,5 +15,7 @@ namespace UltimateTicTacToe.Models.DTOs
         public Move lastMove;
         public List<Move> availableMoves;
         public double lastMoveRating;
+        public double highOption;
+        public double lowOption;
     }
 }
