@@ -145,7 +145,7 @@ namespace UltimateTicTacToe.Services
                 if (node.getMove().Equals(move))
                 {
                     result = provider.updateUser(UserId, node.getReward());
-
+                    provider.saveMove(UserId, node.getReward(), nodes.FindIndex(x => x == node));
                     if (result != null)
                     {
                         result.highOption = high;
