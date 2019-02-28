@@ -90,8 +90,6 @@ export class GameService extends AbstractGameService {
 
     boardUpdated(res: BoardGameDTO): void {
         this.curPlayer = res.cur;
-        //console.log("Player was: " + this.getNextPlayer().name + " player: " + this.players.findIndex(x => x === this.getNextPlayer()) +
-        //    " move was rated: " + res.lastMoveRating);
         this.board = res.game;
         this.availableMoves = res.availableMoves;
         if (res.lastMove !== undefined && res.lastMove !== null) {
@@ -100,44 +98,46 @@ export class GameService extends AbstractGameService {
         if ((res.winner !== undefined && res.winner !== null) ||
             this.availableMoves.length === 0) {
             const winner = this.players.find(x => x.colour === res.winner);
-            if (winner !== undefined) {
-                console.log("Game Over Winner is :" + winner.name);
-            } else {
-                console.log("Game Over it was a tie");
-            }
             const curIndex = this.players.findIndex(x => x.colour !== this.curPlayer.colour);
-            this.playerRatings[curIndex].push(res.lastMoveRating);
-            for (let x = 0; x < this.playerRatings.length; x++) {
-                console.log("Player: " + this.players[x].name);
-                console.log("scores: ");
-                let results = "";
-                this.playerRatings[x].forEach(rating => {
-                    results += rating + ", ";
-                });
-                console.log(results);
-                console.log("Highest possible scores: ");
-                results = "";
-                this.playerHighOptions[x].forEach(option => {
-                    results += option + ", ";
-                });
-                console.log(results);
-                console.log("Lowest possible scores: ");
-                results = "";
-                this.playerLowOptions[x].forEach(option => {
-                    results += option + ", ";
-                });
-                console.log(results);
-            }
+            this.logMoveDetails(curIndex, res);
+            this.printGameStats(winner);
             this.gameOverEvent.emit(res.winner);
         } else {
             this.boardUpdatedEvent.emit(this.board);
             if (this.curPlayer.type !== PlayerType.HUMAN) {
                 const curIndex = this.players.findIndex(x => x.colour !== this.curPlayer.colour);
-                this.playerRatings[curIndex].push(res.lastMoveRating);
-                this.playerHighOptions[curIndex].push(res.highOption);
-                this.playerLowOptions[curIndex].push(res.lowOption);
+                this.logMoveDetails(curIndex, res);
                 this.handleMove(this.lastMove);
             }
+        }
+    }
+
+    printGameStats(winner: Player): void {
+        if (winner !== undefined) {
+            console.log("Game Over Winner is :" + winner.name);
+        } else {
+            console.log("Game Over it was a tie");
+        }
+        for (let x = 0; x < this.playerRatings.length; x++) {
+            console.log("Player: " + this.players[x].name);
+            console.log("scores: ");
+            let results = "";
+            this.playerRatings[x].forEach(rating => {
+                results += rating + ", ";
+            });
+            console.log(results);
+            console.log("Highest possible scores: ");
+            results = "";
+            this.playerHighOptions[x].forEach(option => {
+                results += option + ", ";
+            });
+            console.log(results);
+            console.log("Lowest possible scores: ");
+            results = "";
+            this.playerLowOptions[x].forEach(option => {
+                results += option + ", ";
+            });
+            console.log(results);
         }
     }
 
@@ -157,10 +157,14 @@ export class GameService extends AbstractGameService {
         this.api.post<RatingDTO>("Game/rateMove", moveDto).subscribe((res) => {
             console.log(res);
             const curIndex = this.players.findIndex(x => x.userId === res.userId);
-            this.playerRatings[curIndex].push(res.latest);
-            this.playerHighOptions[curIndex].push(res.highOption);
-            this.playerLowOptions[curIndex].push(res.lowOption);
+            this.logMoveDetails(curIndex, res);
         });
+    }
+
+    logMoveDetails(index: number, dto) {
+        this.playerRatings[index].push(dto.latest);
+        this.playerHighOptions[index].push(dto.highOption);
+        this.playerLowOptions[index].push(dto.lowOption);
     }
 
     sendMoveToServer(move: Move): void {
