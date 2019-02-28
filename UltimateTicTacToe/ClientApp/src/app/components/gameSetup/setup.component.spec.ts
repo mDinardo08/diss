@@ -1,4 +1,5 @@
 import { GameSetupComponent } from "./setup.component";
+import { PlayerType } from "../../models/player/player.type.enum";
 
 describe("Game Setup", () => {
 
@@ -34,7 +35,7 @@ describe("Game Setup", () => {
     it("Will assign the correct numerical type to player1", () => {
        comp.ngOnInit();
        comp.player1Selected("HUMAN");
-       expect(comp.players[0].type).toBe(4);
+       expect(comp.players[0].type).toBe(PlayerType.HUMAN);
     });
 
     it("Will assign colour 0 to player1", () => {
@@ -77,7 +78,7 @@ describe("Game Setup", () => {
     it("Will assign the correct numerical type to player2", () => {
        comp.ngOnInit();
        comp.player2Selected("HUMAN");
-       expect(comp.players[1].type).toBe(4);
+       expect(comp.players[1].type).toBe(PlayerType.HUMAN);
     });
 
     it("Will assign colour 1 to player2", () => {

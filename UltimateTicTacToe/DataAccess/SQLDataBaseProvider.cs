@@ -21,11 +21,48 @@ namespace UltimateTicTacToe.DataAccess
             {
                 connection.Open();
                 SqlCommand command = new SqlCommand(null, connection);
-                command.CommandText = "Insert into Games (GameNo, PlayerOne, PlayerTwo, Winner) Values ("+gameCount+","+ Player1 +","+Player2 +","+ Winner + ")";
+                if (Winner != null)
+                {
+                    command.CommandText = "Insert into Games (GameNo, PlayerOne, PlayerTwo, Winner) Values (" + gameCount + "," + Player1 + "," + Player2 + "," + Winner + ")";
+                } else
+                {
+                    command.CommandText = "Insert into Games (GameNo, PlayerOne, PlayerTwo, Winner) Values (" + gameCount + "," + Player1 + "," + Player2 + ", null)";
+                }
                 command.ExecuteNonQuery();
                 connection.Close();
             }
         }
+
+        public void saveMove(int PlayerId, double moveReward, int movePlace)
+        {
+            using (SqlConnection connection = new SqlConnection(getConnectionString()))
+            {
+                connection.Open();
+                SqlCommand command = new SqlCommand(null, connection);
+                command.CommandText = "Insert into moves (id, Owner, Reward, Place) Values ((select Count(*) from moves)," + PlayerId + "," + moveReward + "," + movePlace + ")";
+                command.ExecuteNonQuery();
+                connection.Close();
+            }
+        }
+
+        private List<MoveDBO> getMoves(int PlayerID)
+        {
+            List<MoveDBO> result = new List<MoveDBO>();
+            using(SqlConnection connection = new SqlConnection(getConnectionString()))
+            {
+                connection.Open();
+                SqlCommand command = new SqlCommand(null, connection);
+                command.CommandText = "select Owner, Reward, Place from moves where Owner = " + PlayerID;
+                SqlDataReader reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    result.Add(new MoveDBO { Owner = PlayerID, place = (int)reader["Place"], reward = (double)reader["Reward"] });
+                }
+                connection.Close();
+            }
+            return result;
+        }
+        
 
         private int getNoGames(int Player1, int Player2)
         {
@@ -69,7 +106,8 @@ namespace UltimateTicTacToe.DataAccess
                 result.userId = row.UserId;
                 result.average = row.TotalScore / row.TotalMoves;
                 result.latest = row.LatestScore;
-            } 
+                result.moves = getMoves(UserId);
+            }
             return result;
         }
 

@@ -61,7 +61,28 @@ namespace UltimateTicTacToe.Services
             result.lastMove = move.getMove();
             result.cur = convertToJObject(next);
             result.lastMoveRating = move.getReward();
-
+            int place = 0;
+            double high = -1;
+            double low = 1;
+            foreach(INode node in nodes)
+            {
+                double reward = node.getReward();
+                if (reward > high)
+                {
+                    high = reward;
+                }
+                if (reward < low)
+                {
+                    low = reward;
+                }
+                if (move.getReward() < reward)
+                {
+                    place++;
+                }
+            }
+            provider.saveMove(Ai.getUserId(), move.getReward(), place);
+            result.highOption = high;
+            result.lowOption = low;
         }
     
         private List<JObject> buildPlayersArray(List<Player> players)
@@ -107,12 +128,29 @@ namespace UltimateTicTacToe.Services
             RatingDTO result = null;
             boardGame.registerMove(lastMove);
             boardGame.validateBoard();
+            double high = -1;
+            double low = 1;
             List<INode> nodes = nodeService.process(boardGame, (PlayerColour)move.owner);
             foreach (INode node in nodes)
             {
+                double reward = node.getReward();
+                if (reward > high)
+                {
+                    high = reward;
+                }
+                if (reward < low)
+                {
+                    low = reward;
+                }
                 if (node.getMove().Equals(move))
                 {
                     result = provider.updateUser(UserId, node.getReward());
+                    provider.saveMove(UserId, node.getReward(), nodes.FindIndex(x => x == node));
+                    if (result != null)
+                    {
+                        result.highOption = high;
+                        result.lowOption = low;
+                    }
                 }
             }
             return result;
@@ -123,7 +161,14 @@ namespace UltimateTicTacToe.Services
         {
             if (players.TrueForAll(x => x.getUserId() >= 0))
             {
-                provider.saveGameResult(players[0].getUserId(), players[1].getUserId(), players.Find(x => x.getColour() == Winner)?.getUserId());
+                Player winner = players.Find(x => x.getColour() == Winner);
+                if ( winner == null)
+                {
+                    provider.saveGameResult(players[0].getUserId(), players[1].getUserId(), null);
+                } else
+                {
+                    provider.saveGameResult(players[0].getUserId(), players[1].getUserId(), winner.getUserId());
+                }
             }
         }
     }

@@ -41,12 +41,16 @@ namespace UltimateTicTacToeTests.Services
         [TestMethod]
         public void WillHaveTheAiMakeAMoveIfGameIsNotOver()
         {
+            Mock<NodeService> mockNodeService = new Mock<NodeService>();
+            mockNodeService.Setup(x => x.process(It.IsAny<BoardGame>(), It.IsAny<PlayerColour>()))
+                .Returns(new List<INode>());
+            service = new GameService(mockNodeService.Object, new Mock<IDatabaseProvider>().Object);
             Mock<BoardGame> mockCloned = new Mock<BoardGame>();
             Mock<BoardGame> mockGame = new Mock<BoardGame>(MockBehavior.Loose);
             mockGame.Setup(x => x.Clone())
                 .Returns(mockCloned.Object);
             Mock<Player> p = new Mock<Player>();
-            p.Setup(x => x.makeMove(mockCloned.Object, null, 0))
+            p.Setup(x => x.makeMove(mockCloned.Object, It.IsAny<List<INode>>(), 0))
                 .Returns(new Mock<INode>().Object)
                 .Verifiable();
             mockGame.Setup(x => x.getWinner())
@@ -68,9 +72,13 @@ namespace UltimateTicTacToeTests.Services
         [TestMethod]
         public void WillReturnTheAisTheWinnerIfItsMoveWinsTheGame()
         {
+            Mock<NodeService> mockNodeService = new Mock<NodeService>();
+            mockNodeService.Setup(x => x.process(It.IsAny<BoardGame>(), It.IsAny<PlayerColour>()))
+                .Returns(new List<INode>());
+            service = new GameService(mockNodeService.Object, new Mock<IDatabaseProvider>().Object);
             Mock<BoardGame> mockGame = new Mock<BoardGame>(MockBehavior.Loose);
             Mock<Player> p = new Mock<Player>();
-            p.Setup(x => x.makeMove(mockGame.Object, null, 0))
+            p.Setup(x => x.makeMove(mockGame.Object, It.IsAny<List<INode>>(), 0))
                 .Returns(new Mock<INode>().Object);
             mockGame.Setup(x => x.Clone()).Returns(mockGame.Object);
             mockGame.SetupSequence(x => x.isWon()).Returns(false).Returns(true);
@@ -90,10 +98,14 @@ namespace UltimateTicTacToeTests.Services
         [TestMethod]
         public void WillAssignTheNextPlayerAsTheCurrentPlayerOnTheReturnedDto()
         {
+            Mock<NodeService> mockNodeService = new Mock<NodeService>();
+            mockNodeService.Setup(x => x.process(It.IsAny<BoardGame>(), It.IsAny<PlayerColour>()))
+                .Returns(new List<INode>());
+            service = new GameService(mockNodeService.Object, new Mock<IDatabaseProvider>().Object);
             Mock<BoardGame> mockGame = new Mock<BoardGame>(MockBehavior.Loose);
             mockGame.Setup(x => x.Clone()).Returns(mockGame.Object);
             Mock<Player> p = new Mock<Player>();
-            p.Setup(x => x.makeMove(mockGame.Object, null, 0))
+            p.Setup(x => x.makeMove(mockGame.Object, It.IsAny<List<INode>>(), 0))
                 .Returns(new Mock<INode>().Object);
             p.Setup(x => x.getPlayerType()).Returns(PlayerType.RANDOM);
             p.Setup(x => x.getName()).Returns("hello");
@@ -115,6 +127,11 @@ namespace UltimateTicTacToeTests.Services
         [TestMethod]
         public void WillAddEmpty2DListOfJObject()
         {
+            Mock<NodeService> mockNodeService = new Mock<NodeService>();
+            mockNodeService.Setup(x => x.process(It.IsAny<BoardGame>(), It.IsAny<PlayerColour>()))
+                .Returns(new List<INode>());
+            
+            service = new GameService(mockNodeService.Object, new Mock<IDatabaseProvider>().Object);
             Mock<BoardGame> mockGame = new Mock<BoardGame>(MockBehavior.Loose);
             Mock<Player> p = new Mock<Player>();
             Mock<INode> mockNode = new Mock<INode>();
@@ -123,7 +140,7 @@ namespace UltimateTicTacToeTests.Services
             mockGame.Setup(x => x.getWinner()).Throws(new NoWinnerException());
             mockGame.Setup(x => x.Clone())
                 .Returns(mockGame.Object);
-            p.Setup(x => x.makeMove(mockGame.Object, null, 0))
+            p.Setup(x => x.makeMove(mockGame.Object, It.IsAny<List<INode>>(), 0))
                 .Returns(mockNode.Object);
             mockGame.Setup(x => x.getBoard()).Returns(new List<List<BoardGame>>());
             Mock<Player> next = new Mock<Player>();
@@ -140,12 +157,16 @@ namespace UltimateTicTacToeTests.Services
         [TestMethod]
         public void WillAddOneTile()
         {
+            Mock<NodeService> mockNodeService = new Mock<NodeService>();
+            mockNodeService.Setup(x => x.process(It.IsAny<BoardGame>(), It.IsAny<PlayerColour>()))
+                .Returns(new List<INode>());
+            service = new GameService(mockNodeService.Object, new Mock<IDatabaseProvider>().Object);
             Mock<BoardGame> mockGame = new Mock<BoardGame>(MockBehavior.Loose);
             Mock<Player> p = new Mock<Player>();
             mockGame.Setup(x => x.getWinner()).Throws(new NoWinnerException());
             mockGame.Setup(x => x.Clone())
                 .Returns(mockGame.Object);
-            p.Setup(x => x.makeMove(mockGame.Object, null, 0))
+            p.Setup(x => x.makeMove(mockGame.Object, It.IsAny<List<INode>>(), 0))
                 .Returns(new Mock<INode>().Object);
             mockGame.Setup(x => x.getBoard()).Returns(new List<List<BoardGame>> {
                 new List<BoardGame>
@@ -167,11 +188,15 @@ namespace UltimateTicTacToeTests.Services
         [TestMethod]
         public void WillAddOneTileWithPropertiesPopulated()
         {
+            Mock<NodeService> mockNodeService = new Mock<NodeService>();
+            mockNodeService.Setup(x => x.process(It.IsAny<BoardGame>(), It.IsAny<PlayerColour>()))
+                .Returns(new List<INode>());
+            service = new GameService(mockNodeService.Object, new Mock<IDatabaseProvider>().Object);
             Mock<BoardGame> mockGame = new Mock<BoardGame>(MockBehavior.Loose);
             Mock<Player> p = new Mock<Player>();
             mockGame.Setup(x => x.getWinner()).Throws(new NoWinnerException());
             mockGame.Setup(x => x.Clone()).Returns(mockGame.Object);
-            p.Setup(x => x.makeMove(mockGame.Object, null, 0))
+            p.Setup(x => x.makeMove(mockGame.Object, It.IsAny<List<INode>>(), 0))
                 .Returns(new Mock<INode>().Object);
             mockGame.Setup(x => x.getBoard()).Returns(new List<List<BoardGame>> {
                 new List<BoardGame>
@@ -196,10 +221,14 @@ namespace UltimateTicTacToeTests.Services
         [TestMethod]
         public void WillAddTilesAlongWidth()
         {
+            Mock<NodeService> mockNodeService = new Mock<NodeService>();
+            mockNodeService.Setup(x => x.process(It.IsAny<BoardGame>(), It.IsAny<PlayerColour>()))
+                .Returns(new List<INode>());
+            service = new GameService(mockNodeService.Object, new Mock<IDatabaseProvider>().Object);
             Mock<BoardGame> mockGame = new Mock<BoardGame>(MockBehavior.Loose);
             Mock<Player> p = new Mock<Player>();
             mockGame.Setup(x => x.getWinner()).Throws(new NoWinnerException());
-            p.Setup(x => x.makeMove(mockGame.Object, null, 0))
+            p.Setup(x => x.makeMove(mockGame.Object, It.IsAny<List<INode>>(), 0))
                 .Returns(new Mock<INode>().Object);
             mockGame.Setup(x => x.getBoard()).Returns(new List<List<BoardGame>> {
                 new List<BoardGame>
@@ -222,11 +251,15 @@ namespace UltimateTicTacToeTests.Services
         [TestMethod]
         public void WillPopulateOverHight()
         {
+            Mock<NodeService> mockNodeService = new Mock<NodeService>();
+            mockNodeService.Setup(x => x.process(It.IsAny<BoardGame>(), It.IsAny<PlayerColour>()))
+                .Returns(new List<INode>());
+            service = new GameService(mockNodeService.Object, new Mock<IDatabaseProvider>().Object);
             Mock<BoardGame> mockGame = new Mock<BoardGame>(MockBehavior.Loose);
             mockGame.Setup(x => x.Clone()).Returns(mockGame.Object);
             Mock<Player> p = new Mock<Player>();
             mockGame.Setup(x => x.getWinner()).Throws(new NoWinnerException());
-            p.Setup(x => x.makeMove(mockGame.Object, null, 0))
+            p.Setup(x => x.makeMove(mockGame.Object, It.IsAny<List<INode>>(), 0))
                 .Returns(new Mock<INode>().Object);
             mockGame.Setup(x => x.getBoard()).Returns(new List<List<BoardGame>> {
                 new List<BoardGame>
@@ -252,9 +285,13 @@ namespace UltimateTicTacToeTests.Services
         [TestMethod]
         public void WillAddTheNameOfTheNewCurPlayer()
         {
+            Mock<NodeService> mockNodeService = new Mock<NodeService>();
+            mockNodeService.Setup(x => x.process(It.IsAny<BoardGame>(), It.IsAny<PlayerColour>()))
+                .Returns(new List<INode>());
+            service = new GameService(mockNodeService.Object, new Mock<IDatabaseProvider>().Object);
             Mock<BoardGame> mockGame = new Mock<BoardGame>(MockBehavior.Loose);
             Mock<Player> p = new Mock<Player>();
-            p.Setup(x => x.makeMove(mockGame.Object, null, 0))
+            p.Setup(x => x.makeMove(mockGame.Object, It.IsAny<List<INode>>(), 0))
                 .Returns(new Mock<INode>().Object);
             p.Setup(x => x.getPlayerType()).Returns(PlayerType.RANDOM);
             p.Setup(x => x.getName()).Returns("name");
@@ -277,9 +314,13 @@ namespace UltimateTicTacToeTests.Services
         [TestMethod]
         public void WillPopulateThePlayersArrayWithJObjectRepresentationsOfThePlayers()
         {
+            Mock<NodeService> mockNodeService = new Mock<NodeService>();
+            mockNodeService.Setup(x => x.process(It.IsAny<BoardGame>(), It.IsAny<PlayerColour>()))
+                .Returns(new List<INode>());
+            service = new GameService(mockNodeService.Object, new Mock<IDatabaseProvider>().Object);
             Mock<BoardGame> mockGame = new Mock<BoardGame>(MockBehavior.Loose);
             Mock<Player> p = new Mock<Player>();
-            p.Setup(x => x.makeMove(mockGame.Object, null, 0))
+            p.Setup(x => x.makeMove(mockGame.Object, It.IsAny<List<INode>>(), 0))
                 .Returns(new Mock<INode>().Object);
             p.Setup(x => x.getPlayerType()).Returns(PlayerType.RANDOM);
             p.Setup(x => x.getName()).Returns("name");
@@ -348,11 +389,15 @@ namespace UltimateTicTacToeTests.Services
         [TestMethod]
         public void WillSetTheMoveMadeByTheAiAsTheLastMove()
         {
+            Mock<NodeService> mockNodeService = new Mock<NodeService>();
+            mockNodeService.Setup(x => x.process(It.IsAny<BoardGame>(), It.IsAny<PlayerColour>()))
+                .Returns(new List<INode>());
+            service = new GameService(mockNodeService.Object, new Mock<IDatabaseProvider>().Object);
             Mock<Player> mockAi = new Mock<Player>();
             Move m = new Move();
             Mock<INode> mockNode = new Mock<INode>();
             mockNode.Setup(x => x.getMove()).Returns(m);
-            mockAi.Setup(x => x.makeMove(It.IsAny<BoardGame>(), null, 0))
+            mockAi.Setup(x => x.makeMove(It.IsAny<BoardGame>(), It.IsAny<List<INode>>(), 0))
                 .Returns(mockNode.Object);
             mockAi.Setup(x => x.getPlayerType()).Returns(PlayerType.RANDOM);
             Mock<BoardGame> mockGame = new Mock<BoardGame>();
@@ -507,6 +552,9 @@ namespace UltimateTicTacToeTests.Services
         [TestMethod]
         public void WillCallTheProviderToUpdateTheAiUserWithTheirLatestScore()
         {
+            Mock<NodeService> mockNodeService = new Mock<NodeService>();
+            mockNodeService.Setup(x => x.process(It.IsAny<BoardGame>(), It.IsAny<PlayerColour>()))
+                .Returns(new List<INode>());
             Mock<Player> mockPlayer = new Mock<Player>();
             mockPlayer.Setup(x => x.getUserId())
                 .Returns((int)PlayerType.HUMAN + 1);
@@ -530,7 +578,7 @@ namespace UltimateTicTacToeTests.Services
             {
                 next.Object, next.Object
             };
-            service = new GameService(new Mock<NodeService>().Object, mockProvider.Object);
+            service = new GameService(mockNodeService.Object, mockProvider.Object);
             service.processMove(mockGame.Object, mockPlayer.Object, players);
             mockProvider.Verify();
         }
