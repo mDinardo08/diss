@@ -158,8 +158,8 @@ export class GameService extends AbstractGameService {
             console.log(res);
             const curIndex = this.players.findIndex(x => x.userId === res.userId);
             this.playerRatings[curIndex].push(res.latest);
-                this.playerHighOptions[curIndex].push(res.highOption);
-                this.playerLowOptions[curIndex].push(res.lowOption);
+            this.playerHighOptions[curIndex].push(res.highOption);
+            this.playerLowOptions[curIndex].push(res.lowOption);
         });
     }
 
