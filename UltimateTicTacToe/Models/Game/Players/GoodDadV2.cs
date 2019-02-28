@@ -21,17 +21,45 @@ namespace UltimateTicTacToe.Models.Game.Players
         protected override INode decideMove(BoardGame game, List<INode> nodes, RatingDTO opponentRating)
         {
             double average = averagePlace(opponentRating.moves);
-            List<int> places = new List<int>();
+            List<int> opponentMovePlacements = new List<int>();
             if (opponentRating.moves != null)
             {
                 foreach (MoveDBO move in opponentRating.moves)
                 {
-                    places.Add(move.place);
+                    opponentMovePlacements.Add(move.place);
                 }
             }
-            double stddiv = standardDiv(average, places);
+            double stddiv = standardDiv(average, opponentMovePlacements);
             stddiv *= 2;
-            places = new List<int>();
+            List<int> movePlacements = getMovePlaces(nodes);
+            List<int> filtered = filteredPlaces(stddiv, movePlacements, average);
+            return selectBestNode(nodes, filtered);
+        }
+
+        private INode selectBestNode(List<INode> nodes, List<int> acceptiblePlacements)
+        {
+            INode result;
+            if (nodes.FindIndex(x => x.getReward() == 1) != -1)
+            {
+                result = nodes.Find(x => x.getReward() == 1);
+            }
+            else
+            {
+                if (acceptiblePlacements.Count == 0)
+                {
+                    result = nodes[random.getRandomNumberBetween(0, nodes.Count)];
+                }
+                else
+                {
+                    result = nodes[acceptiblePlacements[random.getRandomNumberBetween(0, acceptiblePlacements.Count)]];
+                }
+            }
+            return result;
+        }
+
+        private List<int> getMovePlaces(List<INode> nodes)
+        {
+            List<int> places = new List<int>();
             for (int x = 0; x < nodes.Count; x++)
             {
                 int place = 0;
@@ -44,14 +72,7 @@ namespace UltimateTicTacToe.Models.Game.Players
                 }
                 places.Add(place);
             }
-            List<int> filtered = filteredPlaces(stddiv, places, average);
-            if (filtered.Count == 0)
-            {
-                return nodes[random.getRandomNumberBetween(0, nodes.Count)];
-            } else
-            {
-                return nodes[filtered[random.getRandomNumberBetween(0, filtered.Count)]];
-            }
+            return places;
         }
 
         private List<int> filteredPlaces(double div, List<int> places, double average)
