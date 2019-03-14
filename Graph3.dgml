@@ -1,0 +1,52 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DirectedGraph xmlns="http://schemas.microsoft.com/vs/2009/dgml">
+  <Nodes>
+    <Node Id="(@1 Namespace=UltimateTicTacToe.Models.Game Type=AbstractBoard)" Category="CodeSchema_Class" Bounds="-9292,-9826,116.1,26" CodeSchemaProperty_IsAbstract="True" CodeSchemaProperty_IsPublic="True" CommonLabel="AbstractBoard" ErrorMessage="Unreferenced node detected:AbstractBoard ((Assembly=file:///C:/Git/dissertation/UltimateTicTacToe/bin/Debug/netcoreapp2.1/UltimateTicTacToe.dll Namespace=UltimateTicTacToe.Models.Game Type=AbstractBoard))" Icon="Microsoft.VisualStudio.Class.Public" IsUnreferenced="True" Label="AbstractBoard" SourceLocation="(Assembly=file:///C:/Git/dissertation/UltimateTicTacToe/Models/Game/Board/AbstractBoard.cs StartLineNumber=8 StartCharacterOffset=26 EndLineNumber=8 EndCharacterOffset=39)" UseManualLocation="True" />
+    <Node Id="(@1 Namespace=UltimateTicTacToe.Models.Game Type=BoardGame)" Category="CodeSchema_Interface" Bounds="-8907.95,-9815,103.21,26" CodeSchemaProperty_IsAbstract="True" CodeSchemaProperty_IsPublic="True" CommonLabel="BoardGame" ErrorMessage="Unreferenced node detected:BoardGame ((Assembly=file:///C:/Git/dissertation/UltimateTicTacToe/bin/Debug/netcoreapp2.1/UltimateTicTacToe.dll Namespace=UltimateTicTacToe.Models.Game Type=BoardGame))" Icon="Microsoft.VisualStudio.Interface.Public" IsUnreferenced="True" Label="BoardGame" SourceLocation="(Assembly=file:///C:/Git/dissertation/UltimateTicTacToe/Models/Game/Board/BoardGame.cs StartLineNumber=6 StartCharacterOffset=21 EndLineNumber=6 EndCharacterOffset=30)" UseManualLocation="True" />
+  </Nodes>
+  <Links />
+  <Categories>
+    <Category Id="CodeSchema_Class" Label="Class" BasedOn="CodeSchema_Type" CanBeDataDriven="True" DefaultAction="Node:Both:CodeSchema_Member" Icon="CodeSchema_Class" NavigationActionLabel="Classes" />
+    <Category Id="CodeSchema_Interface" Label="Interface" BasedOn="CodeSchema_Type" CanBeDataDriven="True" DefaultAction="Node:Both:CodeSchema_Member" Icon="CodeSchema_Interface" NavigationActionLabel="Interfaces" />
+    <Category Id="CodeSchema_Type" Label="Type" CanBeDataDriven="True" DefaultAction="Node:Both:CodeSchema_Member" Icon="CodeSchema_Class" NavigationActionLabel="Types" />
+  </Categories>
+  <Properties>
+    <Property Id="Bounds" DataType="System.Windows.Rect" />
+    <Property Id="CanBeDataDriven" Label="CanBeDataDriven" Description="CanBeDataDriven" DataType="System.Boolean" />
+    <Property Id="CodeSchemaProperty_IsAbstract" Label="Is Abstract" Description="Flag to indicate member is 'Abstract' does not provide a full implementation" DataType="System.Boolean" />
+    <Property Id="CodeSchemaProperty_IsPublic" Label="Is Public" Description="Flag to indicate the scope is Public" DataType="System.Boolean" />
+    <Property Id="CommonLabel" DataType="System.String" />
+    <Property Id="DefaultAction" Label="DefaultAction" Description="DefaultAction" DataType="System.String" />
+    <Property Id="ErrorMessage" Label="Error" Description="Error" DataType="System.String" />
+    <Property Id="Expression" DataType="System.String" />
+    <Property Id="GroupLabel" DataType="System.String" />
+    <Property Id="Icon" Label="Icon" Description="Icon" DataType="System.String" />
+    <Property Id="IsEnabled" DataType="System.Boolean" />
+    <Property Id="IsUnreferenced" Label="Unreferenced" Description="Node has no links pointing to it from other nodes in the graph" DataType="System.Boolean" />
+    <Property Id="Label" Label="Label" Description="Displayable label of an Annotatable object" DataType="System.String" />
+    <Property Id="NavigationActionLabel" Label="NavigationActionLabel" Description="NavigationActionLabel" DataType="System.String" />
+    <Property Id="SourceLocation" Label="Start Line Number" DataType="Microsoft.VisualStudio.GraphModel.CodeSchema.SourceLocation" />
+    <Property Id="TargetType" DataType="System.Type" />
+    <Property Id="ToolTip" DataType="System.String" />
+    <Property Id="UseManualLocation" DataType="System.Boolean" />
+    <Property Id="Value" DataType="System.String" />
+    <Property Id="ValueLabel" DataType="System.String" />
+  </Properties>
+  <QualifiedNames>
+    <Name Id="Assembly" Label="Assembly" ValueType="Uri" />
+    <Name Id="Namespace" Label="Namespace" ValueType="System.String" />
+    <Name Id="Type" Label="Type" ValueType="System.Object" />
+  </QualifiedNames>
+  <IdentifierAliases>
+    <Alias n="1" Uri="Assembly=$(ecf5fd5e-4282-4810-b215-9f2647c9d039.OutputPathUri)" />
+  </IdentifierAliases>
+  <Styles>
+    <Style TargetType="Node" GroupLabel="Unreferenced" ToolTip="Node has no links pointing to it from other nodes in the graph" ValueLabel="True">
+      <Condition Expression="IsUnreferenced" />
+      <Setter Property="Background" Value="Purple" />
+    </Style>
+  </Styles>
+  <Paths>
+    <Path Id="ecf5fd5e-4282-4810-b215-9f2647c9d039.OutputPathUri" Value="file:///C:/Git/dissertation/UltimateTicTacToe/bin/Debug/netcoreapp2.1/UltimateTicTacToe.dll" />
+  </Paths>
+</DirectedGraph>

@@ -42,7 +42,7 @@ namespace UltimateTicTacToeTests.Services
             {
                 new List<JObject>
                 {
-                    JObject.FromObject(new TicTacToe(null))
+                    JObject.FromObject(new Tile())
                 }
             };
             Mock<IPlayerCreationService> mockService = new Mock<IPlayerCreationService>(MockBehavior.Loose);

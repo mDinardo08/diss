@@ -10,12 +10,7 @@ namespace UltimateTicTacToe.Models.Game
     {
         public PlayerColour? owner;
 
-        public List<List<BoardGame>> board;
-
-        public List<List<BoardGame>> getBoard()
-        {
-            return board;
-        }
+        
 
         public abstract List<Move> getAvailableMoves();
 
@@ -36,5 +31,7 @@ namespace UltimateTicTacToe.Models.Game
 
         public abstract void registerMove(Move move);
         public abstract object Clone();
+
+        public abstract List<List<BoardGame>> getBoard();
     }
 }

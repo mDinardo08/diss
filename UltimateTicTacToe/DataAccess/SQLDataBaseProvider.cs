@@ -26,7 +26,7 @@ namespace UltimateTicTacToe.DataAccess
                     command.CommandText = "Insert into Games (GameNo, PlayerOne, PlayerTwo, Winner) Values (" + gameCount + "," + Player1 + "," + Player2 + "," + Winner + ")";
                 } else
                 {
-                    command.CommandText = "Insert into Games (GameNo, PlayerOne, PlayerTwo, Winner) Values (" + gameCount + "," + Player1 + "," + Player2 + ", null)";
+                    command.CommandText = "Insert into Games (GameNo, PlayerOne, PlayerTwo) Values (" + gameCount + "," + Player1 + "," + Player2+ ")";
                 }
                 command.ExecuteNonQuery();
                 connection.Close();
@@ -39,7 +39,7 @@ namespace UltimateTicTacToe.DataAccess
             {
                 connection.Open();
                 SqlCommand command = new SqlCommand(null, connection);
-                command.CommandText = "Insert into moves (id, Owner, Reward, Place) Values ((select Count(*) from moves)," + PlayerId + "," + moveReward + "," + movePlace + ")";
+                command.CommandText = "Insert into moves (Owner, Reward, Place) Values (" + PlayerId + "," + moveReward + "," + movePlace + ")";
                 command.ExecuteNonQuery();
                 connection.Close();
             }

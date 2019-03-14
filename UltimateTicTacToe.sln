@@ -7,6 +7,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UltimateTicTacToe", "Ultima
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UltimateTicTacToeTests", "UltimateTicTacToeTests\UltimateTicTacToeTests.csproj", "{03859D28-E422-489C-85BD-23B6D023991B}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{1A2B6991-5283-4B5D-A8A1-87C3D8E594FE}"
+	ProjectSection(SolutionItems) = preProject
+		Graph3.dgml = Graph3.dgml
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

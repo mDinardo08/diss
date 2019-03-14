@@ -10,6 +10,12 @@ namespace UltimateTicTacToe.Models.Game
     {
 
         public Point2D boardFilter;
+        public List<List<BoardGame>> board;
+
+        public override List<List<BoardGame>> getBoard()
+        {
+            return board;
+        }
 
         public BoardGame getSector(Point2D point)
         {

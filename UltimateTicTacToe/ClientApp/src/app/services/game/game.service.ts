@@ -92,21 +92,21 @@ export class GameService extends AbstractGameService {
         this.curPlayer = res.cur;
         this.board = res.game;
         this.availableMoves = res.availableMoves;
+        if (this.curPlayer !== null) {
+            const curIndex = this.players.findIndex(x => x.colour !== this.curPlayer.colour);
+            this.logMoveDetails(curIndex, res.lastMoveRating, res.highOption, res.lowOption);
+        }
         if (res.lastMove !== undefined && res.lastMove !== null) {
             this.lastMove = res.lastMove;
         }
         if ((res.winner !== undefined && res.winner !== null) ||
             this.availableMoves.length === 0) {
             const winner = this.players.find(x => x.colour === res.winner);
-            const curIndex = this.players.findIndex(x => x.colour !== this.curPlayer.colour);
-            this.logMoveDetails(curIndex, res);
             this.printGameStats(winner);
             this.gameOverEvent.emit(res.winner);
         } else {
             this.boardUpdatedEvent.emit(this.board);
             if (this.curPlayer.type !== PlayerType.HUMAN) {
-                const curIndex = this.players.findIndex(x => x.colour !== this.curPlayer.colour);
-                this.logMoveDetails(curIndex, res);
                 this.handleMove(this.lastMove);
             }
         }
@@ -154,17 +154,19 @@ export class GameService extends AbstractGameService {
         moveDto.lastMove = this.lastMove;
         moveDto.move = move;
         moveDto.UserId = this.curPlayer.userId;
-        this.api.post<RatingDTO>("Game/rateMove", moveDto).subscribe((res) => {
-            console.log(res);
-            const curIndex = this.players.findIndex(x => x.userId === res.userId);
-            this.logMoveDetails(curIndex, res);
-        });
+        if (moveDto.UserId >= 0) {
+            this.api.post<RatingDTO>("Game/rateMove", moveDto).subscribe((res) => {
+                console.log(res);
+                const curIndex = this.players.findIndex(x => x.userId === res.userId);
+                this.logMoveDetails(curIndex, res.latest, res.highOption, res.lowOption);
+            });
+        }
     }
 
-    logMoveDetails(index: number, dto) {
-        this.playerRatings[index].push(dto.latest);
-        this.playerHighOptions[index].push(dto.highOption);
-        this.playerLowOptions[index].push(dto.lowOption);
+    logMoveDetails(index: number, latest: number, high: number, low: number) {
+        this.playerRatings[index].push(latest);
+        this.playerHighOptions[index].push(high);
+        this.playerLowOptions[index].push(low);
     }
 
     sendMoveToServer(move: Move): void {

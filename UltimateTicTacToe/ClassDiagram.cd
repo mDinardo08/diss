@@ -1,0 +1,447 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="FullSignature">
+  <Class Name="UltimateTicTacToe.Program" Collapsed="true">
+    <Position X="20.75" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAA=</HashCode>
+      <FileName>Program.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="UltimateTicTacToe.Startup" Collapsed="true">
+    <Position X="20.75" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAgAAACAAAAAA=</HashCode>
+      <FileName>Startup.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="UltimateTicTacToe.Controllers.BaseController" Collapsed="true">
+    <Position X="2.5" Y="9.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Controllers\BaseController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="UltimateTicTacToe.Controllers.GameController" Collapsed="true">
+    <Position X="1.25" Y="11" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAAAAAAAAgQAAAAAAAABAAAAAAIAAAAAAAA=</HashCode>
+      <FileName>Controllers\GameController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="UltimateTicTacToe.Controllers.UserController" Collapsed="true">
+    <Position X="3.5" Y="11" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAABAAAAEAA=</HashCode>
+      <FileName>Controllers\UserController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="UltimateTicTacToe.DataAccess.DBOs.MoveDBO" Collapsed="true">
+    <Position X="17.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAACAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAA=</HashCode>
+      <FileName>DataAccess\DBOs\MoveDBO.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="UltimateTicTacToe.DataAccess.DBOs.RatingDBO" Collapsed="true">
+    <Position X="15.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAMAQAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>DataAccess\DBOs\RatingDBO.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="UltimateTicTacToe.DataAccess.SQLDataBaseProvider" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="19" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAgQAABAAAGAAAAAAAAAEBAAAAAAABgBAAAAA=</HashCode>
+      <FileName>DataAccess\SQLDataBaseProvider.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="UltimateTicTacToe.Models.DTOs.BoardCreationDto" Collapsed="true">
+    <Position X="15.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAIAAAAAAAAAA=</HashCode>
+      <FileName>Models\DTOs\BoardCreationDto.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="UltimateTicTacToe.Models.DTOs.BoardGameDTO" Collapsed="true">
+    <Position X="17.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAQAEAAAAAACAAACAAAAAAgAAAAAKIAAAAAAABAA=</HashCode>
+      <FileName>Models\DTOs\BoardGameDTO.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="UltimateTicTacToe.Models.DTOs.MoveDto" Collapsed="true">
+    <Position X="19" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAACAAAAAAAgAAAAAAAAKAAAAAAAAAAA=</HashCode>
+      <FileName>Models\DTOs\MoveDto.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="UltimateTicTacToe.Models.DTOs.RatingDTO" Collapsed="true">
+    <Position X="17.25" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAQAAAAAAAAAACAAAAAAAQgAAAAAAAgAAAAAgAAA=</HashCode>
+      <FileName>Models\DTOs\RatingDto.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="UltimateTicTacToe.Models.Game.AbstractBoard" Collapsed="true">
+    <Position X="10.5" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IACAAAAAAAAAgAQCgACAAAAAAAAAAAIAAAIAAAAAABA=</HashCode>
+      <FileName>Models\Game\Board\AbstractBoard.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="UltimateTicTacToe.Models.Game.CompositeGame" Collapsed="true">
+    <Position X="11.5" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AACAAAgAAAAAAAACAAIAAAAAAAAAAgAAIAAAAAAAAAA=</HashCode>
+      <FileName>Models\Game\Board\CompositeGame.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="UltimateTicTacToe.Models.Game.TicTacToe" Collapsed="true">
+    <Position X="11.5" Y="9.25" Width="1.5" />
+    <Members>
+      <Field Name="winChecker" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AgAAAAAAIACAgAQAgACAAAAAAAAAEAAAAAIAAAAAABA=</HashCode>
+      <FileName>Models\Game\Board\TicTacToe.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="UltimateTicTacToe.Models.Game.Tile" Collapsed="true">
+    <Position X="9.25" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AACAAAAAAAAAAAQCgACAAAAAAAAAAAAAAAIAAAAAABA=</HashCode>
+      <FileName>Models\Game\Board\Tile.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="UltimateTicTacToe.Models.Game.Move" Collapsed="true">
+    <Position X="15.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAgAIAAAAAAAgAAAgAAAAAAIAAAAAAAAAAAAAAIAAAA=</HashCode>
+      <FileName>Models\Game\Move.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="UltimateTicTacToe.Models.Game.NoWinnerException" Collapsed="true">
+    <Position X="15.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Game\NoWinnerException.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="UltimateTicTacToe.Models.Game.Point2D" Collapsed="true">
+    <Position X="19" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAYAA=</HashCode>
+      <FileName>Models\Game\Point2D.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="UltimateTicTacToe.Models.Game.Players.AbstractPlayer" Collapsed="true">
+    <Position X="7.25" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EAAAAAQAAAAAAAAACAAAAAAAgAAFAAFQgAYMAAAEAAA=</HashCode>
+      <FileName>Models\Game\Players\AbstractPlayer.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="UltimateTicTacToe.Models.Game.Players.GoodDad" Collapsed="true">
+    <Position X="8.5" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Game\Players\GoodDad.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="UltimateTicTacToe.Models.Game.Players.GoodDadV2" Collapsed="true">
+    <Position X="13" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EAAAAAAAAAAAAEAAQAAAAAAAgAAEAAAAAACAAAAAAAA=</HashCode>
+      <FileName>Models\Game\Players\GoodDadV2.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="UltimateTicTacToe.Models.Game.Players.HumanPlayer" Collapsed="true">
+    <Position X="1.75" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Game\Players\HumanPlayer.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="UltimateTicTacToe.Models.Game.Players.MCTSPlayer" Collapsed="true">
+    <Position X="4" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Game\Players\MCTSPlayer.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="UltimateTicTacToe.Models.Game.Players.MineFieldPlayer" Collapsed="true">
+    <Position X="6.25" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAIQAAAAAAgAAAAACAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Game\Players\MineFieldPlayer.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="UltimateTicTacToe.Models.Game.Players.RandomAi" Collapsed="true">
+    <Position X="10.75" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Game\Players\RandomAi.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="UltimateTicTacToe.Models.Game.WinCheck.DiagonalWinChecker" Collapsed="true">
+    <Position X="6" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAQACAAAAAAAAAAAAAAAAAAoAAAAAAAAAACA=</HashCode>
+      <FileName>Models\Game\WinChecks\DiagonalWinChecker.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="UltimateTicTacToe.Models.Game.WinCheck.HorizontalWinChecker" Collapsed="true">
+    <Position X="1.5" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAQAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAIAA=</HashCode>
+      <FileName>Models\Game\WinChecks\HorizontalWinChecker.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="UltimateTicTacToe.Models.Game.WinCheck.VerticleWinChecker" Collapsed="true">
+    <Position X="3.75" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAQAAAAAAAgAAAAAAAAAAAAgAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Game\WinChecks\VerticleWinChecker.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="UltimateTicTacToe.Models.Game.WinCheck.WinCheckHandler" Collapsed="true">
+    <Position X="3.75" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAQgIAAAAAAAAAAAAABAAAAoAAAEAAAAAAAA=</HashCode>
+      <FileName>Models\Game\WinChecks\WinCheckHandler.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="UltimateTicTacToe.Models.MCTS.Node" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="20.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>VAAAEAEAAAAAACRAAAAAAAAFABAAACUIAUAgAAAAAAg=</HashCode>
+      <FileName>Models\MCTS\Node.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="UltimateTicTacToe.Pages.ErrorModel" Collapsed="true">
+    <Position X="19" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAIAAQAAAAAAAAAAAAAAAAAAAQAAAAAAAA=</HashCode>
+      <FileName>Pages\Error.cshtml.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="UltimateTicTacToe.Services.UltimateTicTacToeCreationService" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="22.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AIAAAAAAIAEAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Services\BoardCreation\UltimateTicTacToeCreationService.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="UltimateTicTacToe.Services.GameService" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="20.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IAACAAQAAAAUCAAAAAAAAAAAAAABAAAAQAAAAAAAAAA=</HashCode>
+      <FileName>Services\Game\GameService.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="UltimateTicTacToe.Services.MonteCarloService" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="22.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gAACAAAAAAAAEAAAAAAgAAIAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Services\MCTS\MonteCarloService.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="UltimateTicTacToe.Services.NodeCreationService" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="22.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAA=</HashCode>
+      <FileName>Services\MCTS\NodeCreationService.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="UltimateTicTacToe.Services.AbstractPlayerClassHandler" Collapsed="true">
+    <Position X="7.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAQAQAAAAAAAAAAAACAAAAABAAAAAQEAAAAAAAA=</HashCode>
+      <FileName>Services\PlayerCreation\AbstractPlayerClassHandler.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="UltimateTicTacToe.Services.GoodDadPlayerClassHandler" Collapsed="true">
+    <Position X="1.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Services\PlayerCreation\GoodDadPlayerClassHandler.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="UltimateTicTacToe.Services.HumanPlayerClassHandler" Collapsed="true">
+    <Position X="4" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Services\PlayerCreation\HumanPlayerClassHandler.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="UltimateTicTacToe.Services.MCTSPlayerClassHandler" Collapsed="true">
+    <Position X="8.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Services\PlayerCreation\MCTSPlayerClassHandler.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="UltimateTicTacToe.Services.MineFieldPlayerClassHandler" Collapsed="true">
+    <Position X="10.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Services\PlayerCreation\MineFieldPlayerClassHandler.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="UltimateTicTacToe.Services.PlayerCreationService" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="17.25" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAACACAA=</HashCode>
+      <FileName>Services\PlayerCreation\PlayerCreationService.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="UltimateTicTacToe.Services.RandomPlayerClassHandler" Collapsed="true">
+    <Position X="13" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Services\PlayerCreation\RandomPlayerClassHandler.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="UltimateTicTacToe.Services.RandomService" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="22.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAABAAAAAAAAAAAAAAAAAAACAAAAAAAQAAAAAAAA=</HashCode>
+      <FileName>Services\Random\RandomService.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="UltimateTicTacToe.Services.PlayerCreation.GoodDadV2PlayerClassHandler" Collapsed="true">
+    <Position X="6.25" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Services\PlayerCreation\GoodDadV2PlayerClassHandler.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="UltimateTicTacToe.Services.User.UserService" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="15.5" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAQAAQAAAAAAAAAAAAAAAAAAAAAAAAABABAAAAA=</HashCode>
+      <FileName>Services\User\UserService.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Interface Name="UltimateTicTacToe.DataAccess.IDatabaseProvider" Collapsed="true">
+    <Position X="19" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAQAAAAAAEAAAAAAAAAAAAAAAAAABgBAAAAA=</HashCode>
+      <FileName>DataAccess\IDatabaseProvider.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="UltimateTicTacToe.Models.Game.BoardGame" Collapsed="true">
+    <Position X="17.25" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IACAAAAAAAAAAAQCgACAAAAAAAAAAAIAAAIAAAAAAAA=</HashCode>
+      <FileName>Models\Game\Board\BoardGame.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="UltimateTicTacToe.Models.Game.Players.Player" Collapsed="true">
+    <Position X="17.25" Y="7.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFQgAIMAAAEAAA=</HashCode>
+      <FileName>Models\Game\Players\Player.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="UltimateTicTacToe.Models.Game.WinCheck.IWinChecker" Collapsed="true">
+    <Position X="22.5" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Game\WinChecks\IWinChecker.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="UltimateTicTacToe.Models.MCTS.INode" Collapsed="true">
+    <Position X="22.5" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>RAAAEAEAAAAAACAAAAAAAAABABAAAAUAAEAAAAAAAAg=</HashCode>
+      <FileName>Models\MCTS\INode.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="UltimateTicTacToe.Services.BoardCreationService" Collapsed="true">
+    <Position X="15.5" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Services\BoardCreation\BoardCreationService.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="UltimateTicTacToe.Services.IGameService" Collapsed="true">
+    <Position X="20.75" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAACAAAAAAAAAAAAAABAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Services\Game\IGameService.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="UltimateTicTacToe.Services.INodeCreationService" Collapsed="true">
+    <Position X="15.5" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAA=</HashCode>
+      <FileName>Services\MCTS\INodeCreationService.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="UltimateTicTacToe.Services.NodeService" Collapsed="true">
+    <Position X="15.5" Y="7.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Services\MCTS\NodeService.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="UltimateTicTacToe.Services.IPlayerCreationService" Collapsed="true">
+    <Position X="17.25" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAACAAAA=</HashCode>
+      <FileName>Services\PlayerCreation\IPlayerCreationService.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="UltimateTicTacToe.Services.PlayerClassHandler" Collapsed="true">
+    <Position X="19" Y="7.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAA=</HashCode>
+      <FileName>Services\PlayerCreation\PlayerClassHandler.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="UltimateTicTacToe.Services.IRandomService" Collapsed="true">
+    <Position X="19" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAABAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Services\Random\IRandomService.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="UltimateTicTacToe.Services.User.IUserService" Collapsed="true">
+    <Position X="20.75" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAABABAAAAA=</HashCode>
+      <FileName>Services\User\IUserService.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Enum Name="UltimateTicTacToe.Models.Game.Players.PlayerColour" Collapsed="true">
+    <Position X="15.5" Y="8.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAIAAAAAAAAAAAgAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Game\Players\PlayerColour.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="UltimateTicTacToe.Models.Game.Players.PlayerType" Collapsed="true">
+    <Position X="17.25" Y="8.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QAAAAAAAAEAAAAAAAABAAIAAAAAAAAAEAAEAAAAAAAA=</HashCode>
+      <FileName>Models\Game\Players\PlayerType.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
