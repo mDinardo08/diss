@@ -178,11 +178,12 @@ namespace UltimateTicTacToeTests.Services
         [TestMethod]
         public void WillGetNodeCreationServiceToCreateRootNode()
         {
+            Mock<BoardGame> mockGame = new Mock<BoardGame>();
             Mock<INode> mockNode = new Mock<INode>();
             mockNode.Setup(x => x.isLeaf()).Returns(true);
             mockNode.Setup(x => x.getVisits()).Returns(0);
             Mock<INodeCreationService> mockService = new Mock<INodeCreationService>();
-            mockService.Setup(x => x.createNode(It.IsAny<BoardGame>(), It.IsAny<PlayerColour>()))
+            mockService.Setup(x => x.createNode(mockGame.Object, It.IsAny<PlayerColour>()))
                 .Returns(mockNode.Object)
                 .Verifiable();
             service = new MonteCarloService(mockService.Object);

@@ -7,6 +7,13 @@ export class ApiService {
 
     constructor(private http: HttpClient) {}
 
+    get<T>(endPoint: string): Observable<T> {
+        return this.http.get<T>(this.getURL() + endPoint);
+    }
+
+    post<T>(endPoint: string, data: any): Observable<T> {
+        return this.http.post<T>(this.getURL() + endPoint, data, this.getOptions());
+    }
     getURL(): String {
         return "./api/";
     }
@@ -15,14 +22,6 @@ export class ApiService {
         return {headers: new HttpHeaders({
             "Content-Type": "application/json"
         })};
-    }
-
-    get<T>(endPoint: string): Observable<T> {
-        return this.http.get<T>(this.getURL() + endPoint);
-    }
-
-    post<T>(endPoint: string, data: any): Observable<T> {
-        return this.http.post<T>(this.getURL() + endPoint, data, this.getOptions());
     }
 
 }
