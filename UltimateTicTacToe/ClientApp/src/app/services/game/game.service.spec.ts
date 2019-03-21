@@ -84,6 +84,8 @@ describe("Game Service tests", () => {
         const mockApi = jasmine.createSpyObj("ApiService", ["post"]);
         const dto = new BoardGameDTO();
         dto.cur = new Player();
+        dto.cur.userId = 0;
+        dto.cur.colour = PlayerColour.BLUE;
         dto.cur.type = PlayerType.HUMAN;
         dto.availableMoves = [new Move()];
         mockApi.post.and.returnValue(Observable.of(dto));
@@ -97,8 +99,8 @@ describe("Game Service tests", () => {
         service.playerRatings = [[], []];
         service.playerHighOptions = [[], []];
         service.playerLowOptions = [[], []];
-        // service.makeMove(null);
-        // expect(mockApi.post).toHaveBeenCalled();
+        service.makeMove(null);
+        expect(mockApi.post).toHaveBeenCalled();
     });
 
     it("Will call the api with the correct endpoint", () => {
@@ -106,6 +108,7 @@ describe("Game Service tests", () => {
         const recieved = new BoardGameDTO();
         recieved.availableMoves = [new Move()];
         recieved.cur = new Player();
+        recieved.cur.colour = PlayerColour.BLUE;
         recieved.cur.type = PlayerType.HUMAN;
         mockApi.post.and.returnValue(Observable.of(recieved));
         service = new GameService(mockApi);
@@ -120,8 +123,11 @@ describe("Game Service tests", () => {
         service.curPlayer = new Player();
         service.curPlayer.type = PlayerType.HUMAN;
         service.players = dto.players;
-        // service.makeMove(null);
-        // expect(mockApi.post).toHaveBeenCalledWith("Game/makeMove", dto);
+        service.playerRatings = [[], []];
+        service.playerHighOptions = [[], []];
+        service.playerLowOptions = [[], []];
+        service.makeMove(null);
+        expect(mockApi.post).toHaveBeenCalledWith("Game/makeMove", dto);
     });
 
     it("Will call the api with a BoardgameDto with the last move set", () => {
@@ -129,6 +135,7 @@ describe("Game Service tests", () => {
         const recieved = new BoardGameDTO();
         recieved.availableMoves = [new Move()];
         recieved.cur = new Player();
+        recieved.cur.colour = PlayerColour.BLUE;
         recieved.cur.type = PlayerType.HUMAN;
         mockApi.post.and.returnValue(Observable.of(recieved));
         service = new GameService(mockApi);
@@ -139,7 +146,10 @@ describe("Game Service tests", () => {
         service.curPlayer = new Player();
         service.curPlayer.type = PlayerType.HUMAN;
         service.players = [new Player()];
-        // service.makeMove(move);
+        service.playerRatings = [[], []];
+        service.playerHighOptions = [[], []];
+        service.playerLowOptions = [[], []];
+        service.makeMove(move);
         const dto = new BoardGameDTO();
         dto.game = new Array<Array<BoardGame>>();
         dto.cur = new Player();
@@ -148,8 +158,11 @@ describe("Game Service tests", () => {
         service.curPlayer = new Player();
         service.curPlayer.type = PlayerType.HUMAN;
         service.players = dto.players;
-        // service.makeMove(null);
-        // expect(mockApi.post).toHaveBeenCalledWith("Game/makeMove", dto);
+        service.playerRatings = [[], []];
+        service.playerHighOptions = [[], []];
+        service.playerLowOptions = [[], []];
+        service.makeMove(null);
+        expect(mockApi.post).toHaveBeenCalledWith("Game/makeMove", dto);
     });
 
 
@@ -180,10 +193,10 @@ describe("Game Service tests", () => {
         service = new GameService(mockApi);
         const dto = new BoardCreationDTO();
         dto.size = 2;
-        dto.players = [];
+        dto.players = [new Player(), new Player()];
         service.players = [new Player()];
-        // service.createGame(2, []);
-        // expect(mockApi.post).toHaveBeenCalledWith("Game/createBoard", dto);
+        service.createGame(2, dto.players);
+        expect(mockApi.post).toHaveBeenCalledWith("Game/createBoard", dto);
     });
 
     it("Will call the api with the correct players arguement", () => {
@@ -217,8 +230,8 @@ describe("Game Service tests", () => {
         dto.cur.type = PlayerType.HUMAN;
         mockApi.post.and.returnValue(Observable.of(dto));
         service = new GameService(mockApi);
-        // service.createGame(null, []);
-        // expect(service.getCurrentPlayer()).toBe(player);
+        service.createGame(null, dto.players);
+        expect(service.getCurrentPlayer()).toBe(player);
     });
 
     it("Will set the players list to that returned by the api", () => {
@@ -234,8 +247,8 @@ describe("Game Service tests", () => {
         dto.cur.type = PlayerType.HUMAN;
         mockApi.post.and.returnValue(Observable.of(dto));
         service = new GameService(mockApi);
-        // service.createGame(null, []);
-        // expect(service.players).toBe(players);
+        service.createGame(null, dto.players);
+        expect(service.players).toBe(players);
     });
 
     it("Will return the player whos colour doesn't match the current player", () => {
@@ -262,8 +275,8 @@ describe("Game Service tests", () => {
         service.playerRatings = [[]];
         service.playerLowOptions = [[]];
         service.playerHighOptions = [[]];
-        // service.createGame(null, []);
-        // expect(service.board).toBe(dto.game);
+        service.createGame(null, dto.players);
+        expect(service.board).toBe(dto.game);
     });
 
     it("Will set the board returned after a move as it's board", () => {
@@ -318,16 +331,17 @@ describe("Game Service tests", () => {
         const dto = new BoardGameDTO();
         dto.game = new Array<Array<BoardGame>>();
         dto.availableMoves = [new Move()];
-        dto.players = [];
+        dto.players = [new Player()];
         dto.cur = new Player();
+        dto.cur.colour = PlayerColour.BLUE;
         dto.cur.type = PlayerType.HUMAN;
         mockApi.post.and.returnValue(Observable.of(dto));
         service = new GameService(mockApi);
         spyOn(service.boardUpdatedEvent, "emit");
         spyOn(service, "getNextPlayer").and.returnValue(new Player());
-        service.players = [];
-        // service.createGame(null, []);
-        // expect(service.boardUpdatedEvent.emit).toHaveBeenCalledWith(dto.game);
+        service.players = [new Player()];
+        service.createGame(null, dto.players);
+        expect(service.boardUpdatedEvent.emit).toHaveBeenCalledWith(dto.game);
     });
 
     it("Will set the available moves to what the api had", () => {
@@ -377,6 +391,7 @@ describe("Game Service tests", () => {
         dto.lastMove = new Move();
         dto.availableMoves = [new Move()];
         dto.cur = new Player();
+        dto.cur.colour = PlayerColour.BLUE;
         dto.cur.type = PlayerType.HUMAN;
         mockApi.post.and.returnValue(Observable.of(dto));
         service = new GameService(mockApi);
@@ -386,8 +401,11 @@ describe("Game Service tests", () => {
         service.curPlayer = new Player();
         service.curPlayer.type = PlayerType.HUMAN;
         service.players = [new Player()];
-        // service.makeMove(null);
-        // expect(service.lastMove).toBe(dto.lastMove);
+        service.playerRatings = [[]];
+        service.playerLowOptions = [[]];
+        service.playerHighOptions = [[]];
+        service.makeMove(null);
+        expect(service.lastMove).toBe(dto.lastMove);
     });
 
     it("Will not reasign the last move if the dto does not have one", () => {

@@ -164,7 +164,7 @@ export class GameService extends AbstractGameService {
     }
 
     logMoveDetails(index: number, latest: number, high: number, low: number) {
-        this.playerRatings[index].push(latest);
+       this.playerRatings[index].push(latest);
         this.playerHighOptions[index].push(high);
         this.playerLowOptions[index].push(low);
     }
