@@ -182,8 +182,9 @@ namespace UltimateTicTacToeTests.Services
             Mock<INode> mockNode = new Mock<INode>();
             mockNode.Setup(x => x.isLeaf()).Returns(true);
             mockNode.Setup(x => x.getVisits()).Returns(0);
+            mockGame.Setup(x => x.Clone()).Returns(mockGame.Object);
             Mock<INodeCreationService> mockService = new Mock<INodeCreationService>();
-            mockService.Setup(x => x.createNode(mockGame.Object, It.IsAny<PlayerColour>()))
+            mockService.Setup(x => x.createNode(It.IsAny<BoardGame>(), It.IsAny<PlayerColour>()))
                 .Returns(mockNode.Object)
                 .Verifiable();
             service = new MonteCarloService(mockService.Object);
